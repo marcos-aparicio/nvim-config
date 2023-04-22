@@ -113,7 +113,10 @@ tmap("<C-S-j>", ":resize +2<CR>")
 tmap("<C-S-k>", ":resize -2<CR>")
 tmap("<C-S-l>", ":vertical resize +2<CR>")
 
+-- telescope keybindings
 nmap("<leader>f", ":Telescope find_files<CR>")
+nmap("<leader>gc", ":Telescope git_commits<CR>")
+
 -- resizing windows
 nmap("<C-S-h>", ":vertical resize -2<CR>")
 nmap("<C-S-j>", ":resize -2<CR>")

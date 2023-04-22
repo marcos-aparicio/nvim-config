@@ -7,10 +7,11 @@ local use = packer.use
 packer.reset()
 
 return packer.startup(function()
-	use("wbthomason/packer.nvim")
 	use("tpope/vim-abolish")
 	use("tpope/vim-commentary")
 	use("tpope/vim-surround")
+	use("tpope/vim-fugitive")
+	use("wbthomason/packer.nvim")
 	use("vim-airline/vim-airline")
 	use("vim-airline/vim-airline-themes")
 	use("ayu-theme/ayu-vim")

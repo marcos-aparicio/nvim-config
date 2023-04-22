@@ -164,6 +164,11 @@ _G.packer_plugins = {
     path = "/home/marcos/.config/nvim/pack/packer/start/vim-easymotion",
     url = "https://github.com/easymotion/vim-easymotion"
   },
+  ["vim-fugitive"] = {
+    loaded = true,
+    path = "/home/marcos/.config/nvim/pack/packer/start/vim-fugitive",
+    url = "https://github.com/tpope/vim-fugitive"
+  },
   ["vim-surround"] = {
     loaded = true,
     path = "/home/marcos/.config/nvim/pack/packer/start/vim-surround",
