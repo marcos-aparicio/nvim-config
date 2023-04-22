@@ -24,6 +24,11 @@ function map(mode, shortcut, command)
 end
 
 function ExitBuffer()
+	if vim.bo.filetype == "TelescopePrompt" then
+		vim.cmd("quit!")
+		return
+	end
+
 	if #vim.fn.getbufinfo({ buflisted = 1 }) > 1 then
 		vim.cmd("bdelete")
 	else

@@ -97,7 +97,7 @@ _G.packer_plugins = {
     url = "https://github.com/nvim-tree/nvim-tree.lua"
   },
   ["nvim-treesitter"] = {
-    config = { "\27LJ\2\nö\2\0\0\a\0\18\0\0276\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0005\3\4\0=\3\5\0025\3\6\0005\4\a\0=\4\b\3=\3\t\0025\3\n\0005\4\v\0=\4\b\3=\3\f\0025\3\r\0004\4\0\0=\4\b\0036\4\0\0'\6\14\0B\4\2\0029\4\15\0049\4\16\4=\4\15\3=\3\17\2B\0\2\1K\0\1\0\frainbow\vglobal\rstrategy\15ts-rainbow\1\0\2\venable\2\nquery\19rainbow-parens\vindent\1\2\0\0\tyaml\1\0\1\venable\2\14highlight\fdisable\1\2\0\0\5\1\0\2&additional_vim_regex_highlighting\2\venable\2\19ignore_install\1\2\0\0\5\1\0\2\21ensure_installed\ball\17sync_install\1\nsetup\28nvim-treesitter.configs\frequire\0" },
+    config = { "\27LJ\2\nö\2\0\0\a\0\18\0\0276\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0005\3\4\0=\3\5\0025\3\6\0005\4\a\0=\4\b\3=\3\t\0025\3\n\0005\4\v\0=\4\b\3=\3\f\0025\3\r\0004\4\0\0=\4\b\0036\4\0\0'\6\14\0B\4\2\0029\4\15\0049\4\16\4=\4\15\3=\3\17\2B\0\2\1K\0\1\0\frainbow\vglobal\rstrategy\15ts-rainbow\1\0\2\venable\2\nquery\19rainbow-parens\vindent\1\2\0\0\tyaml\1\0\1\venable\2\14highlight\fdisable\1\2\0\0\5\1\0\2\venable\2&additional_vim_regex_highlighting\2\19ignore_install\1\2\0\0\5\1\0\2\21ensure_installed\ball\17sync_install\1\nsetup\28nvim-treesitter.configs\frequire\0" },
     loaded = true,
     path = "/home/marcos/.config/nvim/pack/packer/start/nvim-treesitter",
     url = "https://github.com/nvim-treesitter/nvim-treesitter"
@@ -172,10 +172,10 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
--- Config for: formatter.nvim
-time([[Config for formatter.nvim]], true)
-try_loadstring("\27LJ\2\n‘\1\0\0\b\0\t\0\0166\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\a\0005\3\5\0004\4\3\0006\5\0\0'\a\3\0B\5\2\0029\5\4\5>\5\1\4=\4\6\3=\3\b\2B\0\2\1K\0\1\0\rfiletype\1\0\0\blua\1\0\0\vstylua\28formatter.filetypes.lua\nsetup\14formatter\frequire\0", "config", "formatter.nvim")
-time([[Config for formatter.nvim]], false)
+-- Config for: nvim-treesitter
+time([[Config for nvim-treesitter]], true)
+try_loadstring("\27LJ\2\nö\2\0\0\a\0\18\0\0276\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0005\3\4\0=\3\5\0025\3\6\0005\4\a\0=\4\b\3=\3\t\0025\3\n\0005\4\v\0=\4\b\3=\3\f\0025\3\r\0004\4\0\0=\4\b\0036\4\0\0'\6\14\0B\4\2\0029\4\15\0049\4\16\4=\4\15\3=\3\17\2B\0\2\1K\0\1\0\frainbow\vglobal\rstrategy\15ts-rainbow\1\0\2\venable\2\nquery\19rainbow-parens\vindent\1\2\0\0\tyaml\1\0\1\venable\2\14highlight\fdisable\1\2\0\0\5\1\0\2\venable\2&additional_vim_regex_highlighting\2\19ignore_install\1\2\0\0\5\1\0\2\21ensure_installed\ball\17sync_install\1\nsetup\28nvim-treesitter.configs\frequire\0", "config", "nvim-treesitter")
+time([[Config for nvim-treesitter]], false)
 -- Config for: toggleterm.nvim
 time([[Config for toggleterm.nvim]], true)
 try_loadstring("\27LJ\2\nR\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\0\1\17open_mapping\n<c-;>\nsetup\15toggleterm\frequire\0", "config", "toggleterm.nvim")
@@ -188,10 +188,10 @@ time([[Config for telescope.nvim]], false)
 time([[Config for nvim-tree.lua]], true)
 try_loadstring("\27LJ\2\n]\0\0\4\0\6\0\t6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0006\3\4\0=\3\5\2B\0\2\1K\0\1\0\14on_attach\17my_on_attach\1\0\0\nsetup\14nvim-tree\frequire\0", "config", "nvim-tree.lua")
 time([[Config for nvim-tree.lua]], false)
--- Config for: nvim-treesitter
-time([[Config for nvim-treesitter]], true)
-try_loadstring("\27LJ\2\nö\2\0\0\a\0\18\0\0276\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0005\3\4\0=\3\5\0025\3\6\0005\4\a\0=\4\b\3=\3\t\0025\3\n\0005\4\v\0=\4\b\3=\3\f\0025\3\r\0004\4\0\0=\4\b\0036\4\0\0'\6\14\0B\4\2\0029\4\15\0049\4\16\4=\4\15\3=\3\17\2B\0\2\1K\0\1\0\frainbow\vglobal\rstrategy\15ts-rainbow\1\0\2\venable\2\nquery\19rainbow-parens\vindent\1\2\0\0\tyaml\1\0\1\venable\2\14highlight\fdisable\1\2\0\0\5\1\0\2&additional_vim_regex_highlighting\2\venable\2\19ignore_install\1\2\0\0\5\1\0\2\21ensure_installed\ball\17sync_install\1\nsetup\28nvim-treesitter.configs\frequire\0", "config", "nvim-treesitter")
-time([[Config for nvim-treesitter]], false)
+-- Config for: formatter.nvim
+time([[Config for formatter.nvim]], true)
+try_loadstring("\27LJ\2\n‘\1\0\0\b\0\t\0\0166\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\a\0005\3\5\0004\4\3\0006\5\0\0'\a\3\0B\5\2\0029\5\4\5>\5\1\4=\4\6\3=\3\b\2B\0\2\1K\0\1\0\rfiletype\1\0\0\blua\1\0\0\vstylua\28formatter.filetypes.lua\nsetup\14formatter\frequire\0", "config", "formatter.nvim")
+time([[Config for formatter.nvim]], false)
 
 _G._packer.inside_compile = false
 if _G._packer.needs_bufread == true then

@@ -8,7 +8,7 @@ require("telescope").setup({
 			["<C-v>"] = actions.select_vertical,
 		},
 		n = {
-			["<C-c>"] = actions.close,
+			["q"] = actions.close,
 		},
 	},
 })
