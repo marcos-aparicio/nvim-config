@@ -115,10 +115,13 @@ tmap("<C-S-l>", ":vertical resize +2<CR>")
 
 -- telescope keybindings
 nmap("<leader>f", ":Telescope find_files<CR>")
-nmap("<leader>gc", ":Telescope git_commits<CR>")
 
 -- resizing windows
 nmap("<C-S-h>", ":vertical resize -2<CR>")
 nmap("<C-S-j>", ":resize -2<CR>")
 nmap("<C-S-k>", ":resize +2<CR>")
 nmap("<C-S-l>", ":vertical resize +2<CR>")
+
+-- fugitive keybindings
+nmap("<leader>ga", ":G add<space>")
+nmap("<leader>gc", ":G commit<CR>")
