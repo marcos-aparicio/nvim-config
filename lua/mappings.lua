@@ -125,3 +125,5 @@ nmap("<C-S-l>", ":vertical resize +2<CR>")
 -- fugitive keybindings
 nmap("<leader>ga", ":G add<space>")
 nmap("<leader>gc", ":G commit<CR>")
+nmap("<leader>gl", ":G log<CR><C-w>L<CR>")
+nmap("<leader>gs", ":Telescope git_status<CR>")
