@@ -3,6 +3,11 @@ if not status_ok then
 	return
 end
 
+local ok_status, rainbow = pcall(require, "ts-rainbow")
+if not ok_status then
+	return
+end
+
 treesitter.setup({
 	ensure_installed = "all",
 	sync_install = false,
@@ -17,6 +22,6 @@ treesitter.setup({
 		enable = true,
 		disable = {}, --languages that won't include it
 		query = "rainbow-parens",
-		strategy = require("ts-rainbow").strategy.global,
+		strategy = rainbow.strategy.global,
 	},
 })
