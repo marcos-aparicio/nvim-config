@@ -1,0 +1,5 @@
+require("plugin-confs.formatter-nvim")
+require("plugin-confs.nvim-tree")
+require("plugin-confs.telescope")
+require("plugin-confs.toggleterm")
+require("plugin-confs.treesitter")

@@ -1,3 +1,8 @@
+local status_ok, nvim_tree = pcall(require, "nvim-tree")
+if not status_ok then
+	return
+end
+
 function my_on_attach(bufnr)
 	local api = require("nvim-tree.api")
 
@@ -21,10 +26,6 @@ function my_on_attach(bufnr)
 	end, opts("Toggle w/ file"))
 end
 
-local function setup()
-	require("nvim-tree").setup({
-		on_attach = my_on_attach,
-	})
-end
-
-return setup
+nvim_tree.setup({
+	on_attach = my_on_attach,
+})
