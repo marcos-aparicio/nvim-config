@@ -17,6 +17,10 @@ vim.cmd([[
     autocmd!
     autocmd BufEnter * if &buftype == 'terminal' | :startinsert | endif
   augroup END
+  augroup packer_user_config
+    autocmd!
+    autocmd BufWritePost plugins.lua source <afile> | PackerCompile
+  augroup end
 ]])
 vim.g.mapleader = " "
 

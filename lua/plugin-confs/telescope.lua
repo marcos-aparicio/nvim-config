@@ -1,3 +1,4 @@
+-- this file also includes all treesitter extensions
 local status_ok, telescope = pcall(require, "telescope")
 if not status_ok then
 	return

@@ -17,7 +17,7 @@ packer = require("packer")
 packer.init({ package_root = packer_path, opt = false })
 packer.reset()
 
-return packer.startup(function(use)
+packer.startup(function(use)
 	use("wbthomason/packer.nvim")
 	use("tpope/vim-abolish")
 	use("tpope/vim-commentary")
@@ -43,12 +43,15 @@ return packer.startup(function(use)
 		requires = { { "nvim-tree/nvim-web-devicons" } },
 	})
 
-	-- nvim-tresitter and aditional plugins
+	-- nvim-tresitter and extension plugins
 	use({
 		"nvim-treesitter/nvim-treesitter",
-		requires = { "HiPhish/nvim-ts-rainbow2" },
-		run = ":TSUpdate",
+		run = function()
+			require("nvim-treesitter.install").update({ with_sync = true })
+		end,
 	})
+	use({ "HiPhish/nvim-ts-rainbow2", after = "nvim-treesitter" })
+
 	use({
 		"nvim-telescope/telescope.nvim",
 		tag = "0.1.1",
@@ -59,4 +62,5 @@ return packer.startup(function(use)
 	if packer_bootstrap then
 		packer.sync()
 	end
+	packer.compile()
 end)
