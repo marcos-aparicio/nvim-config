@@ -6,13 +6,6 @@ vim.cmd([[
 		au BufWritePre * %s/\s\+$//e
 	augroup END
 
-  augroup FormatAutogroup
-    autocmd!
-    autocmd BufWritePost * FormatWrite
-    autocmd User FormatterPre lua print "This will print before formatting"
-    autocmd User FormatterPost lua print "This will print after formatting"
-  augroup END
-
   augroup TerminalMode
     autocmd!
     autocmd BufEnter * if &buftype == 'terminal' | :startinsert | endif
