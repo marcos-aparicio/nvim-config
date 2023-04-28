@@ -30,6 +30,7 @@ packer.startup(function(use)
 	use("easymotion/vim-easymotion")
 	use("theniceboy/vim-calc")
 	use("mhartington/formatter.nvim")
+	use("lewis6991/gitsigns.nvim")
 
 	--toggleterm
 	use({
