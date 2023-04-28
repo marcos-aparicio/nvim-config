@@ -31,6 +31,7 @@ packer.startup(function(use)
 	use("theniceboy/vim-calc")
 	use("mhartington/formatter.nvim")
 	use("lewis6991/gitsigns.nvim")
+	use("norcalli/nvim-colorizer.lua")
 
 	--toggleterm
 	use({
