@@ -1,39 +1,39 @@
 -- mapping functions based on: https://github.com/arnvald/viml-to-lua/blob/main/lua/mappings.lua (checkout his repo is very informative)
 function nmap(shortcut, command)
-	map("n", shortcut, command)
+  map("n", shortcut, command)
 end
 
 function imap(shortcut, command)
-	map("i", shortcut, command)
+  map("i", shortcut, command)
 end
 
 function vmap(shortcut, command)
-	map("v", shortcut, command)
+  map("v", shortcut, command)
 end
 
 function cmap(shortcut, command)
-	map("c", shortcut, command)
+  map("c", shortcut, command)
 end
 
 function tmap(shortcut, command)
-	map("t", shortcut, command)
+  map("t", shortcut, command)
 end
 
 function map(mode, shortcut, command)
-	vim.api.nvim_set_keymap(mode, shortcut, command, { noremap = true, silent = true })
+  vim.api.nvim_set_keymap(mode, shortcut, command, { noremap = true, silent = true })
 end
 
 function ExitBuffer()
-	if vim.bo.filetype == "TelescopePrompt" then
-		vim.cmd("quit!")
-		return
-	end
+  if vim.bo.filetype == "TelescopePrompt" then
+    vim.cmd("quit!")
+    return
+  end
 
-	if #vim.fn.getbufinfo({ buflisted = 1 }) > 1 then
-		vim.cmd("bdelete")
-	else
-		vim.cmd("quit")
-	end
+  if #vim.fn.getbufinfo({ buflisted = 1 }) > 1 then
+    vim.cmd("bdelete")
+  else
+    vim.cmd("quit")
+  end
 end
 
 -- sourcing neovim directly from command

@@ -42,6 +42,7 @@ packer.startup(function(use)
   -- Completion
   use("hrsh7th/nvim-cmp")
   use("hrsh7th/cmp-nvim-lsp")
+  use("L3MON4D3/LuaSnip")
 
   -- Formatting related plugins
   use("jose-elias-alvarez/null-ls.nvim")
