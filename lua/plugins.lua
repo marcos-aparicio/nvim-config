@@ -33,6 +33,10 @@ packer.startup(function(use)
 	use("norcalli/nvim-colorizer.lua")
 	use("jose-elias-alvarez/null-ls.nvim")
 
+	-- Formatting related plugins
+	use("jose-elias-alvarez/null-ls.nvim")
+	use("MunifTanjim/prettier.nvim")
+
 	--toggleterm
 	use({
 		"akinsho/toggleterm.nvim",
