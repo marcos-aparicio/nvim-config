@@ -28,8 +28,13 @@ function ExitBuffer()
     vim.cmd("quit!")
     return
   end
+  local win_amount = #vim.api.nvim_tabpage_list_wins(0)
 
-  vim.cmd("Bdelete")
+  if win_amount <= 1 then
+    vim.cmd("Bdelete")
+    return
+  end
+  vim.cmd("quit")
 end
 
 -- sourcing neovim directly from command
