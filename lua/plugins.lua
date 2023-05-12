@@ -20,12 +20,14 @@ packer.reset()
 packer.startup(function(use)
   use("wbthomason/packer.nvim")
   use("tpope/vim-abolish")
-  use("tpope/vim-commentary")
+
   use("tpope/vim-surround")
   use("tpope/vim-fugitive")
   use("vim-airline/vim-airline")
   use("vim-airline/vim-airline-themes")
   use("ayu-theme/ayu-vim")
+
+  use("numToStr/Comment.nvim") -- Easily comment stuff
 
   use("akinsho/bufferline.nvim")
   use("moll/vim-bbye")
@@ -37,6 +39,7 @@ packer.startup(function(use)
     end,
   })
   use("windwp/nvim-ts-autotag")
+  use("JoosepAlviste/nvim-ts-context-commentstring") -- for comment context
 
   use("easymotion/vim-easymotion")
   use("theniceboy/vim-calc")
