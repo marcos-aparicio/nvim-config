@@ -124,8 +124,10 @@ tmap("<C-S-l>", ":vertical resize +2<CR>")
 
 -- telescope keybindings
 nmap("<leader>f", ":Telescope find_files<CR>")
-nmap("<leader>gg", ":Telescope git_files<CR>")
-nmap("<leader>r", ":Telescope neoclip<CR>")
+-- r from repo
+nmap("<leader>r", ":Telescope git_files<CR>")
+-- until i start using you more
+-- nmap("<leader>r", ":Telescope neoclip<CR>")
 
 -- dadbod keybindings
 nmap("<leader><leader>db", ":tab DBUI<CR>")
@@ -138,6 +140,7 @@ nmap("<C-S-l>", ":vertical resize +2<CR>")
 
 -- fugitive keybindings
 nmap("<leader>ga", ":G add<space>")
+nmap("<leader>gw", ":Gwrite<CR>")
 nmap("<leader>gc", ":G commit<CR>")
 nmap("<leader>gl", ":G log<CR><C-w>L<CR>")
 nmap("<leader>gs", ":Telescope git_status<CR>")
