@@ -29,12 +29,7 @@ function ExitBuffer()
     return
   end
 
-  vim.cmd("quit")
-  -- if #vim.fn.getbufinfo({ buflisted = 1 }) > 1 then
-  -- 	vim.cmd("bdelete")
-  -- else
-  -- 	vim.cmd("quit")
-  -- end
+  vim.cmd("Bdelete")
 end
 
 -- sourcing neovim directly from command
@@ -144,3 +139,7 @@ nmap("<leader>gw", ":Gwrite<CR>")
 nmap("<leader>gc", ":G commit<CR>")
 nmap("<leader>gl", ":G log<CR><C-w>L<CR>")
 nmap("<leader>gs", ":Telescope git_status<CR>")
+
+-- bufferline navigation
+nmap("<S-l>", ":bnext<CR>")
+nmap("<S-h>", ":bprevious<CR>")

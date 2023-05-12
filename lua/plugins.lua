@@ -27,6 +27,9 @@ packer.startup(function(use)
   use("vim-airline/vim-airline-themes")
   use("ayu-theme/ayu-vim")
 
+  use("akinsho/bufferline.nvim")
+  use("moll/vim-bbye")
+
   use({
     "windwp/nvim-autopairs",
     config = function()

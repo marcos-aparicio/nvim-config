@@ -21,14 +21,14 @@ vim.g.airline_theme = "ayu_dark"
 vim.g.ayucolor = "dark"
 
 local ok, _ = pcall(
-	vim.cmd,
-	[[
+  vim.cmd,
+  [[
   colorscheme ayu
   hi Normal guibg=NONE ctermbg=NONE
   ]]
 )
 if not ok then
-	vim.cmd([[
+  vim.cmd([[
     colorscheme default
     hi Normal guibg=NONE ctermbg=NONE
   ]])
