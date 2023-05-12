@@ -1,40 +1,40 @@
 -- mapping functions based on: https://github.com/arnvald/viml-to-lua/blob/main/lua/mappings.lua (checkout his repo is very informative)
 function nmap(shortcut, command)
-	map("n", shortcut, command)
+  map("n", shortcut, command)
 end
 
 function imap(shortcut, command)
-	map("i", shortcut, command)
+  map("i", shortcut, command)
 end
 
 function vmap(shortcut, command)
-	map("v", shortcut, command)
+  map("v", shortcut, command)
 end
 
 function cmap(shortcut, command)
-	map("c", shortcut, command)
+  map("c", shortcut, command)
 end
 
 function tmap(shortcut, command)
-	map("t", shortcut, command)
+  map("t", shortcut, command)
 end
 
 function map(mode, shortcut, command)
-	vim.api.nvim_set_keymap(mode, shortcut, command, { noremap = true, silent = true })
+  vim.api.nvim_set_keymap(mode, shortcut, command, { noremap = true, silent = true })
 end
 
 function ExitBuffer()
-	if vim.bo.filetype == "TelescopePrompt" then
-		vim.cmd("quit!")
-		return
-	end
+  if vim.bo.filetype == "TelescopePrompt" then
+    vim.cmd("quit!")
+    return
+  end
 
-	vim.cmd("quit")
-	-- if #vim.fn.getbufinfo({ buflisted = 1 }) > 1 then
-	-- 	vim.cmd("bdelete")
-	-- else
-	-- 	vim.cmd("quit")
-	-- end
+  vim.cmd("quit")
+  -- if #vim.fn.getbufinfo({ buflisted = 1 }) > 1 then
+  -- 	vim.cmd("bdelete")
+  -- else
+  -- 	vim.cmd("quit")
+  -- end
 end
 
 -- sourcing neovim directly from command
@@ -45,7 +45,7 @@ nmap("<C-b>", ":NvimTreeToggle<CR>")
 
 -- basic normal remappings
 nmap("<leader>q", ":lua ExitBuffer()<CR>")
-nmap("<leader>w", ":w<CR>")
+nmap("<leader>w", ":w<CR>:lua vim.lsp.buf.format()<CR>")
 nmap("<leader>v", ":vs<CR>")
 nmap("<leader>h", ":sp<CR>")
 
@@ -93,10 +93,18 @@ vmap("gb", "G")
 imap("kj", "<Esc>")
 imap("<C-e>", "<C-o>$")
 imap("<C-a>", "<C-o>^")
+imap("<C-d>", "<C-o>o")
 
 -- better mark navigation
+MarkToggling = function()
+  if vim.bo.filetype == "qf" then
+    vim.cmd("q")
+    return
+  end
+  vim.cmd("MarksQFListBuf")
+end
 nmap("gm", "'")
-nmap(",m", ":marks<CR>")
+nmap(",m", ":lua MarkToggling()<CR>")
 
 -- better replacing and handle of commands
 nmap("<leader>s", ":S//g<Left><Left>")
@@ -104,7 +112,7 @@ nmap("<leader>S", ":%S//g<Left><Left>")
 nmap("<leader>.", "@:<CR>")
 nmap("<leader>s", ":s//gI<Left><Left><Left>")
 nmap("<leader>a", ":call Calc()<CR>")
-vmap("<leader>s", ":s//g<Left><Left>")
+vmap("<leader>s", ":S//g<Left><Left>")
 
 -- terminal mappings
 tmap("<C-j>", "<C-\\><C-N><C-w>j")
@@ -116,6 +124,11 @@ tmap("<C-S-l>", ":vertical resize +2<CR>")
 
 -- telescope keybindings
 nmap("<leader>f", ":Telescope find_files<CR>")
+nmap("<leader>gg", ":Telescope git_files<CR>")
+nmap("<leader>r", ":Telescope neoclip<CR>")
+
+-- dadbod keybindings
+nmap("<leader><leader>db", ":tab DBUI<CR>")
 
 -- resizing windows
 nmap("<C-S-h>", ":vertical resize -2<CR>")

@@ -14,6 +14,10 @@ vim.cmd([[
     autocmd!
     autocmd BufWritePost plugins.lua source <afile> | PackerCompile
   augroup end
+  augroup transparent_signs
+    au!
+    autocmd ColorScheme * highlight SignColumn guibg=NONE
+  augroup END
 ]])
 vim.g.mapleader = " "
 
@@ -26,6 +30,7 @@ vim.opt.expandtab = true
 vim.bo.softtabstop = 2
 vim.o.clipboard = "unnamed,unnamedplus"
 vim.o.hidden = true
+vim.o.signcolumn = "yes"
 
 -- Set key mappings for F15 and F16 to emulate Ctrl-Tab and Ctrl-Shift-Tab
 vim.api.nvim_set_keymap("n", "<F15>", "<C-Tab>", { silent = true, noremap = true })

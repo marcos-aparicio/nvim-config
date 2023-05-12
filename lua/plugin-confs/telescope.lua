@@ -6,6 +6,7 @@ end
 local actions = require("telescope.actions")
 
 telescope.setup({
+  defaults = { path_display = { "shorten" } },
   mappings = {
     i = {
       ["<C-c>"] = actions.close,
