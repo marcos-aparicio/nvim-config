@@ -45,7 +45,7 @@ nmap("<C-b>", ":NvimTreeToggle<CR>")
 
 -- basic normal remappings
 nmap("<leader>q", ":lua ExitBuffer()<CR>")
-nmap("<leader>w", ":w<CR>:lua vim.lsp.buf.format()<CR>")
+nmap("<leader>w", ":w<CR>")
 nmap("<leader>v", ":vs<CR>")
 nmap("<leader>h", ":sp<CR>")
 
