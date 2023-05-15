@@ -26,6 +26,10 @@ packer.startup(function(use)
 	use("vim-airline/vim-airline")
 	use("vim-airline/vim-airline-themes")
 	use("ayu-theme/ayu-vim")
+	use({
+		"Fymyte/rasi.vim",
+		ft = "rasi",
+	})
 
 	use("numToStr/Comment.nvim") -- Easily comment stuff
 
