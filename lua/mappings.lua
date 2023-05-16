@@ -1,40 +1,40 @@
 -- mapping functions based on: https://github.com/arnvald/viml-to-lua/blob/main/lua/mappings.lua (checkout his repo is very informative)
 function nmap(shortcut, command)
-  map("n", shortcut, command)
+	map("n", shortcut, command)
 end
 
 function imap(shortcut, command)
-  map("i", shortcut, command)
+	map("i", shortcut, command)
 end
 
 function vmap(shortcut, command)
-  map("v", shortcut, command)
+	map("v", shortcut, command)
 end
 
 function cmap(shortcut, command)
-  map("c", shortcut, command)
+	map("c", shortcut, command)
 end
 
 function tmap(shortcut, command)
-  map("t", shortcut, command)
+	map("t", shortcut, command)
 end
 
 function map(mode, shortcut, command)
-  vim.api.nvim_set_keymap(mode, shortcut, command, { noremap = true, silent = true })
+	vim.api.nvim_set_keymap(mode, shortcut, command, { noremap = true, silent = true })
 end
 
 function ExitBuffer()
-  if vim.bo.filetype == "TelescopePrompt" then
-    vim.cmd("quit!")
-    return
-  end
-  local win_amount = #vim.api.nvim_tabpage_list_wins(0)
+	if vim.bo.filetype == "TelescopePrompt" then
+		vim.cmd("quit!")
+		return
+	end
+	local win_amount = #vim.api.nvim_tabpage_list_wins(0)
 
-  if win_amount <= 1 then
-    vim.cmd("Bdelete")
-    return
-  end
-  vim.cmd("quit")
+	if win_amount <= 1 then
+		vim.cmd("Bdelete")
+		return
+	end
+	vim.cmd("quit")
 end
 
 -- sourcing neovim directly from command
@@ -97,11 +97,11 @@ imap("<C-d>", "<C-o>o")
 
 -- better mark navigation
 MarkToggling = function()
-  if vim.bo.filetype == "qf" then
-    vim.cmd("q")
-    return
-  end
-  vim.cmd("MarksQFListBuf")
+	if vim.bo.filetype == "qf" then
+		vim.cmd("q")
+		return
+	end
+	vim.cmd("MarksQFListBuf")
 end
 nmap("gm", "'")
 nmap(",m", ":lua MarkToggling()<CR>")
@@ -124,6 +124,7 @@ tmap("<C-S-l>", ":vertical resize +2<CR>")
 
 -- telescope keybindings
 nmap("<leader>f", ":Telescope find_files<CR>")
+nmap("<leader>tt", ":Telescope live_grep<CR>")
 -- r from repo
 nmap("<leader>r", ":Telescope git_files<CR>")
 -- until i start using you more

@@ -36,6 +36,8 @@ packer.startup(function(use)
 	use("akinsho/bufferline.nvim")
 	use("moll/vim-bbye")
 
+	use("vimwiki/vimwiki")
+
 	use({
 		"windwp/nvim-autopairs",
 		config = function()
@@ -104,6 +106,12 @@ packer.startup(function(use)
 		"nvim-telescope/telescope.nvim",
 		tag = "0.1.1",
 		requires = { { "nvim-lua/plenary.nvim" } },
+	})
+
+	use("nvim-telescope/telescope-project.nvim")
+	use({
+		"nvim-telescope/telescope-fzf-native.nvim",
+		run = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
 	})
 	use({
 		"AckslD/nvim-neoclip.lua",

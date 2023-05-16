@@ -27,11 +27,18 @@ vim.opt.hlsearch = false
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
+
 vim.bo.softtabstop = 2
+
 vim.o.clipboard = "unnamed,unnamedplus"
 vim.o.hidden = true
 vim.o.signcolumn = "yes"
 vim.o.splitright = true
+
+-- settings required for vimwiki to work
+vim.o.compatible = false
+vim.cmd("filetype plugin on")
+vim.cmd("syntax on")
 
 -- Set key mappings for F15 and F16 to emulate Ctrl-Tab and Ctrl-Shift-Tab
 vim.api.nvim_set_keymap("n", "<F15>", "<C-Tab>", { silent = true, noremap = true })
