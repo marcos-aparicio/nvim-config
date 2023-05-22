@@ -35,6 +35,12 @@ vim.o.hidden = true
 vim.o.signcolumn = "yes"
 vim.o.splitright = true
 
+-- folding configs
+vim.o.foldcolumn = "1" -- '0' is not bad
+vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+vim.o.foldlevelstart = 99
+vim.o.foldenable = true
+
 -- settings required for vimwiki to work
 vim.o.compatible = false
 vim.cmd("filetype plugin on")
