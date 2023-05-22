@@ -1,3 +1,11 @@
+local function object_assign(t1, t2)
+	for key, value in pairs(t2) do
+		t1[key] = value
+	end
+
+	return t1
+end
+
 local servers = {
 	"lua_ls",
 	"csharp_ls",
@@ -36,7 +44,10 @@ local opts = {}
 for _, server in pairs(servers) do
 	opts = {
 		on_attach = require("plugin-confs.lsp.handlers").on_attach,
-		capabilities = require("plugin-confs.lsp.handlers").capabilities,
+		capabilities = object_assign(
+			require("plugin-confs.lsp.handlers").capabilities,
+			require("plugin-confs.lsp.settings.nvim_ufo")
+		),
 	}
 
 	server = vim.split(server, "@")[1]

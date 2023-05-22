@@ -31,6 +31,9 @@ packer.startup(function(use)
 		ft = "rasi",
 	})
 
+	-- folding like VSC
+	use({ "kevinhwang91/nvim-ufo", requires = "kevinhwang91/promise-async" })
+
 	use("numToStr/Comment.nvim") -- Easily comment stuff
 
 	use("akinsho/bufferline.nvim")
