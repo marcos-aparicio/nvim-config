@@ -30,7 +30,10 @@ function ExitBuffer()
 	end
 	local win_amount = #vim.api.nvim_tabpage_list_wins(0)
 
-	if win_amount <= 1 then
+	local ok, tree = pcall(require, "nvim-tree.view")
+	local tree_opened = ok and tree.is_visible() or false
+
+	if win_amount <= 1 or win_amount == 2 and tree_opened then
 		vim.cmd("Bdelete")
 		return
 	end
