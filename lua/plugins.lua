@@ -89,6 +89,9 @@ packer.startup(function(use)
 		},
 	})
 
+	-- using LeetCode inside Nvim(Awesome!)
+	use("ianding1/leetcode.vim")
+
 	-- nvim-tree and dependencies
 	use({
 		"nvim-tree/nvim-tree.lua",
