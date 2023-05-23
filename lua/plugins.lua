@@ -1,14 +1,14 @@
 local packer_path = os.getenv("HOME") .. "/.config/nvim/pack"
 
 local ensure_packer = function()
-	local fn = vim.fn
-	local install_path = packer_path .. "/packer/start/packer.nvim"
-	if fn.empty(fn.glob(install_path)) > 0 then
-		fn.system({ "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path })
-		vim.cmd([[packadd packer.nvim]])
-		return true
-	end
-	return false
+  local fn = vim.fn
+  local install_path = packer_path .. "/packer/start/packer.nvim"
+  if fn.empty(fn.glob(install_path)) > 0 then
+    fn.system({ "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path })
+    vim.cmd([[packadd packer.nvim]])
+    return true
+  end
+  return false
 end
 
 local packer_bootstrap = ensure_packer()
@@ -18,129 +18,133 @@ packer.init({ package_root = packer_path, opt = false })
 packer.reset()
 
 packer.startup(function(use)
-	use("wbthomason/packer.nvim")
-	use("tpope/vim-abolish")
+  use("wbthomason/packer.nvim")
+  use("tpope/vim-abolish")
 
-	use("tpope/vim-surround")
-	use("tpope/vim-fugitive")
-	use("vim-airline/vim-airline")
-	use("vim-airline/vim-airline-themes")
-	use("ayu-theme/ayu-vim")
-	use({
-		"Fymyte/rasi.vim",
-		ft = "rasi",
-	})
+  use("tpope/vim-surround")
+  use("tpope/vim-fugitive")
+  use("vim-airline/vim-airline")
+  use("vim-airline/vim-airline-themes")
+  use("ayu-theme/ayu-vim")
+  use({
+    "Fymyte/rasi.vim",
+    ft = "rasi",
+  })
 
-	-- folding like VSC
-	use({ "kevinhwang91/nvim-ufo", requires = "kevinhwang91/promise-async" })
+  -- rest api testing(like Postman!)
+  use("rest-nvim/rest.nvim")
 
-	use("numToStr/Comment.nvim") -- Easily comment stuff
+  -- folding like VSC
+  use({ "kevinhwang91/nvim-ufo", requires = "kevinhwang91/promise-async" })
 
-	use("akinsho/bufferline.nvim")
-	use("moll/vim-bbye")
+  use("numToStr/Comment.nvim") -- Easily comment stuff
 
-	use("vimwiki/vimwiki")
+  use("akinsho/bufferline.nvim")
+  use("moll/vim-bbye")
 
-	use({
-		"windwp/nvim-autopairs",
-		config = function()
-			require("nvim-autopairs").setup()
-		end,
-	})
-	use("windwp/nvim-ts-autotag")
-	use("JoosepAlviste/nvim-ts-context-commentstring") -- for comment context
+  use("vimwiki/vimwiki")
 
-	use("easymotion/vim-easymotion")
-	use("theniceboy/vim-calc")
-	use("lewis6991/gitsigns.nvim")
-	use("norcalli/nvim-colorizer.lua")
+  use({
+    "windwp/nvim-autopairs",
+    config = function()
+      require("nvim-autopairs").setup()
+    end,
+  })
+  use("windwp/nvim-ts-autotag")
+  use("JoosepAlviste/nvim-ts-context-commentstring") -- for comment context
 
-	-- LSP like a pro
-	use({
-		"williamboman/mason.nvim",
-		"williamboman/mason-lspconfig.nvim",
-		"neovim/nvim-lspconfig",
-	})
+  use("easymotion/vim-easymotion")
+  use("theniceboy/vim-calc")
+  use("lewis6991/gitsigns.nvim")
+  use("norcalli/nvim-colorizer.lua")
 
-	-- Completion
-	use("hrsh7th/nvim-cmp")
-	use("hrsh7th/cmp-buffer")
-	use("hrsh7th/cmp-path")
-	use("hrsh7th/cmp-cmdline")
+  -- LSP like a pro
+  use({
+    "williamboman/mason.nvim",
+    "williamboman/mason-lspconfig.nvim",
+    "neovim/nvim-lspconfig",
+  })
 
-	-- Snippets
-	use("L3MON4D3/LuaSnip") --Snippet Engine
-	use("saadparwaiz1/cmp_luasnip")
-	use("rafamadriz/friendly-snippets")
-	use("hrsh7th/cmp-nvim-lsp")
+  -- Completion
+  use("hrsh7th/nvim-cmp")
+  use("hrsh7th/cmp-buffer")
+  use("hrsh7th/cmp-path")
+  use("hrsh7th/cmp-cmdline")
 
-	-- Formatting related plugins
-	use("jose-elias-alvarez/null-ls.nvim")
-	use("MunifTanjim/prettier.nvim")
+  -- Snippets
+  use("L3MON4D3/LuaSnip") --Snippet Engine
+  use("saadparwaiz1/cmp_luasnip")
+  use("rafamadriz/friendly-snippets")
+  use("hrsh7th/cmp-nvim-lsp")
 
-	use({ "akinsho/toggleterm.nvim", tag = "*" })
+  -- Formatting related plugins
+  use("jose-elias-alvarez/null-ls.nvim")
+  use("MunifTanjim/prettier.nvim")
 
-	-- dadbod (database client inside NEOVIM)
-	use({
-		"kristijanhusak/vim-dadbod-ui",
-		requires = {
-			"tpope/vim-dadbod",
-			"tpope/vim-dotenv",
-		},
-	})
+  use({ "akinsho/toggleterm.nvim", tag = "*" })
 
-	-- using LeetCode inside Nvim(Awesome!)
-	use("ianding1/leetcode.vim")
+  -- dadbod (database client inside NEOVIM)
+  use({
+    "kristijanhusak/vim-dadbod-ui",
+    requires = {
+      "tpope/vim-dadbod",
+      "tpope/vim-dotenv",
+    },
+  })
 
-	-- nvim-tree and dependencies
-	use({
-		"nvim-tree/nvim-tree.lua",
-		requires = { { "nvim-tree/nvim-web-devicons" } },
-	})
+  -- using LeetCode inside Nvim(Awesome!)
+  use("ianding1/leetcode.vim")
 
-	-- nvim-tresitter and extension plugins
-	use({
-		"nvim-treesitter/nvim-treesitter",
-		run = function()
-			require("nvim-treesitter.install").update({ with_sync = true })
-		end,
-	})
-	use({ "HiPhish/nvim-ts-rainbow2", after = "nvim-treesitter" })
+  -- nvim-tree and dependencies
+  use({
+    "nvim-tree/nvim-tree.lua",
+    requires = { { "nvim-tree/nvim-web-devicons" } },
+  })
 
-	-- Telescope and extensions
-	use({
-		"nvim-telescope/telescope.nvim",
-		tag = "0.1.1",
-		requires = { { "nvim-lua/plenary.nvim" } },
-	})
+  -- nvim-tresitter and extension plugins
+  use({
+    "nvim-treesitter/nvim-treesitter",
+    run = function()
+      require("nvim-treesitter.install").update({ with_sync = true })
+    end,
+  })
+  use({ "HiPhish/nvim-ts-rainbow2", after = "nvim-treesitter" })
 
-	use("nvim-telescope/telescope-project.nvim")
-	use({
-		"nvim-telescope/telescope-fzf-native.nvim",
-		run = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
-	})
+  -- Telescope and extensions
+  use({
+    "nvim-telescope/telescope.nvim",
+    tag = "0.1.1",
+    requires = { { "nvim-lua/plenary.nvim" } },
+  })
 
-	use("cljoly/telescope-repo.nvim")
+  use("nvim-telescope/telescope-project.nvim")
+  use({
+    "nvim-telescope/telescope-fzf-native.nvim",
+    run =
+    "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
+  })
 
-	use("natecraddock/workspaces.nvim")
+  use("cljoly/telescope-repo.nvim")
 
-	use({
-		"AckslD/nvim-neoclip.lua",
-		config = function()
-			require("telescope").load_extension("neoclip")
-			require("neoclip").setup()
-		end,
-	})
-	use({
-		"chentoast/marks.nvim",
-		config = function()
-			require("marks").setup()
-		end,
-	})
+  use("natecraddock/workspaces.nvim")
 
-	-- Automatically set up your configuration after cloning packer.nvim
-	if packer_bootstrap then
-		packer.sync()
-	end
-	packer.compile()
+  use({
+    "AckslD/nvim-neoclip.lua",
+    config = function()
+      require("telescope").load_extension("neoclip")
+      require("neoclip").setup()
+    end,
+  })
+  use({
+    "chentoast/marks.nvim",
+    config = function()
+      require("marks").setup()
+    end,
+  })
+
+  -- Automatically set up your configuration after cloning packer.nvim
+  if packer_bootstrap then
+    packer.sync()
+  end
+  packer.compile()
 end)
