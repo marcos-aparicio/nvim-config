@@ -27,5 +27,6 @@ function my_on_attach(bufnr)
 end
 
 nvim_tree.setup({
+	update_cwd = true,
 	on_attach = my_on_attach,
 })
