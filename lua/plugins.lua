@@ -119,6 +119,8 @@ packer.startup(function(use)
 
 	use("cljoly/telescope-repo.nvim")
 
+	use("natecraddock/workspaces.nvim")
+
 	use({
 		"AckslD/nvim-neoclip.lua",
 		config = function()

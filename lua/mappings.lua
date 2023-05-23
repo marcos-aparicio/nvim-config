@@ -128,7 +128,7 @@ tmap("<C-S-l>", ":vertical resize +2<CR>")
 -- telescope keybindings
 nmap("<leader>f", ":Telescope find_files<CR>")
 nmap("<leader>tt", ":Telescope live_grep<CR>")
-nmap("<leader>rp", ":Telescope repo list<CR>")
+nmap("<leader>p", ":Telescope workspaces<CR>")
 -- r from repo
 nmap("<leader>rf", ":Telescope git_files<CR>")
 -- until i start using you more
