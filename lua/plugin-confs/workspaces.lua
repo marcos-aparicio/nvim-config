@@ -20,6 +20,13 @@ end
 
 workspaces.setup({
 	hooks = {
-		open = { fileToOpenPerProject, "NvimTreeRefresh", "NvimTreeOpen" },
+		open = {
+			fileToOpenPerProject,
+			"NvimTreeRefresh",
+			"NvimTreeOpen",
+			function()
+				vim.api.nvim_command("wincmd p")
+			end,
+		},
 	},
 })
