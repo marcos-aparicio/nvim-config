@@ -149,6 +149,7 @@ nmap("<leader>gw", ":Gwrite<CR>")
 nmap("<leader>gc", ":G commit<CR>")
 nmap("<leader>gl", ":G log<CR><C-w>L<CR>")
 nmap("<leader>gs", ":Telescope git_status<CR>")
+nmap("<leader>gb", ":Telescope git_branches<CR>")
 
 -- bufferline navigation
 nmap("<S-l>", ":bnext<CR>")
