@@ -30,7 +30,6 @@ function set_vimwiki_mappings()
 	print(buffer_path)
 
 	for _, path in pairs(wiki_paths) do
-		print(path)
 		if buffer_path:match(path) then
 			vim.api.nvim_buf_set_keymap(
 				buffer,
@@ -58,11 +57,3 @@ function set_vimwiki_mappings()
 		end
 	end
 end
-
---[[ function clear_vimwiki_mappings() ]]
---[[ 	local buffer = vim.api.nvim_get_current_buf() ]]
---[[]]
---[[ 	vim.api.nvim_buf_del_keymap(buffer, "n", "<Leader>f") ]]
---[[ 	vim.api.nvim_buf_del_keymap(buffer, "n", "<Leader>l") ]]
---[[ 	vim.api.nvim_buf_del_keymap(buffer, "n", "<Leader>x") ]]
---[[ end ]]
