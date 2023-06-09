@@ -1,19 +1,20 @@
-local vimwiki_path = os.getenv("HOME") .. "/Obsidian/obsidian/C"
-local vimwiki_path2 = os.getenv("HOME") .. "/Obsidian/obsidian/D"
-vim.api.nvim_set_var("vimwiki_list", {
-	{
-		path = vimwiki_path,
+local wiki_paths = {
+	os.getenv("HOME") .. "/Obsidian/obsidian/C",
+	os.getenv("HOME") .. "/Obsidian/obsidian/D",
+}
+
+local vimwiki_paths_object = {}
+for _, path in pairs(wiki_paths) do
+	local vimwiki_path_object = {
+		path = path,
 		syntax = "markdown",
 		ext = ".md",
 		auto_generate_links = 1,
-	},
-	{
-		path = vimwiki_path2,
-		syntax = "markdown",
-		ext = ".md",
-		auto_generate_links = 1,
-	},
-})
+	}
+	table.insert(vimwiki_paths_object, vimwiki_path_object)
+end
+
+vim.api.nvim_set_var("vimwiki_list", vimwiki_paths_object)
 vim.g.wiki_auto_header = 1
 
 vim.cmd([[
@@ -28,24 +29,33 @@ function set_vimwiki_mappings()
 	local buffer_path = vim.api.nvim_buf_get_name(buffer)
 	print(buffer_path)
 
-	if buffer_path:match(vimwiki_path) then
-		vim.api.nvim_buf_set_keymap(
-			buffer,
-			"n",
-			"<Leader>f",
-			':lua require"telescope.builtin".find_files({ cwd = "'
-				.. vimwiki_path
-				.. '", prompt_title = "vimwiki", previewer = false })<CR>',
-			{ noremap = true }
-		)
-		vim.api.nvim_buf_set_keymap(buffer, "n", "<Leader>l", ":Telescope vimwiki live_grep<CR>", { noremap = true })
-		vim.api.nvim_buf_set_keymap(
-			buffer,
-			"n",
-			"<Leader>x",
-			":w ~/.local/share/Trash/files/%:t<Bar>:VimwikiDeleteFile<CR>y<CR>",
-			{ noremap = true }
-		)
+	for _, path in pairs(wiki_paths) do
+		print(path)
+		if buffer_path:match(path) then
+			vim.api.nvim_buf_set_keymap(
+				buffer,
+				"n",
+				"<Leader>f",
+				':lua require"telescope.builtin".find_files({ cwd = "'
+					.. path
+					.. '", prompt_title = "vimwiki", previewer = false })<CR>',
+				{ noremap = true }
+			)
+			vim.api.nvim_buf_set_keymap(
+				buffer,
+				"n",
+				"<Leader>l",
+				":Telescope vimwiki live_grep<CR>",
+				{ noremap = true }
+			)
+			vim.api.nvim_buf_set_keymap(
+				buffer,
+				"n",
+				"<Leader>x",
+				":w ~/.local/share/Trash/files/%:t<Bar>:VimwikiDeleteFile<CR>y<CR>",
+				{ noremap = true }
+			)
+		end
 	end
 end
 
