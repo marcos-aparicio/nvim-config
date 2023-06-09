@@ -1,13 +1,19 @@
 local vimwiki_path = "~/Obsidian/obsidian/C"
-vim.api.nvim_set_var(
-	"vimwiki_list",
-	{ {
+local vimwiki_path2 = "~/Obsidian/obsidian/D"
+vim.api.nvim_set_var("vimwiki_list", {
+	{
 		path = vimwiki_path,
 		syntax = "markdown",
 		ext = ".md",
 		auto_generate_links = 1,
-	} }
-)
+	},
+	{
+		path = vimwiki_path2,
+		syntax = "markdown",
+		ext = ".md",
+		auto_generate_links = 1,
+	},
+})
 vim.g.wiki_auto_header = 1
 
 vim.cmd([[
