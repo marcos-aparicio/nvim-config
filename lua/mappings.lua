@@ -110,11 +110,11 @@ nmap("gm", "'")
 nmap(",m", ":lua MarkToggling()<CR>")
 
 -- better replacing and handle of commands
-nmap("<leader>s", ":S//g<Left><Left>")
+nmap("<leader>as", ":S//g<Left><Left>")
 nmap("<leader>S", ":%S//g<Left><Left>")
 nmap("<leader>.", "@:<CR>")
 nmap("<leader>s", ":s//gI<Left><Left><Left>")
-nmap("<leader>a", ":call Calc()<CR>")
+nmap("<leader>c", ":call Calc()<CR>")
 vmap("<leader>s", ":S//g<Left><Left>")
 
 -- terminal mappings
