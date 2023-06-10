@@ -1,12 +1,9 @@
-local wiki_paths = {
-	os.getenv("HOME") .. "/Obsidian/obsidian/C",
-	os.getenv("HOME") .. "/Obsidian/obsidian/D",
-}
+local wikis = require("plugin-confs.vimwiki-private")
 
 local vimwiki_paths_object = {}
-for _, path in pairs(wiki_paths) do
+for _, wiki in ipairs(wikis) do
 	local vimwiki_path_object = {
-		path = path,
+		path = wiki.path,
 		syntax = "markdown",
 		ext = ".md",
 		auto_generate_links = 1,
@@ -24,20 +21,21 @@ vim.cmd([[
   augroup END
 ]])
 
+-- setting general keybinding to iterate through vimwikis
+
 function set_vimwiki_mappings()
 	local buffer = vim.api.nvim_get_current_buf()
 	local buffer_path = vim.api.nvim_buf_get_name(buffer)
-	print(buffer_path)
 
-	for _, path in pairs(wiki_paths) do
-		if buffer_path:match(path) then
+	for _, wiki in ipairs(wikis) do
+		if buffer_path:match(wiki.path) then
 			vim.api.nvim_buf_set_keymap(
 				buffer,
 				"n",
 				"<Leader>f",
 				':lua require"telescope.builtin".find_files({ cwd = "'
-					.. path
-					.. '", prompt_title = "vimwiki", previewer = false })<CR>',
+					.. wiki.path
+					.. '", prompt_title = "vimwiki", previewer = false })<cr>',
 				{ noremap = true }
 			)
 			vim.api.nvim_buf_set_keymap(
@@ -56,4 +54,21 @@ function set_vimwiki_mappings()
 			)
 		end
 	end
+end
+
+function get_vimwiki_wikis()
+	-- Execute Vimscript to obtain the list of Vimwiki wikis
+	local wiki_list = vim.api.nvim_exec([[echo globpath(g:vimwiki_list, '**')]], true)
+
+	-- Split the output into individual paths
+	local wikis = vim.split(wiki_list, "\n", true)
+
+	-- Remove empty paths
+	for i = #wikis, 1, -1 do
+		if wikis[i] == "" then
+			table.remove(wikis, i)
+		end
+	end
+
+	return wikis
 end
