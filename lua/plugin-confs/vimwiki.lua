@@ -56,19 +56,59 @@ function set_vimwiki_mappings()
 	end
 end
 
-function get_vimwiki_wikis()
-	-- Execute Vimscript to obtain the list of Vimwiki wikis
-	local wiki_list = vim.api.nvim_exec([[echo globpath(g:vimwiki_list, '**')]], true)
-
-	-- Split the output into individual paths
-	local wikis = vim.split(wiki_list, "\n", true)
-
-	-- Remove empty paths
-	for i = #wikis, 1, -1 do
-		if wikis[i] == "" then
-			table.remove(wikis, i)
-		end
-	end
-
-	return wikis
+local ok, telescope = pcall(require, "telescope")
+if not ok then
+	return
 end
+
+local wikis_for_telescope = {}
+for _, wiki in ipairs(wikis) do
+	table.insert(wikis_for_telescope, wiki.name)
+end
+
+-- Create the Telescope picker
+function iterateVimWikis()
+	local actions = require("telescope.actions")
+	local pickers = require("telescope.pickers")
+	local finders = require("telescope.finders")
+	local sorters = require("telescope.sorters")
+	local state = require("telescope.actions.state")
+
+	-- Create a Telescope picker
+	local picker = pickers.new({}, {
+		prompt_title = "Vimwiki Wikis",
+		finder = finders.new_table({
+			results = wikis_for_telescope,
+		}),
+		sorter = sorters.get_generic_fuzzy_sorter(),
+		attach_mappings = function(prompt_bufnr, map)
+			local select_item = function()
+				local selection = state.get_selected_entry()
+
+				local vimwiki_index = 1
+				for idx, wiki in ipairs(wikis) do
+					if wiki.name == selection.value then
+						vimwiki_index = idx
+						break
+					end
+				end
+
+				actions.close(prompt_bufnr)
+				if selection then
+					vim.cmd("VimwikiIndex " .. vimwiki_index)
+				end
+			end
+
+			-- Map <CR> to select_item function
+			map("i", "<CR>", select_item)
+			map("n", "<CR>", select_item)
+
+			return true
+		end,
+	})
+
+	-- Open the Telescope picker
+	picker:find()
+end
+
+vim.api.nvim_set_keymap("n", "<leader>r", ":lua iterateVimWikis()<CR>", { noremap = true, silent = true })
