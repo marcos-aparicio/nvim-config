@@ -97,6 +97,7 @@ imap("kj", "<Esc>")
 imap("<C-e>", "<C-o>$")
 imap("<C-a>", "<C-o>^")
 imap("<C-d>", "<C-o>o")
+imap("<C-v>", '<C-r>"')
 
 -- better mark navigation
 MarkToggling = function()
