@@ -1,43 +1,43 @@
 -- mapping functions based on: https://github.com/arnvald/viml-to-lua/blob/main/lua/mappings.lua (checkout his repo is very informative)
 function nmap(shortcut, command)
-  map("n", shortcut, command)
+	map("n", shortcut, command)
 end
 
 function imap(shortcut, command)
-  map("i", shortcut, command)
+	map("i", shortcut, command)
 end
 
 function vmap(shortcut, command)
-  map("v", shortcut, command)
+	map("v", shortcut, command)
 end
 
 function cmap(shortcut, command)
-  map("c", shortcut, command)
+	map("c", shortcut, command)
 end
 
 function tmap(shortcut, command)
-  map("t", shortcut, command)
+	map("t", shortcut, command)
 end
 
 function map(mode, shortcut, command)
-  vim.api.nvim_set_keymap(mode, shortcut, command, { noremap = true, silent = true })
+	vim.api.nvim_set_keymap(mode, shortcut, command, { noremap = true, silent = true })
 end
 
 function ExitBuffer()
-  if vim.bo.filetype == "TelescopePrompt" then
-    vim.cmd("quit!")
-    return
-  end
-  local win_amount = #vim.api.nvim_tabpage_list_wins(0)
+	if vim.bo.filetype == "TelescopePrompt" then
+		vim.cmd("quit!")
+		return
+	end
+	local win_amount = #vim.api.nvim_tabpage_list_wins(0)
 
-  local ok, tree = pcall(require, "nvim-tree.view")
-  local tree_opened = ok and tree.is_visible() or false
+	local ok, tree = pcall(require, "nvim-tree.view")
+	local tree_opened = ok and tree.is_visible() or false
 
-  if win_amount <= 1 or win_amount == 2 and tree_opened then
-    vim.cmd("Bdelete")
-    return
-  end
-  vim.cmd("quit")
+	if win_amount <= 1 or win_amount == 2 and tree_opened then
+		vim.cmd("Bdelete")
+		return
+	end
+	vim.cmd("quit")
 end
 
 -- markdown keybinding(s)
@@ -109,11 +109,11 @@ imap("<C-v>", '<C-r>"')
 
 -- better mark navigation
 MarkToggling = function()
-  if vim.bo.filetype == "qf" then
-    vim.cmd("q")
-    return
-  end
-  vim.cmd("MarksQFListBuf")
+	if vim.bo.filetype == "qf" then
+		vim.cmd("q")
+		return
+	end
+	vim.cmd("MarksQFListBuf")
 end
 nmap("gm", "'")
 nmap(",m", ":lua MarkToggling()<CR>")
@@ -160,6 +160,8 @@ nmap("<leader>gu", ":G reset %<CR>")
 nmap("<leader>gl", ":G log<CR><C-w>L<CR>")
 nmap("<leader>gs", ":Telescope git_status<CR>")
 nmap("<leader>gb", ":Telescope git_branches<CR>")
+nmap("<leader>gps", ":G push<space>")
+nmap("<leader>gpl", ":G pull origin<space>")
 
 -- bufferline navigation
 nmap("<S-l>", ":bnext<CR>")
