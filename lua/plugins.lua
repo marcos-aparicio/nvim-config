@@ -142,6 +142,8 @@ packer.startup(function(use)
 		end,
 	})
 
+	use("tpope/vim-dispatch")
+
 	-- Automatically set up your configuration after cloning packer.nvim
 	if packer_bootstrap then
 		packer.sync()
