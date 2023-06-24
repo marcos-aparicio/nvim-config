@@ -162,6 +162,7 @@ nmap("<leader>gs", ":Telescope git_status<CR>")
 nmap("<leader>gb", ":Telescope git_branches<CR>")
 nmap("<leader>gps", ":G push<space>")
 nmap("<leader>gpl", ":G pull origin<space>")
+nmap("<leader>gnb", ':G checkout -b ""<left>')
 
 -- bufferline navigation
 nmap("<S-l>", ":bnext<CR>")
