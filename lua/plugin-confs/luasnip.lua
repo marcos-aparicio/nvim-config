@@ -8,3 +8,6 @@ local t = ls.text_node
 ls.add_snippets("vimwiki", {
 	s("todo", { t("- [ ] ") }),
 })
+ls.add_snippets("sql", {
+	s("all", { t("SELECT * FROM ") }),
+})
