@@ -140,6 +140,7 @@ packer.startup(function(use)
 	--[[ Marks, File Navigation ]]
 	use("MattesGroeger/vim-bookmarks")
 	use("tom-anders/telescope-vim-bookmarks.nvim")
+	use("ThePrimeagen/harpoon")
 
 	use({
 		"pwntester/octo.nvim",
