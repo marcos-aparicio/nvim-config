@@ -130,6 +130,7 @@ nmap("<leader>tt", ":Telescope live_grep<CR>")
 nmap("<leader>p", ":Telescope workspaces<CR>")
 -- r from repo
 nmap("<leader>rf", ":Telescope git_files<CR>")
+nmap("ma", ":Telescope vim_bookmarks current_file<CR>")
 -- until i start using you more
 -- nmap("<leader>r", ":Telescope neoclip<CR>")
 
