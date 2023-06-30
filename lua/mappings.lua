@@ -124,7 +124,8 @@ nmap("<leader>S", ":%S//g<Left><Left>")
 nmap("<leader>.", "@:<CR>")
 nmap("<leader>s", ":s//gI<Left><Left><Left>")
 nmap("<leader>c", ":call Calc()<CR>")
-vmap("<leader>s", ":S//g<Left><Left>")
+vmap("<leader>s", ":s//g<Left><Left>")
+vmap("<leader>as", ":S//g<Left><Left>")
 
 -- terminal mappings
 tmap("<C-j>", "<C-\\><C-N><C-w>j")
@@ -167,3 +168,7 @@ nmap("<leader>gnb", ':G checkout -b ""<left>')
 -- bufferline navigation
 nmap("<S-l>", ":bnext<CR>")
 nmap("<S-h>", ":bprevious<CR>")
+
+-- octo mappings
+nmap("<leader>opl", ":Octo pr list<CR>")
+nmap("<leader>ope", ":Octo pr edit<space>")
