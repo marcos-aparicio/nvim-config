@@ -161,3 +161,6 @@ nmap("<S-h>", ":bprevious<CR>")
 -- octo mappings
 nmap("<leader>opl", ":Octo pr list<CR>")
 nmap("<leader>ope", ":Octo pr edit<space>")
+
+-- marks-nvim mappings
+nmap("<leader>m", ":Telescope marks<CR>")

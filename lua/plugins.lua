@@ -137,12 +137,7 @@ packer.startup(function(use)
 			require("neoclip").setup()
 		end,
 	})
-	use({
-		"chentoast/marks.nvim",
-		config = function()
-			require("marks").setup()
-		end,
-	})
+	use("chentoast/marks.nvim")
 
 	use({
 		"pwntester/octo.nvim",
