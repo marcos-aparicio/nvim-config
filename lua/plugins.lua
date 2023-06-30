@@ -137,7 +137,9 @@ packer.startup(function(use)
 			require("neoclip").setup()
 		end,
 	})
-	use("chentoast/marks.nvim")
+	--[[ Marks, File Navigation ]]
+	use("MattesGroeger/vim-bookmarks")
+	use("tom-anders/telescope-vim-bookmarks.nvim")
 
 	use({
 		"pwntester/octo.nvim",
