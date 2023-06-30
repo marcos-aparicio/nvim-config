@@ -4,17 +4,31 @@ if not status_ok then
 	return
 end
 local actions = require("telescope.actions")
+local action_layout = require("telescope.actions.layout")
 
 telescope.setup({
-	defaults = { path_display = { "shorten" } },
-	mappings = {
-		i = {
-			["<C-c>"] = actions.close,
-			["<C-x>"] = actions.select_horizontal,
-			["<C-v>"] = actions.select_vertical,
+	defaults = {
+		path_display = { "shorten" },
+		mappings = {
+			i = {
+				["<C-c>"] = actions.close,
+				["<C-x>"] = actions.select_horizontal,
+				["<C-v>"] = actions.select_vertical,
+				["<C-p>"] = action_layout.toggle_preview,
+			},
+			n = {
+				["q"] = actions.close,
+				["p"] = action_layout.toggle_preview,
+			},
 		},
-		n = {
-			["q"] = actions.close,
+	},
+	pickers = {
+		marks = {
+			layout_strategy = "horizontal",
+			layout_config = {
+				width = 0.9,
+				preview_width = 0.3,
+			},
 		},
 	},
 })
