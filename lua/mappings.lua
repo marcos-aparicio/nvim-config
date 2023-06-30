@@ -107,17 +107,6 @@ imap("<C-a>", "<C-o>^")
 imap("<C-d>", "<C-o>o")
 imap("<C-v>", '<C-r>"')
 
--- better mark navigation
-MarkToggling = function()
-	if vim.bo.filetype == "qf" then
-		vim.cmd("q")
-		return
-	end
-	vim.cmd("MarksQFListBuf")
-end
-nmap("gm", "'")
-nmap(",m", ":lua MarkToggling()<CR>")
-
 -- better replacing and handle of commands
 nmap("<leader>as", ":S//g<Left><Left>")
 nmap("<leader>S", ":%S//g<Left><Left>")
