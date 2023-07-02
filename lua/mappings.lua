@@ -53,13 +53,10 @@ augroup MarkdownKeybindings
     autocmd!
     autocmd FileType markdown nnoremap g; g$
 augroup END
-]])
+ ]])
 
 -- sourcing neovim directly from command
 nmap("<C-\\>", ":w<CR>:so %<CR>")
--- nvim tree
-nmap("<C-n>", ":NvimTreeFocus<CR>")
-nmap("<C-b>", ":NvimTreeToggle<CR>")
 
 -- basic normal remappings
 nmap("<leader>q", ":lua ExitBuffer()<CR>")
@@ -115,12 +112,13 @@ imap("<C-d>", "<C-o>o")
 imap("<C-v>", '<C-r>"')
 
 -- better replacing and handle of commands
-nmap("<leader>as", ":S//g<Left><Left>")
-nmap("<leader>S", ":%S//g<Left><Left>")
 nmap("<leader>.", "@:<CR>")
 nmap("<leader>sr", ":s//gI<Left><Left><Left>")
-nmap("<leader>c", ":call Calc()<CR>")
 vmap("<leader>s", ":s//g<Left><Left>")
+
+-- Abolish plugin commands(is a vim plugin so it is not on its own file)
+nmap("<leader>as", ":S//g<Left><Left>")
+nmap("<leader>S", ":%S//g<Left><Left>")
 vmap("<leader>as", ":S//g<Left><Left>")
 
 -- terminal mappings
@@ -130,19 +128,6 @@ tmap("<C-S-h>", ":vertical resize -2<CR>")
 tmap("<C-S-j>", ":resize +2<CR>")
 tmap("<C-S-k>", ":resize -2<CR>")
 tmap("<C-S-l>", ":vertical resize +2<CR>")
-
--- telescope keybindings
-nmap("<leader>f", ":Telescope find_files<CR>")
-nmap("<leader>tt", ":Telescope live_grep<CR>")
-nmap("<leader>p", ":Telescope workspaces<CR>")
--- r from repo
-nmap("<leader>rf", ":Telescope git_files<CR>")
-nmap("ma", ":Telescope vim_bookmarks current_file<CR>")
--- until i start using you more
--- nmap("<leader>r", ":Telescope neoclip<CR>")
-
--- dadbod keybindings
-nmap("<leader><leader>db", ":tab DBUI<CR>")
 
 -- resizing windows
 nmap("<C-S-h>", ":vertical resize -2<CR>")
@@ -156,8 +141,6 @@ nmap("<leader>gw", ":Gwrite<CR>")
 nmap("<leader>gc", ":G commit<CR>")
 nmap("<leader>gu", ":G reset %<CR>")
 nmap("<leader>gl", ":G log<CR><C-w>L<CR>")
-nmap("<leader>gs", ":Telescope git_status<CR>")
-nmap("<leader>gb", ":Telescope git_branches<CR>")
 nmap("<leader>gps", ":G push<space>")
 nmap("<leader>gpl", ":G pull origin<space>")
 nmap("<leader>gnb", ':G checkout -b ""<left>')
@@ -165,16 +148,5 @@ nmap("<leader>gnb", ':G checkout -b ""<left>')
 -- bufferline navigation
 nmap("<S-l>", ":bnext<CR>")
 nmap("<S-h>", ":bprevious<CR>")
-
--- octo mappings
-nmap("<leader>opl", ":Octo pr list<CR>")
-nmap("<leader>ope", ":Octo pr edit<space>")
--- harpoon mappings
-nmap("<leader>ss", ":lua require('harpoon.ui').toggle_quick_menu()<CR>")
-nmap("<leader>sa", ":lua require('harpoon.mark').add_file()<CR>")
-nmap("<leader>su", ":lua require('harpoon.ui').nav_file(1)<CR>")
-nmap("<leader>si", ":lua require('harpoon.ui').nav_file(2)<CR>")
-nmap("<leader>so", ":lua require('harpoon.ui').nav_file(3)<CR>")
-nmap("<leader>sp", ":lua require('harpoon.ui').nav_file(4)<CR>")
 
 return M

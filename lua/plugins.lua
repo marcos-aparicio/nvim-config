@@ -54,7 +54,6 @@ packer.startup(function(use)
 	use("JoosepAlviste/nvim-ts-context-commentstring") -- for comment context
 
 	use("easymotion/vim-easymotion")
-	use("theniceboy/vim-calc")
 	use("lewis6991/gitsigns.nvim")
 	use("norcalli/nvim-colorizer.lua")
 

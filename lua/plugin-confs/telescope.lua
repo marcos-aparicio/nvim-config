@@ -1,4 +1,5 @@
 -- this file also includes all treesitter extensions
+local M = require("mappings")
 local status_ok, telescope = pcall(require, "telescope")
 if not status_ok then
 	return
@@ -39,3 +40,12 @@ telescope.load_extension("repo")
 telescope.load_extension("workspaces")
 telescope.load_extension("vimwiki")
 telescope.load_extension("vim_bookmarks")
+
+M.nmap("<leader>f", ":Telescope find_files<CR>")
+M.nmap("<leader>tt", ":Telescope live_grep<CR>")
+M.nmap("<leader>p", ":Telescope workspaces<CR>")
+M.nmap("<leader>rf", ":Telescope git_files<CR>")
+M.nmap("ma", ":Telescope vim_bookmarks current_file<CR>")
+-- I think these are dependant in vim fugitive
+M.nmap("<leader>gs", ":Telescope git_status<CR>")
+M.nmap("<leader>gb", ":Telescope git_branches<CR>")

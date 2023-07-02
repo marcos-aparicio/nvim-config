@@ -1,3 +1,4 @@
+local M = require("mappings")
 local status_ok, nvim_tree = pcall(require, "nvim-tree")
 if not status_ok then
 	return
@@ -30,3 +31,6 @@ nvim_tree.setup({
 	update_cwd = true,
 	on_attach = my_on_attach,
 })
+
+M.nmap("<C-n>", ":NvimTreeFocus<CR>")
+M.nmap("<C-b>", ":NvimTreeToggle<CR>")
