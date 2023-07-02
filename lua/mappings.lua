@@ -23,6 +23,13 @@ function map(mode, shortcut, command)
 	vim.api.nvim_set_keymap(mode, shortcut, command, { noremap = true, silent = true })
 end
 
+local M = {}
+M.nmap = nmap
+M.imap = imap
+M.vmap = vmap
+M.cmap = cmap
+M.tmap = tmap
+
 function ExitBuffer()
 	if vim.bo.filetype == "TelescopePrompt" then
 		vim.cmd("quit!")
@@ -169,3 +176,5 @@ nmap("<leader>su", ":lua require('harpoon.ui').nav_file(1)<CR>")
 nmap("<leader>si", ":lua require('harpoon.ui').nav_file(2)<CR>")
 nmap("<leader>so", ":lua require('harpoon.ui').nav_file(3)<CR>")
 nmap("<leader>sp", ":lua require('harpoon.ui').nav_file(4)<CR>")
+
+return M
