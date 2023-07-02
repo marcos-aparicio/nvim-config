@@ -101,6 +101,8 @@ packer.startup(function(use)
 		"nvim-tree/nvim-tree.lua",
 		requires = { { "nvim-tree/nvim-web-devicons" } },
 	})
+	-- Taskwiki integration in neovim
+	use("tools-life/taskwiki")
 
 	-- nvim-tresitter and extension plugins
 	use({
@@ -117,25 +119,10 @@ packer.startup(function(use)
 		tag = "0.1.1",
 		requires = { { "nvim-lua/plenary.nvim" } },
 	})
-
-	use("nvim-telescope/telescope-project.nvim")
-	use({
-		"nvim-telescope/telescope-fzf-native.nvim",
-		run = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
-	})
-
 	use("ElPiloto/telescope-vimwiki.nvim")
-	use("cljoly/telescope-repo.nvim")
 
 	use("natecraddock/workspaces.nvim")
 
-	use({
-		"AckslD/nvim-neoclip.lua",
-		config = function()
-			require("telescope").load_extension("neoclip")
-			require("neoclip").setup()
-		end,
-	})
 	--[[ Marks, File Navigation ]]
 	use("MattesGroeger/vim-bookmarks")
 	use("tom-anders/telescope-vim-bookmarks.nvim")
