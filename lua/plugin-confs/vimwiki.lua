@@ -19,10 +19,28 @@ vim.cmd([[
   augroup vimwiki_mappings
     autocmd!
     autocmd FileType vimwiki lua set_vimwiki_mappings()
+    autocmd FileType vimwiki iunmap <buffer> <C-d>
+  augroup END
+  augroup taskwiki_mappings
+    autocmd!
+    autocmd FileType vimwiki nnoremap <leader>tv :TaskWikiInspect<CR>
+    autocmd FileType vimwiki nnoremap <leader>td :TaskWikiDelete<CR>
   augroup END
 ]])
 
 -- setting general keybinding to iterate through vimwikis
+
+function VimwikiTelescopeByIdx(idx)
+	if idx == nil then
+		idx = 1
+	end
+	local the_path = vim.g.vimwiki_list[idx]["path"]
+
+	local the_command = ':lua require"telescope.builtin".find_files({ cwd = "'
+		.. the_path
+		.. '", prompt_title = "vimwiki", previewer = false })'
+	vim.api.nvim_command(the_command)
+end
 
 function set_vimwiki_mappings()
 	local buffer = vim.api.nvim_get_current_buf()
@@ -112,4 +130,4 @@ function iterateVimWikis()
 	picker:find()
 end
 
-M.nmap("<leader>r", ":lua iterateVimWikis()<CR>")
+M.nmap("<leader>rr", ":lua iterateVimWikis()<CR>")
