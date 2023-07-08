@@ -7,6 +7,10 @@ end
 local actions = require("telescope.actions")
 local action_layout = require("telescope.actions.layout")
 
+telescope.load_extension("workspaces")
+telescope.load_extension("vimwiki")
+telescope.load_extension("vim_bookmarks")
+
 telescope.setup({
 	defaults = {
 		path_display = { "shorten" },
@@ -33,10 +37,6 @@ telescope.setup({
 		},
 	},
 })
-
-telescope.load_extension("workspaces")
-telescope.load_extension("vimwiki")
-telescope.load_extension("vim_bookmarks")
 
 M.nmap("<leader>f", ":Telescope find_files<CR>")
 M.nmap("<leader>tt", ":Telescope live_grep<CR>")
