@@ -42,7 +42,7 @@ packer.startup(function(use)
 	use("akinsho/bufferline.nvim")
 	use("moll/vim-bbye")
 
-	use("vimwiki/vimwiki")
+	use({ "vimwiki/vimwiki", branch = "dev" })
 
 	use({
 		"windwp/nvim-autopairs",
@@ -102,8 +102,13 @@ packer.startup(function(use)
 		requires = { { "nvim-tree/nvim-web-devicons" } },
 	})
 	-- Taskwiki integration in neovim
-	use("tools-life/taskwiki")
-
+	use({
+		"tools-life/taskwiki",
+		config = function()
+			vim.g.taskwiki_taskrc_location = os.getenv("HOME") .. "/.config/task/taskrc"
+			vim.g.taskwiki_data_location = os.getenv("HOME") .. "/.local/share/task"
+		end,
+	})
 	-- nvim-tresitter and extension plugins
 	use({
 		"nvim-treesitter/nvim-treesitter",
