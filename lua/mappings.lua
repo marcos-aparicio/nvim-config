@@ -19,6 +19,10 @@ function tmap(shortcut, command)
 	map("t", shortcut, command)
 end
 
+function unmap(mode, shortcut)
+	vim.api.nvim_del_keymap(mode, shortcut)
+end
+
 function map(mode, shortcut, command)
 	vim.api.nvim_set_keymap(mode, shortcut, command, { noremap = true, silent = true })
 end
@@ -29,6 +33,7 @@ M.imap = imap
 M.vmap = vmap
 M.cmap = cmap
 M.tmap = tmap
+M.unmap = unmap
 
 function ExitBuffer()
 	if vim.bo.filetype == "TelescopePrompt" then
@@ -148,5 +153,20 @@ nmap("<leader>gnb", ':G checkout -b ""<left>')
 -- bufferline navigation
 nmap("<S-l>", ":bnext<CR>")
 nmap("<S-h>", ":bprevious<CR>")
+
+-- vira mappings
+nmap("<leader>jl", ":ViraLoadProject<space>")
+nmap("<leader>jr", ":ViraReport<CR>")
+nmap("<leader>jfa", ":ViraFilterAssignees<CR>")
+nmap("<leader>jfr", ":ViraFilterReset<CR>")
+nmap("<leader>ji", ":ViraIssue<CR>")
+nmap("<leader>js", ":ViraIssues<CR>")
+nmap("<leader>jf", ":ViraFilterEdit<CR>")
+vim.cmd([[
+  augroup vira_buffer_mappings
+    autocmd!
+    autocmd FileType vira_menu nnoremap <leader>jy :execute "!$HOME/.local/bin/branch_name " shellescape(getline('.'),1)<CR>
+  augroup END
+]])
 
 return M
