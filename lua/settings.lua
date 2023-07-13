@@ -20,6 +20,7 @@ vim.cmd([[
   augroup END
 ]])
 vim.g.mapleader = " "
+vim.g.pyton3_host_prog = "/usr/bin/python3"
 
 vim.opt.number = true
 vim.opt.relativenumber = true
