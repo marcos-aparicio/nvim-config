@@ -20,5 +20,14 @@ comment.setup({
 			location = location,
 		})
 	end,
+	opleader = {
+		---Line-comment keymap
+		line = "gc",
+		---Block-comment keymap
+		block = "gs",
+	},
+	toggler = {
+		line = "gcc",
+		block = "gsc",
+	},
 })
-M.unmap("n", "gbc")
