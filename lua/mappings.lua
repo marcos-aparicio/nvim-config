@@ -114,7 +114,7 @@ imap("kj", "<Esc>")
 imap("<C-e>", "<C-o>$")
 imap("<C-a>", "<C-o>^")
 imap("<C-d>", "<C-o>o")
-imap("<C-v>", '<C-r>"')
+imap("<C-v>", "<C-r>+")
 
 -- better replacing and handle of commands
 nmap("<leader>.", "@:<CR>")
