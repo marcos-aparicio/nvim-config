@@ -5,6 +5,7 @@ end
 local s = ls.snippet
 local t = ls.text_node
 local i = ls.insert_node
+local f = ls.function_node
 
 ls.add_snippets("vimwiki", {
 	s("todo", { t("- [ ] ") }),
@@ -14,4 +15,13 @@ ls.add_snippets("sql", {
 	s("all", { t("SELECT * FROM ") }),
 	s("tables", { t("SELECT * FROM show_tables();") }),
 	s("cols", { t("SELECT * FROM show_columns('"), i(1), t("');") }),
+})
+
+local function setState(args, parent, user_args)
+	local state = args[1][1]
+	return string.upper(string.sub(state, 1, 1)) .. string.sub(state, 2)
+end
+
+ls.add_snippets("javascript", {
+	s("state", { t("const ["), i(1), t(", set"), f(setState, { 1 }), t("] = useState("), i(2), t(");") }),
 })
