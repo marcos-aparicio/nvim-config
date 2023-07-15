@@ -11,7 +11,7 @@ local servers = {
 	"csharp_ls",
 	"html",
 	"tsserver",
-	"emmet_ls",
+	"emmet_language_server",
 	"pyright",
 }
 
