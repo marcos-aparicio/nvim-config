@@ -25,3 +25,10 @@ end
 ls.add_snippets("javascript", {
 	s("state", { t("const ["), i(1), t(", set"), f(setState, { 1 }), t("] = useState("), i(2), t(");") }),
 })
+
+-- Material UI tags
+ls.add_snippets("javascript", {
+	s("box", { t("<Box>"), i(1), t("</Box>") }),
+	s("grid", { t("<Grid>"), i(1), t("</Grid>") }),
+	s("typo", { t("<Typography>"), i(1), t("</Typography>") }),
+})
