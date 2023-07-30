@@ -1,30 +1,30 @@
 -- mapping functions based on: https://github.com/arnvald/viml-to-lua/blob/main/lua/mappings.lua (checkout his repo is very informative)
 function nmap(shortcut, command)
-  map("n", shortcut, command)
+	map("n", shortcut, command)
 end
 
 function imap(shortcut, command)
-  map("i", shortcut, command)
+	map("i", shortcut, command)
 end
 
 function vmap(shortcut, command)
-  map("v", shortcut, command)
+	map("v", shortcut, command)
 end
 
 function cmap(shortcut, command)
-  map("c", shortcut, command)
+	map("c", shortcut, command)
 end
 
 function tmap(shortcut, command)
-  map("t", shortcut, command)
+	map("t", shortcut, command)
 end
 
 function unmap(mode, shortcut)
-  vim.api.nvim_del_keymap(mode, shortcut)
+	vim.api.nvim_del_keymap(mode, shortcut)
 end
 
 function map(mode, shortcut, command)
-  vim.api.nvim_set_keymap(mode, shortcut, command, { noremap = true, silent = true })
+	vim.api.nvim_set_keymap(mode, shortcut, command, { noremap = true, silent = true })
 end
 
 local M = {}
@@ -36,20 +36,20 @@ M.tmap = tmap
 M.unmap = unmap
 
 function ExitBuffer()
-  if vim.bo.filetype == "TelescopePrompt" then
-    vim.cmd("quit!")
-    return
-  end
-  local win_amount = #vim.api.nvim_tabpage_list_wins(0)
+	if vim.bo.filetype == "TelescopePrompt" then
+		vim.cmd("quit!")
+		return
+	end
+	local win_amount = #vim.api.nvim_tabpage_list_wins(0)
 
-  local ok, tree = pcall(require, "nvim-tree.view")
-  local tree_opened = ok and tree.is_visible() or false
+	local ok, tree = pcall(require, "nvim-tree.view")
+	local tree_opened = ok and tree.is_visible() or false
 
-  if win_amount <= 1 or win_amount == 2 and tree_opened then
-    vim.cmd("Bdelete")
-    return
-  end
-  vim.cmd("quit")
+	if win_amount <= 1 or win_amount == 2 and tree_opened then
+		vim.cmd("Bdelete")
+		return
+	end
+	vim.cmd("quit")
 end
 
 -- markdown keybinding(s)
@@ -142,6 +142,7 @@ nmap("<C-S-l>", ":vertical resize +2<CR>")
 
 -- fugitive keybindings
 nmap("<leader>ga", ":G add<space>")
+
 nmap("<leader>gw", ":Gwrite<CR>")
 nmap("<leader>gc", ":G commit<CR>")
 nmap("<leader>gu", ":G reset %<CR>")
