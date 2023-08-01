@@ -152,6 +152,11 @@ nmap("<leader>gpl", ":G pull origin<space>")
 nmap("<leader>gnb", ':G checkout -b ""<left>')
 nmap("<leader>gr", ":G rebase -i HEAD~")
 
+-- vim bookmark mappings
+nmap("mm", "zz:BookmarkToggle<CR>")
+nmap("mn", ":BookmarkNext<CR>zz")
+nmap("mp", ":BookmarkPrev<CR>zz")
+
 -- bufferline navigation
 nmap("<S-l>", ":bnext<CR>")
 nmap("<S-h>", ":bprevious<CR>")
