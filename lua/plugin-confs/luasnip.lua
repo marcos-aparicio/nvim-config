@@ -31,7 +31,9 @@ end
 
 ls.add_snippets("javascript", {
 	s("state", { t("const ["), i(1), t(", set"), f(setState, { 1 }), t("] = useState("), i(2), t(");") }),
-	s("log", { t("console.log(`"), i(1), t("`);") }),
+	s("log", { t("console.log("), i(1), t(");") }),
+	s("logs", { t("console.log(`"), i(1), t("`);") }),
+	s("logv", { t('console.log("'), i(1), t(' ",'), i(2), t(");") }),
 	s("$$", { t("${"), i(1), t("}") }),
 })
 
