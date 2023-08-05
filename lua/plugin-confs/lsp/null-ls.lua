@@ -4,12 +4,17 @@ if not ok then
 end
 local formatting = null_ls.builtins.formatting
 local diagnostics = null_ls.builtins.diagnostics
-null_ls.setup({
+local source_ok, sources = pcall(require, "plugin-confs.lsp.specific-formatting")
+if not source_ok then
 	sources = {
 		formatting.stylua,
 		formatting.prettierd,
 		formatting.black,
-	},
+	}
+end
+
+null_ls.setup({
+	sources = sources,
 	on_attach = function(client, bufnr)
 		if client.supports_method("textDocument/formatting") then
 			vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
