@@ -35,13 +35,21 @@ telescope.setup({
 				preview_width = 0.3,
 			},
 		},
+		find_files = {
+			file_ignore_patterns = { "node_modules" },
+		},
 	},
 })
 
 M.nmap("<leader>f", ":Telescope find_files<CR>")
 M.nmap("<leader>tt", ":Telescope live_grep<CR>")
 M.nmap("<leader>p", ":Telescope workspaces<CR>")
-M.nmap("<leader>rf", ":Telescope git_files<CR>")
+
+M.nmap(
+	"<leader>rf",
+	[[:lua require('telescope.builtin').find_files({no_ignore=true,find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" }})<CR>]]
+)
+
 M.nmap("ma", ":Telescope vim_bookmarks current_file<CR>")
 -- I think these are dependant in vim fugitive
 M.nmap("<leader>gs", ":Telescope git_status<CR>")
