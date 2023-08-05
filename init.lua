@@ -1,4 +1,5 @@
 require("settings")
+require("commands")
 require("plugins")
 require("plugin-confs")
 require("style_settings")
