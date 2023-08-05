@@ -46,3 +46,4 @@ M.nmap("ma", ":Telescope vim_bookmarks current_file<CR>")
 -- I think these are dependant in vim fugitive
 M.nmap("<leader>gs", ":Telescope git_status<CR>")
 M.nmap("<leader>gb", ":Telescope git_branches<CR>")
+M.nmap("<leader>/", ":Telescope current_buffer_fuzzy_find<CR>")
