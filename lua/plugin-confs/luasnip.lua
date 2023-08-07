@@ -43,3 +43,29 @@ ls.add_snippets("javascript", {
 	s("grid", { t("<Grid>"), i(1), t("</Grid>") }),
 	s("typo", { t("<Typography>"), i(1), t("</Typography>") }),
 })
+
+local function get_current_date()
+	local currentTime = os.date("*t") -- Get the current date and time as a table
+	local currentMonth = currentTime.month -- Get the current month
+	local currentYear = currentTime.year -- Get the current year
+	local paddedMonth = string.format("%02d", currentMonth) -- Add padding to the month
+
+	return currentYear .. "-" .. paddedMonth
+end
+
+-- Hledger tags
+ls.add_snippets("ledger", {
+	s("simple", {
+
+		t({ get_current_date() .. "-" }),
+		i(1, "insert date"),
+		t({ " " }),
+		i(2, "description"),
+		t({ "", "  " }),
+		i(3, "first_account"),
+		t({ "  " }),
+		i(4, "ammount"),
+		t({ "", "  " }),
+		i(5, "second_account"),
+	}),
+})
