@@ -29,12 +29,18 @@ local function setState(args, parent, user_args)
 	return string.upper(string.sub(state, 1, 1)) .. string.sub(state, 2)
 end
 
+local function repeatStr(args, _, _)
+	return args[1]
+end
+
 ls.add_snippets("javascript", {
 	s("state", { t("const ["), i(1), t(", set"), f(setState, { 1 }), t("] = useState("), i(2), t(");") }),
 	s("log", { t("console.log("), i(1), t(");") }),
 	s("logs", { t("console.log(`"), i(1), t("`);") }),
 	s("logv", { t('console.log("'), i(1), t(' ",'), i(2), t(");") }),
 	s("$$", { t("${"), i(1), t("}") }),
+	-- repeated prop and value
+	s("rpr", { i(1), t("={"), f(repeatStr, { 1 }), t("}") }),
 })
 
 -- Material UI tags
