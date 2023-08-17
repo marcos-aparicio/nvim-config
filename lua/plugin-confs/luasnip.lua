@@ -86,3 +86,8 @@ ls.add_snippets("octo", {
 	s("h2", { t("## ") }),
 	s("h1", { t("# ") }),
 })
+
+ls.add_snippets("python", {
+	s("ptype", { t("print(type("), i(1, "variable"), t("))") }),
+	s("plist", { t("print(', '.join(str(item) for item in "), i(1, "my_list"), t("))") }),
+})
