@@ -162,6 +162,10 @@ nmap("mp", ":BookmarkPrev<CR>zz")
 nmap("<S-l>", ":bnext<CR>")
 nmap("<S-h>", ":bprevious<CR>")
 
+-- chatgpt nvim mappings
+nmap("<leader>aiq", ":ChatGPT<CR>")
+nmap("<leader>air", ":ChatGPT run<space>")
+
 -- vira mappings
 nmap("<leader>jl", ":ViraLoadProject<space>")
 nmap("<leader>jr", ":ViraReport<CR>")
