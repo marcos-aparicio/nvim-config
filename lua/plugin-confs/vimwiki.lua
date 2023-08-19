@@ -46,7 +46,7 @@ function set_vimwiki_mappings()
 	local buffer = vim.api.nvim_get_current_buf()
 	local buffer_path = vim.api.nvim_buf_get_name(buffer)
 
-	for _, wiki in ipairs(wikis) do
+	for idx, wiki in ipairs(wikis) do
 		if buffer_path:match(wiki.path) then
 			vim.api.nvim_buf_set_keymap(
 				buffer,
@@ -61,7 +61,7 @@ function set_vimwiki_mappings()
 				buffer,
 				"n",
 				"<Leader>l",
-				":Telescope vimwiki live_grep<CR>",
+				":Telescope vimwiki live_grep i=" .. idx - 1 .. " <CR>",
 				{ noremap = true }
 			)
 			vim.api.nvim_buf_set_keymap(
