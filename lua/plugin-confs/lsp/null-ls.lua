@@ -10,6 +10,7 @@ if not source_ok then
 		formatting.stylua,
 		formatting.prettierd,
 		formatting.black,
+		formatting.sql_formatter,
 	}
 end
 
