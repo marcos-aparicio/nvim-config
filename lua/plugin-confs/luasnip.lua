@@ -17,6 +17,16 @@ ls.add_snippets("vimwiki", {
 	s("h3", { t("### ") }),
 	s("h2", { t("## ") }),
 	s("h1", { t("# ") }),
+	s("bugreport", {
+		t({ "### What is the issue description?", "" }),
+		i(1),
+		t({ "", "", "### What steps triggered the issue?", "" }),
+		i(2),
+		t({ "", "", "### What is the expected behaviour?", "" }),
+		i(3),
+		t({ "", "", "### What is the actual behaviour?", "" }),
+		i(4),
+	}),
 })
 ls.add_snippets("sql", {
 	s("all", { t("SELECT * FROM ") }),
@@ -85,6 +95,16 @@ ls.add_snippets("octo", {
 	s("h3", { t("### ") }),
 	s("h2", { t("## ") }),
 	s("h1", { t("# ") }),
+	s("bugreport", {
+		t({ "### What is the issue description?", "" }),
+		i(1),
+		t({ "", "", "### What steps triggered the issue?", "" }),
+		i(2),
+		t({ "", "", "### What is the expected behaviour?", "" }),
+		i(3),
+		t({ "", "", "### What is the actual behaviour?", "" }),
+		i(4),
+	}),
 })
 
 ls.add_snippets("python", {
