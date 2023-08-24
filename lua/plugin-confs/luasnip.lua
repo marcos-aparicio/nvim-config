@@ -51,6 +51,23 @@ ls.add_snippets("javascript", {
 	s("$$", { t("${"), i(1), t("}") }),
 	-- repeated prop and value
 	s("rpr", { i(1), t("={"), f(repeatStr, { 1 }), t("}") }),
+	s("reactdoc", {
+		t({ "/**", " * " }),
+		i(1, "Title"),
+		t({ "", " * " }),
+		i(2, "Description"),
+		t({ "", " *", " * @returns {React.Component} " }),
+		i(3, "Returns"),
+		t({ "", " */" }),
+	}),
+	s("dpar", {
+		t("@param {"),
+		i(1, "Type"),
+		t("} "),
+		i(2, "Parameter name"),
+		t(" - "),
+		i(3, "Parameter description"),
+	}),
 })
 
 -- Material UI tags
