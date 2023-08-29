@@ -8,9 +8,9 @@ if not ok2 then
 	return
 end
 
-M.nmap("<leader>ss", ":lua require('harpoon.ui').toggle_quick_menu()<CR>")
-M.nmap("<leader>sa", ":lua require('harpoon.mark').add_file()<CR>")
-M.nmap("<leader>su", ":lua require('harpoon.ui').nav_file(1)<CR>")
-M.nmap("<leader>si", ":lua require('harpoon.ui').nav_file(2)<CR>")
-M.nmap("<leader>so", ":lua require('harpoon.ui').nav_file(3)<CR>")
-M.nmap("<leader>sp", ":lua require('harpoon.ui').nav_file(4)<CR>")
+M.nmap("<leader>ds", ":lua require('harpoon.ui').toggle_quick_menu()<CR>")
+M.nmap("<leader>da", ":lua require('harpoon.mark').add_file()<CR>")
+M.nmap("<leader>du", ":lua require('harpoon.ui').nav_file(1)<CR>")
+M.nmap("<leader>di", ":lua require('harpoon.ui').nav_file(2)<CR>")
+M.nmap("<leader>do", ":lua require('harpoon.ui').nav_file(3)<CR>")
+M.nmap("<leader>dp", ":lua require('harpoon.ui').nav_file(4)<CR>")
