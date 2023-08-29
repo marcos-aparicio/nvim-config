@@ -1,8 +1,26 @@
 -- Function to copy the current buffer's path to the clipboard
 function copy_buffer_path()
-	local path = vim.fn.expand("%:p")
-	vim.fn.setreg("+", path)
-	vim.api.nvim_echo({ { "Buffer path copied to clipboard: " .. path, "Normal" } }, true, {})
+	-- Get the current buffer's file path
+	local buffer_path = vim.fn.expand("%:p")
+
+	-- Use the git command to find the root of the git repository
+	local git_root = vim.fn.system("git rev-parse --show-toplevel 2>/dev/null")
+
+	-- Check if the buffer is inside a Git repository
+	if vim.v.shell_error == 0 and git_root ~= "" then
+		-- Convert buffer path to a relative path from the Git root
+		local relative_path = string.sub(buffer_path, string.len(git_root) + 1)
+		vim.fn.setreg("+", relative_path)
+		vim.api.nvim_echo(
+			{ { "Buffer path relative to Git root copied to clipboard: " .. relative_path, "Normal" } },
+			true,
+			{}
+		)
+	else
+		-- If not in a Git repository, copy the full path
+		vim.fn.setreg("+", buffer_path)
+		vim.api.nvim_echo({ { "Buffer path copied to clipboard: " .. buffer_path, "Normal" } }, true, {})
+	end
 end
 
 -- Command to call the Lua function
