@@ -56,7 +56,7 @@ ls.add_snippets("javascript", {
 		i(1, "Title"),
 		t({ "", " * " }),
 		i(2, "Description"),
-		t({ "", " *", " * @returns {React.Component} " }),
+		t({ "", " *", " * @param {Object} props - Component props", " *", " * @returns {React.Component} " }),
 		i(3, "Returns"),
 		t({ "", " */" }),
 	}),
