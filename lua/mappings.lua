@@ -118,7 +118,7 @@ imap("<C-v>", "<C-r>+")
 
 -- better replacing and handle of commands
 nmap("<leader>.", "@:<CR>")
-nmap("<leader>sr", ":s//gI<Left><Left><Left>")
+nmap("<leader>s", ":s//gI<Left><Left><Left>")
 vmap("<leader>s", ":s//g<Left><Left>")
 
 -- Abolish plugin commands(is a vim plugin so it is not on its own file)
@@ -181,5 +181,8 @@ vim.cmd([[
     autocmd FileType vira_menu nnoremap <leader>jy :execute "!$HOME/.local/bin/branch_name " shellescape(getline('.'),1)<CR>
   augroup END
 ]])
+
+-- custom commands mappings
+nmap("<leader>cp", ":CopyBufferPath<CR>")
 
 return M
