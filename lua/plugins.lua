@@ -104,14 +104,14 @@ packer.startup(function(use)
 		"nvim-tree/nvim-tree.lua",
 		requires = { { "nvim-tree/nvim-web-devicons" } },
 	})
-	-- Taskwiki integration in neovim
-	use({
-		"tools-life/taskwiki",
-		config = function()
-			vim.g.taskwiki_taskrc_location = os.getenv("HOME") .. "/.config/task/taskrc"
-			vim.g.taskwiki_data_location = os.getenv("HOME") .. "/.local/share/task"
-		end,
-	})
+	-- -- Taskwiki integration in neovim
+	-- use({
+	-- 	"tools-life/taskwiki",
+	-- 	config = function()
+	-- 		vim.g.taskwiki_taskrc_location = os.getenv("HOME") .. "/.config/task/taskrc"
+	-- 		vim.g.taskwiki_data_location = os.getenv("HOME") .. "/.local/share/task"
+	-- 	end,
+	-- })
 	-- nvim-tresitter and extension plugins
 	use({
 		"nvim-treesitter/nvim-treesitter",
@@ -119,7 +119,7 @@ packer.startup(function(use)
 			require("nvim-treesitter.install").update({ with_sync = true })
 		end,
 	})
-	use({ "HiPhish/nvim-ts-rainbow2", after = "nvim-treesitter" })
+	use({ "HiPhish/nvim-ts-rainbow2", requires = "nvim-treesitter" })
 
 	-- Telescope and extensions
 	use({
