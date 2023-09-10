@@ -1,7 +1,13 @@
 -- Function to copy the current buffer's path to the clipboard
-function copy_buffer_path()
+function copy_buffer_path(full_path)
 	-- Get the current buffer's file path
 	local buffer_path = vim.fn.expand("%:p")
+
+	if full_path then
+		vim.fn.setreg("+", buffer_path)
+		vim.api.nvim_echo({ { "Buffer path copied to clipboard: " .. buffer_path, "Normal" } }, true, {})
+		return
+	end
 
 	-- Use the git command to find the root of the git repository
 	local git_root = vim.fn.system("git rev-parse --show-toplevel 2>/dev/null")
@@ -24,7 +30,8 @@ function copy_buffer_path()
 end
 
 -- Command to call the Lua function
-vim.cmd([[command! CopyBufferPath :lua copy_buffer_path()]])
+vim.cmd([[command! CopyGitPath :lua copy_buffer_path()]])
+vim.cmd([[command! CopyFullPath :lua copy_buffer_path(true)]])
 
 -- Add a custom command to open Alacritty with the current buffer in read-only mode
 vim.cmd([[

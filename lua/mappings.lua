@@ -65,7 +65,7 @@ nmap("<C-\\>", ":w<CR>:so %<CR>")
 
 -- basic normal remappings
 nmap("<leader>q", ":lua ExitBuffer()<CR>")
-nmap("<leader>w", ":w<CR>")
+nmap("<leader>w", ":w<CR>:e<CR>")
 nmap("<leader>v", ":vs<CR>")
 nmap("<leader>h", ":sp<CR>")
 
@@ -183,6 +183,7 @@ vim.cmd([[
 ]])
 
 -- custom commands mappings
-nmap("<leader>cp", ":CopyBufferPath<CR>")
+nmap("<leader>cp", ":CopyGitPath<CR>")
+nmap("<leader>cP", ":CopyFullPath<CR>")
 
 return M
