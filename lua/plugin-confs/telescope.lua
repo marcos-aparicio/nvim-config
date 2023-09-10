@@ -6,6 +6,7 @@ if not status_ok then
 end
 local actions = require("telescope.actions")
 local action_layout = require("telescope.actions.layout")
+local action_state = require("telescope.actions.state")
 
 telescope.load_extension("workspaces")
 telescope.load_extension("vimwiki")
@@ -37,6 +38,17 @@ telescope.setup({
 		},
 		find_files = {
 			file_ignore_patterns = { "node_modules" },
+		},
+		git_branches = {
+			mappings = {
+				n = {
+					yy = function()
+						local entry = action_state.get_selected_entry()
+						vim.fn.setreg("+", entry.value)
+						print(entry.value .. " was copied to the clipboard")
+					end,
+				},
+			},
 		},
 	},
 })
