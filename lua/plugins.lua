@@ -119,7 +119,7 @@ packer.startup(function(use)
 			require("nvim-treesitter.install").update({ with_sync = true })
 		end,
 	})
-	use({ "HiPhish/nvim-ts-rainbow2", requires = "nvim-treesitter" })
+	use("HiPhish/rainbow-delimiters.nvim")
 
 	-- Telescope and extensions
 	use({
