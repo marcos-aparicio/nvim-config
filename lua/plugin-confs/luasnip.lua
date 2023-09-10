@@ -17,6 +17,7 @@ ls.add_snippets("vimwiki", {
 	s("h3", { t("### ") }),
 	s("h2", { t("## ") }),
 	s("h1", { t("# ") }),
+	s("link", { t("["), i(1, "Titulo a mostrar"), t("]("), i(2, "Link pe"), t(")") }),
 	s("bugreport", {
 		t({ "### What is the issue description?", "" }),
 		i(1),
