@@ -47,6 +47,26 @@ telescope.setup({
 						vim.fn.setreg("+", entry.value)
 						print(entry.value .. " was copied to the clipboard")
 					end,
+					ff = function(prompt_bufnr)
+						local entry = action_state.get_selected_entry()
+						local selected_branch = entry.value
+						local remote_repos = vim.fn.systemlist("git remote show")
+						local processed_branch = selected_branch
+						for _, remote_repo in pairs(remote_repos) do
+							if string.find(selected_branch, "^" .. remote_repo .. "/") then
+								processed_branch = string.gsub(selected_branch, "^" .. remote_repo .. "/", "")
+								break
+							end
+						end
+
+						if processed_branch == selected_branch then
+							print("This branch is not remote!")
+							return
+						end
+
+						actions.close(prompt_bufnr)
+						vim.fn.system("git checkout " .. processed_branch)
+					end,
 				},
 			},
 		},
