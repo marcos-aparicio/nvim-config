@@ -1,30 +1,54 @@
 -- mapping functions based on: https://github.com/arnvald/viml-to-lua/blob/main/lua/mappings.lua (checkout his repo is very informative)
-function nmap(shortcut, command)
-	map("n", shortcut, command)
+table.unpack = table.unpack or unpack -- 5.1 compatibility
+function nmap(shortcut, command, opts)
+  if opts == nil then
+    opts = {}
+  end
+  map("n", shortcut, command, opts)
 end
 
-function imap(shortcut, command)
-	map("i", shortcut, command)
+function imap(shortcut, command, opts)
+  if opts == nil then
+    opts = {}
+  end
+  map("i", shortcut, command, opts)
 end
 
-function vmap(shortcut, command)
-	map("v", shortcut, command)
+function vmap(shortcut, command, opts)
+  if opts == nil then
+    opts = {}
+  end
+  map("v", shortcut, command, opts)
 end
 
-function cmap(shortcut, command)
-	map("c", shortcut, command)
+function cmap(shortcut, command, opts)
+  if opts == nil then
+    opts = {}
+  end
+  map("c", shortcut, command, opts)
 end
 
-function tmap(shortcut, command)
-	map("t", shortcut, command)
+function tmap(shortcut, command, opts)
+  if opts == nil then
+    opts = {}
+  end
+  map("t", shortcut, command, opts)
 end
 
 function unmap(mode, shortcut)
-	vim.api.nvim_del_keymap(mode, shortcut)
+  vim.api.nvim_del_keymap(mode, shortcut)
 end
 
-function map(mode, shortcut, command)
-	vim.api.nvim_set_keymap(mode, shortcut, command, { noremap = true, silent = true })
+function map(mode, shortcut, command, opts)
+  -- vim.api.nvim_set_keymap(mode, shortcut, command, { noremap = true, silent = true })
+  local count = 0
+  for _ in pairs(opts) do
+    count = count + 1
+  end
+
+  local list = { noremap = true, silent = true }
+  list = vim.tbl_extend("force", list, opts)
+  vim.keymap.set(mode, shortcut, command, list)
 end
 
 local M = {}
@@ -36,20 +60,20 @@ M.tmap = tmap
 M.unmap = unmap
 
 function ExitBuffer()
-	if vim.bo.filetype == "TelescopePrompt" then
-		vim.cmd("quit!")
-		return
-	end
-	local win_amount = #vim.api.nvim_tabpage_list_wins(0)
+  if vim.bo.filetype == "TelescopePrompt" then
+    vim.cmd("quit!")
+    return
+  end
+  local win_amount = #vim.api.nvim_tabpage_list_wins(0)
 
-	local ok, tree = pcall(require, "nvim-tree.view")
-	local tree_opened = ok and tree.is_visible() or false
+  local ok, tree = pcall(require, "nvim-tree.view")
+  local tree_opened = ok and tree.is_visible() or false
 
-	if win_amount <= 1 or win_amount == 2 and tree_opened then
-		vim.cmd("Bdelete")
-		return
-	end
-	vim.cmd("quit")
+  if win_amount <= 1 or win_amount == 2 and tree_opened then
+    vim.cmd("Bdelete")
+    return
+  end
+  vim.cmd("quit")
 end
 
 -- markdown keybinding(s)
@@ -163,18 +187,14 @@ nmap("mp", ":BookmarkPrev<CR>zz")
 nmap("<S-l>", ":bnext<CR>")
 nmap("<S-h>", ":bprevious<CR>")
 
--- chatgpt nvim mappings
-nmap("<leader>aiq", ":ChatGPT<CR>")
-nmap("<leader>air", ":ChatGPT run<space>")
-
 -- vira mappings
-nmap("<leader>jl", ":ViraLoadProject<space>")
-nmap("<leader>jr", ":ViraReport<CR>")
-nmap("<leader>jfa", ":ViraFilterAssignees<CR>")
-nmap("<leader>jfr", ":ViraFilterReset<CR>")
-nmap("<leader>ji", ":ViraIssue<CR>")
-nmap("<leader>js", ":ViraIssues<CR>")
-nmap("<leader>jf", ":ViraFilterEdit<CR>")
+-- nmap("<leader>jl", ":ViraLoadProject<space>")
+-- nmap("<leader>jr", ":ViraReport<CR>")
+-- nmap("<leader>jfa", ":ViraFilterAssignees<CR>")
+-- nmap("<leader>jfr", ":ViraFilterReset<CR>")
+-- nmap("<leader>ji", ":ViraIssue<CR>")
+-- nmap("<leader>js", ":ViraIssues<CR>")
+-- nmap("<leader>jf", ":ViraFilterEdit<CR>")
 vim.cmd([[
   augroup vira_buffer_mappings
     autocmd!
@@ -186,4 +206,5 @@ vim.cmd([[
 nmap("<leader>cp", ":CopyGitPath<CR>")
 nmap("<leader>cP", ":CopyFullPath<CR>")
 
+vim.keymap.set({ "n", "x", "o" }, "ms", "<Plug>(leap-backward-to)")
 return M
