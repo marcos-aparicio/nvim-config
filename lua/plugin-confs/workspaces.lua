@@ -22,11 +22,12 @@ workspaces.setup({
 	hooks = {
 		open = {
 			fileToOpenPerProject,
-			"NvimTreeRefresh",
-			"NvimTreeOpen",
-			function()
-				vim.api.nvim_command("wincmd p")
-			end,
+			"Telescope find_files",
+			-- "NvimTreeRefresh",
+			-- "NvimTreeOpen",
+			-- function()
+			-- 	vim.api.nvim_command("wincmd p")
+			-- end,
 		},
 	},
 })
