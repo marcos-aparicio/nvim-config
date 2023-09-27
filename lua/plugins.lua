@@ -112,8 +112,6 @@ packer.startup(function(use)
     },
   })
 
-  -- using jira inside vim
-  use("n0v1c3/vira")
   -- using LeetCode inside Nvim(Awesome!)
   use("ianding1/leetcode.vim")
 

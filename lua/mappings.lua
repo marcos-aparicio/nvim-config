@@ -188,13 +188,6 @@ nmap("<S-l>", ":bnext<CR>")
 nmap("<S-h>", ":bprevious<CR>")
 
 -- vira mappings
--- nmap("<leader>jl", ":ViraLoadProject<space>")
--- nmap("<leader>jr", ":ViraReport<CR>")
--- nmap("<leader>jfa", ":ViraFilterAssignees<CR>")
--- nmap("<leader>jfr", ":ViraFilterReset<CR>")
--- nmap("<leader>ji", ":ViraIssue<CR>")
--- nmap("<leader>js", ":ViraIssues<CR>")
--- nmap("<leader>jf", ":ViraFilterEdit<CR>")
 vim.cmd([[
   augroup vira_buffer_mappings
     autocmd!
