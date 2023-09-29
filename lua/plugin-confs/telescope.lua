@@ -66,6 +66,7 @@ telescope.setup({
 
 						actions.close(prompt_bufnr)
 						vim.fn.system("git checkout " .. processed_branch)
+						print("git checkout to " .. processed_branch)
 					end,
 				},
 			},
