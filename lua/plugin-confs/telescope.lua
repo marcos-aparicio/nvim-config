@@ -24,7 +24,7 @@ telescope.setup({
 			},
 			n = {
 				["q"] = actions.close,
-				["p"] = action_layout.toggle_preview,
+				["<C-p>"] = action_layout.toggle_preview,
 			},
 		},
 	},
