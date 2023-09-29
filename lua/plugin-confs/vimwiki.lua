@@ -21,10 +21,19 @@ vim.cmd([[
     autocmd FileType vimwiki lua set_vimwiki_mappings()
     autocmd FileType vimwiki iunmap <buffer> <C-d>
   augroup END
-  augroup taskwiki_mappings
+  augroup vimwiki_disable_mappings
     autocmd!
-    autocmd FileType vimwiki nnoremap <leader>tv :TaskWikiInspect<CR>
-    autocmd FileType vimwiki nnoremap <leader>td :TaskWikiDelete<CR>
+    autocmd FileType vimwiki nunmap <buffer> gl1
+    autocmd FileType vimwiki nunmap <buffer> gl+
+    autocmd FileType vimwiki nunmap <buffer> gl-
+    autocmd FileType vimwiki nunmap <buffer> gl
+    autocmd FileType vimwiki nunmap <buffer> glr
+    autocmd FileType vimwiki nunmap <buffer> gll
+    autocmd FileType vimwiki nunmap <buffer> glh
+    autocmd FileType vimwiki nunmap <buffer> glp
+    autocmd FileType vimwiki nunmap <buffer> glx
+    autocmd FileType vimwiki nunmap <buffer> gl*
+    autocmd FileType vimwiki nunmap <buffer> gln
   augroup END
 ]])
 
