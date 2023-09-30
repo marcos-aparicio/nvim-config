@@ -178,6 +178,9 @@ nmap("<leader>gr", ":G rebase -i HEAD~")
 nmap("<leader>gk", ":G checkout -- %")
 nmap("<leader>gd", ":Gvdiff HEAD~")
 
+-- mappings when gitdiff for custom insertions/deletions within a single file
+vmap("<leader>gw", ":diffput<CR>")
+
 -- vim bookmark mappings
 nmap("mm", "zz:BookmarkToggle<CR>")
 nmap("mn", ":BookmarkNext<CR>zz")
