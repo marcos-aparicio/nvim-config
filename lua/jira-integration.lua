@@ -66,7 +66,7 @@ local function extractDataFromTicketString(ticket)
 end
 
 local function tableFormatting(width, original_str)
-	local output = original_str
+	local output = original_str or ""
 	if #original_str > width then
 		output = string.sub(original_str, 1, width - 3)
 		output = output .. "..."
@@ -99,9 +99,10 @@ function JiraPicker(option, argString)
 	local output = vim.fn.systemlist(
 		"source $HOME/.config/zsh/zshrc;$HOME/go/bin/jira "
 			.. initial_filter
-			.. " --plain --no-headers --columns TYPE,KEY,SUMMARY,STATUS,ASSIGNEE"
+			.. " --plain --no-headers --columns TYPE,KEY,SUMMARY,STATUS,ASSIGNEE "
 			.. argString
 	)
+
 	for _, ticket in ipairs(output) do
 		local proccesed_ticket = extractDataFromTicketString(ticket)
 		table.insert(tickets, proccesed_ticket)
