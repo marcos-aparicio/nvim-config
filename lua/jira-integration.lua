@@ -44,7 +44,15 @@ local function extractDataFromTicketString(ticket)
 	local ticket_type = ticket_parts[1]
 	local ticket_id = ticket_parts[2]
 	local ticket_title = ticket_parts[3]
-	local ticket_status = ticket_parts[4]
+
+	local ticket_status_values = {
+		["In Progress"] = "🔧",
+		["Review"] = "🔍",
+		["Done"] = "✅",
+		["To Do"] = "📝",
+	}
+	local ticket_status = ticket_status_values[ticket_parts[4]] or ticket_parts[4]
+
 	local ticket_assignee = ticket_parts[5]
 	local output = {
 		ticket = ticket,
