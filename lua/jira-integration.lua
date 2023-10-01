@@ -92,6 +92,9 @@ function JiraPicker(option, argString)
 	if option == "backlog" then
 		initial_filter = "issue list -q \"Sprint is EMPTY AND status != 'Done'\""
 	end
+	if string.match(argString, "^me") then
+		argString = string.gsub(argString, "^me", ' -a "$(jira me)" ')
+	end
 
 	local output = vim.fn.systemlist(
 		"source $HOME/.config/zsh/zshrc;$HOME/go/bin/jira "
