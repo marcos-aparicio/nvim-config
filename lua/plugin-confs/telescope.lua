@@ -68,6 +68,15 @@ telescope.setup({
 						vim.fn.system("git checkout " .. processed_branch)
 						print("git checkout to " .. processed_branch)
 					end,
+					rr = function(prompt_bufnr)
+						local entry = action_state.get_selected_entry()
+						local selected_branch = entry.value
+						-- checkout out to a random branch
+						actions.close(prompt_bufnr)
+						vim.fn.system("git checkout $(git branch -- list | shuf -n 1 | sed '/^\\* //')")
+						vim.api.nvim_feedkeys(":G branch -m " .. selected_branch .. " ", "n", true)
+						print("Branch: " .. selected_branch .. " was renamed")
+					end,
 				},
 			},
 		},
