@@ -29,6 +29,7 @@ local function createBranchNameByTicket(ticket)
 	end
 	local proccesed_title = string.gsub(ticket_title, " ", "-")
 	proccesed_title = string.gsub(proccesed_title, "-+", "-")
+	proccesed_title = string.gsub(proccesed_title, ":", "")
 
 	local branch_convention = ticket_type .. "/" .. ticket_id .. "-" .. proccesed_title
 
