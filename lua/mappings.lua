@@ -201,6 +201,9 @@ vim.cmd([[
 -- custom commands mappings
 nmap("<leader>cp", ":CopyGitPath<CR>")
 nmap("<leader>cP", ":CopyFullPath<CR>")
-
+nmap("<C-a>", function()
+	vim.cmd(":%y+")
+	print("Buffer copied to clipboard")
+end)
 vim.keymap.set({ "n", "x", "o" }, "ms", "<Plug>(leap-backward-to)")
 return M
