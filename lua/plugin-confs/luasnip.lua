@@ -97,7 +97,8 @@ local function get_current_date(includeDay)
 	if not includeDay then
 		return currentYear .. "-" .. paddedMonth
 	end
-	return currentYear .. "-" .. paddedMonth .. "-" .. currentTime.day
+	local paddedDay = string.format("%02d", currentTime.day)
+	return currentYear .. "-" .. paddedMonth .. "-" .. paddedDay
 end
 
 -- Hledger tags
