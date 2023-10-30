@@ -19,21 +19,21 @@ vim.cmd([[
   augroup vimwiki_mappings
     autocmd!
     autocmd FileType vimwiki lua set_vimwiki_mappings()
-    autocmd FileType vimwiki iunmap <buffer> <C-d>
+    autocmd FileType vimwiki silent! iunmap <buffer> <C-d>
   augroup END
   augroup vimwiki_disable_mappings
     autocmd!
-    autocmd FileType vimwiki nunmap <buffer> gl1
-    autocmd FileType vimwiki nunmap <buffer> gl+
-    autocmd FileType vimwiki nunmap <buffer> gl-
-    autocmd FileType vimwiki nunmap <buffer> gl
-    autocmd FileType vimwiki nunmap <buffer> glr
-    autocmd FileType vimwiki nunmap <buffer> gll
-    autocmd FileType vimwiki nunmap <buffer> glh
-    autocmd FileType vimwiki nunmap <buffer> glp
-    autocmd FileType vimwiki nunmap <buffer> glx
-    autocmd FileType vimwiki nunmap <buffer> gl*
-    autocmd FileType vimwiki nunmap <buffer> gln
+    autocmd FileType vimwiki silent! nunmap <buffer> gl1
+    autocmd FileType vimwiki silent! nunmap <buffer> gl+
+    autocmd FileType vimwiki silent! nunmap <buffer> gl-
+    autocmd FileType vimwiki silent! nunmap <buffer> gl
+    autocmd FileType vimwiki silent! nunmap <buffer> glr
+    autocmd FileType vimwiki silent! nunmap <buffer> gll
+    autocmd FileType vimwiki silent! nunmap <buffer> glh
+    autocmd FileType vimwiki silent! nunmap <buffer> glp
+    autocmd FileType vimwiki silent! nunmap <buffer> glx
+    autocmd FileType vimwiki silent! nunmap <buffer> gl*
+    autocmd FileType vimwiki silent! nunmap <buffer> gln
   augroup END
 ]])
 
@@ -142,4 +142,4 @@ function iterateVimWikis()
 	picker:find()
 end
 
-M.nmap("<leader>rr", ":lua iterateVimWikis()<CR>")
+-- M.nmap("<leader>rr", ":lua iterateVimWikis()<CR>")
