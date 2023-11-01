@@ -93,6 +93,12 @@ packer.startup(function(use)
 	use("jose-elias-alvarez/null-ls.nvim")
 	use("MunifTanjim/prettier.nvim")
 
+	-- Debugging
+	use("mfussenegger/nvim-dap")
+	use("mfussenegger/nvim-dap-python")
+	use({ "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } })
+	use("theHamsta/nvim-dap-virtual-text")
+
 	-- Markdown Live Preview
 	use({
 		"iamcco/markdown-preview.nvim",
