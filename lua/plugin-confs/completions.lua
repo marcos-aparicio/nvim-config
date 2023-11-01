@@ -18,6 +18,13 @@ end
 
 require("luasnip.loaders.from_vscode").lazy_load()
 
+local default_sources = {
+	{ name = "luasnip" },
+	{ name = "nvim_lsp" },
+	{ name = "buffer" },
+	{ name = "path" },
+}
+
 cmp.setup({
 	mapping = {
 		-- basic completion mappings
@@ -61,12 +68,7 @@ cmp.setup({
 		end,
 	},
 
-	sources = cmp.config.sources({
-		{ name = "luasnip" },
-		{ name = "nvim_lsp" },
-		{ name = "buffer" },
-		{ name = "path" },
-	}),
+	sources = cmp.config.sources(default_sources),
 
 	formatting = {
 		fields = { "kind", "abbr", "menu" }, --the order of the items
@@ -82,3 +84,14 @@ cmp.setup({
 		end,
 	},
 })
+
+for _, language in ipairs({ "sql", "mysql", "plsql" }) do
+	cmp.setup.filetype(language, {
+		sources = cmp.config.sources({
+			table.unpack(default_sources),
+			{
+				name = "vim-dadbod-completion",
+			},
+		}),
+	})
+end

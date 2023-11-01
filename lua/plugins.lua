@@ -111,6 +111,7 @@ packer.startup(function(use)
 			"tpope/vim-dotenv",
 		},
 	})
+	use("kristijanhusak/vim-dadbod-completion")
 
 	-- using LeetCode inside Nvim(Awesome!)
 	use("ianding1/leetcode.vim")
