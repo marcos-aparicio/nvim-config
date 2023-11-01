@@ -8,6 +8,7 @@ local actions = require("telescope.actions")
 local action_layout = require("telescope.actions.layout")
 local action_state = require("telescope.actions.state")
 
+telescope.load_extension("live_grep_args")
 telescope.load_extension("workspaces")
 telescope.load_extension("vimwiki")
 telescope.load_extension("vim_bookmarks")
@@ -84,7 +85,7 @@ telescope.setup({
 })
 
 M.nmap("<leader>f", ":Telescope find_files<CR>")
-M.nmap("<leader>tt", ":Telescope live_grep<CR>")
+M.nmap("<leader>tt", ':lua require("telescope").extensions.live_grep_args.live_grep_args()<CR>')
 M.nmap("<leader>p", ":Telescope workspaces<CR>")
 
 M.nmap(
