@@ -30,12 +30,12 @@ function copy_buffer_path(full_path)
 end
 
 -- Command to call the Lua function
-vim.cmd([[command! CopyGitPath :lua copy_buffer_path()]])
-vim.cmd([[command! CopyFullPath :lua copy_buffer_path(true)]])
-
--- Add a custom command to open Alacritty with the current buffer in read-only mode
 vim.cmd([[
-  command! -nargs=0 OpenAlacrittyReadonly :lua OpenAlacrittyReadonly()
+command! CopyGitPath :lua copy_buffer_path()
+command! CopyFullPath :lua copy_buffer_path(true)
+command! StringProcessing :lua string_processing_buffer_testing()
+" Add a custom command to open Alacritty with the current buffer in read-only mode
+command! -nargs=0 OpenAlacrittyReadonly :lua OpenAlacrittyReadonly()
 ]])
 
 -- Function to open Alacritty with the current buffer in read-only mode
