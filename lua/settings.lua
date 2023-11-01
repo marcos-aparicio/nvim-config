@@ -18,6 +18,10 @@ vim.cmd([[
     au!
     autocmd ColorScheme * highlight SignColumn guibg=NONE
   augroup END
+
+  augroup HurlExtension
+    autocmd BufNewFile,BufRead *.hurl setfiletype hurl
+  augroup END
 ]])
 vim.g.mapleader = " "
 vim.g.pyton3_host_prog = "/usr/bin/python3"
