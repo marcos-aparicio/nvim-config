@@ -64,6 +64,11 @@ function ExitBuffer()
 		vim.cmd("quit!")
 		return
 	end
+	if vim.bo.buftype == "terminal" then
+		vim.cmd("bd!")
+		return
+	end
+
 	local win_amount = #vim.api.nvim_tabpage_list_wins(0)
 
 	local ok, tree = pcall(require, "nvim-tree.view")
@@ -153,10 +158,13 @@ vmap("<leader>as", ":S//g<Left><Left>")
 -- terminal mappings
 tmap("<C-j>", "<C-\\><C-N><C-w>j")
 tmap("<C-k>", "<C-\\><C-N><C-w>k")
-tmap("<C-S-h>", ":vertical resize -2<CR>")
-tmap("<C-S-j>", ":resize +2<CR>")
-tmap("<C-S-k>", ":resize -2<CR>")
-tmap("<C-S-l>", ":vertical resize +2<CR>")
+tmap("<C-h>", "<C-\\><C-N><C-w>h")
+tmap("<C-n>", "<C-\\><C-N>")
+tmap("<C-q>", "<C-\\><C-N>:bd!<CR>")
+tmap("<C-S-h>", "<C-\\><C-N>:vertical resize -2<CR>")
+tmap("<C-S-j>", "<C-\\><C-N>:resize +2<CR>")
+tmap("<C-S-k>", "<C-\\><C-N>:resize -2<CR>")
+tmap("<C-S-l>", "<C-\\><C-N>:vertical resize +2<CR>")
 
 -- resizing windows
 nmap("<C-S-h>", ":vertical resize -2<CR>")
@@ -166,7 +174,6 @@ nmap("<C-S-l>", ":vertical resize +2<CR>")
 
 -- fugitive keybindings
 nmap("<leader>ga", ":G add<space>")
-
 nmap("<leader>gw", ":Gwrite<CR>")
 nmap("<leader>gc", ":G commit<CR>")
 nmap("<leader>gu", ":G reset %<CR>")
@@ -176,7 +183,7 @@ nmap("<leader>gpl", ":G pull origin<space>")
 nmap("<leader>gnb", ':G checkout -b ""<left>')
 nmap("<leader>gr", ":G rebase -i HEAD~")
 nmap("<leader>gk", ":G checkout -- %")
-nmap("<leader>gd", ":Gvdiff HEAD~")
+nmap("<leader>gd", ":Gvdiff")
 
 -- mappings when gitdiff for custom insertions/deletions within a single file
 vmap("<leader>gw", ":diffput<CR>")
@@ -190,13 +197,13 @@ nmap("mp", ":BookmarkPrev<CR>zz")
 nmap("<S-l>", ":bnext<CR>")
 nmap("<S-h>", ":bprevious<CR>")
 
--- vira mappings
-vim.cmd([[
-  augroup vira_buffer_mappings
-    autocmd!
-    autocmd FileType vira_menu nnoremap <leader>jy :execute "!$HOME/.local/bin/branch_name " shellescape(getline('.'),1)<CR>
-  augroup END
-]])
+-- vira mappings(example of conditional remappings)
+-- vim.cmd([[
+--   augroup vira_buffer_mappings
+--     autocmd!
+--     autocmd FileType vira_menu nnoremap <leader>jy :execute "!$HOME/.local/bin/branch_name " shellescape(getline('.'),1)<CR>
+--   augroup END
+-- ]])
 
 -- custom commands mappings
 nmap("<leader>cp", ":CopyGitPath<CR>")
