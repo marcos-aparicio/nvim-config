@@ -13,7 +13,7 @@ treesitter.setup({
 	highlight = {
 		enable = true,
 		disable = { "typescriptreact" }, --don't highlight this languages
-		additional_vim_regex_highlighting = true,
+		additional_vim_regex_highlighting = false,
 	},
-	indent = { enable = true, disable = { "yaml" } },
+	indent = { enable = false, disable = { "yaml" } },
 })

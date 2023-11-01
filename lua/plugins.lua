@@ -30,8 +30,7 @@ packer.startup(function(use)
 		"Fymyte/rasi.vim",
 		ft = "rasi",
 	})
-	--[[ use("mg979/vim-visual-multi") ]]
-	-- rest api testing(like Postman!)
+
 	use({
 		"rest-nvim/rest.nvim",
 		requires = { { "nvim-lua/plenary.nvim" } },
