@@ -13,6 +13,7 @@ local servers = {
 	"tsserver",
 	"emmet_language_server",
 	"pyright",
+	"grammarly",
 }
 
 local ok, mason = pcall(require, "mason")
