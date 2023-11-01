@@ -201,7 +201,7 @@ vim.cmd([[
 -- custom commands mappings
 nmap("<leader>cp", ":CopyGitPath<CR>")
 nmap("<leader>cP", ":CopyFullPath<CR>")
-nmap("<C-a>", function()
+nmap("<C-i>", function()
 	vim.cmd(":%y+")
 	print("Buffer copied to clipboard")
 end)
