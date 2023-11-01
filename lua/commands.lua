@@ -50,3 +50,12 @@ function OpenAlacrittyReadonly()
 		detach = true,
 	})
 end
+
+function string_processing_buffer_testing()
+	local tempname = vim.fn.tempname()
+	local stringProcessingTemplate = "/home/marcos/.local/privbin/string-processing"
+	vim.cmd("edit " .. tempname)
+	vim.cmd("read !cat " .. vim.fn.shellescape(stringProcessingTemplate))
+	vim.cmd("1delete") -- Delete all lines in the buffer
+	vim.cmd("w")
+end
