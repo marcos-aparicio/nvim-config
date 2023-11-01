@@ -49,7 +49,7 @@ ls.add_snippets("javascript", {
 	s("log", { t("console.log("), i(1), t(");") }),
 	s("logs", { t("console.log(`"), i(1), t("`);") }),
 	s("logv", { t('console.log("'), i(1), t(' ",'), i(2), t(");") }),
-	s("lv", { t('console.log("'), i(1), t(' ",'), f(repeatStr, { 1 }), t(");") }),
+	s("lv", { t('console.log("'), i(1), t(': ",'), f(repeatStr, { 1 }), t(");") }),
 	s("$$", { t("${"), i(1), t("}") }),
 	-- repeated prop and value
 	s("rpr", { i(1), t("={"), f(repeatStr, { 1 }), t("}") }),
