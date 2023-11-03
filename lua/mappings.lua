@@ -112,10 +112,10 @@ nmap("gb", "G")
 nmap("ygl", "y$")
 nmap("ygh", "y^")
 
-nmap("<C-Tab>", ":bnext<CR>")
-nmap("<C-S-Tab>", ":bprevious<CR>")
-nmap("<leader>tn", ":tabnext<CR>")
-nmap("<leader>tp", ":tabprevious<CR>")
+nmap("<C-Tab>", ":tabnext<CR>")
+nmap("<C-S-Tab>", ":tabprevious<CR>")
+-- nmap("<leader>tn", ":tabnext<CR>")
+-- nmap("<leader>tp", ":tabprevious<CR>")
 
 -- some navigation normal remappings
 nmap("<C-d>", "<C-d>zz")
