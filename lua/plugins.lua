@@ -13,7 +13,7 @@ end
 
 local packer_bootstrap = ensure_packer()
 
-packer = require("packer")
+local packer = require("packer")
 packer.init({ package_root = packer_path, opt = false })
 packer.reset()
 
@@ -29,11 +29,6 @@ packer.startup(function(use)
 	use({
 		"Fymyte/rasi.vim",
 		ft = "rasi",
-	})
-
-	use({
-		"rest-nvim/rest.nvim",
-		requires = { { "nvim-lua/plenary.nvim" } },
 	})
 
 	-- folding like VSC
@@ -180,32 +175,32 @@ packer.startup(function(use)
 		"folke/noice.nvim",
 		event = "VimEnter",
 		config = function()
-			require("noice").setup({
-				lsp = {
-					-- override markdown rendering so that **cmp** and other plugins use **Treesitter**
-					override = {
-						["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-						["vim.lsp.util.stylize_markdown"] = true,
-						["cmp.entry.get_documentation"] = true,
-					},
-				},
-				-- you can enable a preset for easier configuration
-				presets = {
-					bottom_search = true, -- use a classic bottom cmdline for search
-					command_palette = true, -- position the cmdline and popupmenu together
-					long_message_to_split = true, -- long messages will be sent to a split
-					inc_rename = false, -- enables an input dialog for inc-rename.nvim
-					lsp_doc_border = false, -- add a border to hover docs and signature help
-				},
-				messages = {
-					enabled = false,
-					-- view = "mini", -- default view for messages
-					-- view_error = "cmdline", -- view for errors
-					-- view_warn = "mini", -- view for warnings
-					-- view_history = "mini", -- view for :messages
-					-- view_search = "virtualtext",
-				},
-			})
+			-- require("noice").setup({
+			-- 	lsp = {
+			-- 		-- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+			-- 		override = {
+			-- 			["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+			-- 			["vim.lsp.util.stylize_markdown"] = true,
+			-- 			["cmp.entry.get_documentation"] = true,
+			-- 		},
+			-- 	},
+			-- 	-- you can enable a preset for easier configuration
+			-- 	presets = {
+			-- 		bottom_search = true, -- use a classic bottom cmdline for search
+			-- 		command_palette = true, -- position the cmdline and popupmenu together
+			-- 		long_message_to_split = true, -- long messages will be sent to a split
+			-- 		inc_rename = false, -- enables an input dialog for inc-rename.nvim
+			-- 		lsp_doc_border = false, -- add a border to hover docs and signature help
+			-- 	},
+			-- 	messages = {
+			-- 		enabled = false,
+			-- 		-- view = "mini", -- default view for messages
+			-- 		-- view_error = "cmdline", -- view for errors
+			-- 		-- view_warn = "mini", -- view for warnings
+			-- 		-- view_history = "mini", -- view for :messages
+			-- 		-- view_search = "virtualtext",
+			-- 	},
+			-- })
 		end,
 		requires = {
 			"MunifTanjim/nui.nvim",
