@@ -34,6 +34,7 @@ vim.cmd([[
 command! CopyGitPath :lua copy_buffer_path()
 command! CopyFullPath :lua copy_buffer_path(true)
 command! StringProcessing :lua string_processing_buffer_testing()
+command! ExecuteCurrentBuffer :lua ExecuteCurrentBuffer()
 " Add a custom command to open Alacritty with the current buffer in read-only mode
 command! -nargs=0 OpenAlacrittyReadonly :lua OpenAlacrittyReadonly()
 ]])
@@ -58,4 +59,28 @@ function string_processing_buffer_testing()
 	vim.cmd("read !cat " .. vim.fn.shellescape(stringProcessingTemplate))
 	vim.cmd("1delete") -- Delete all lines in the buffer
 	vim.cmd("w")
+end
+
+function ExecuteCurrentBuffer()
+	-- local tempname = vim.fn.tempname()
+	local filetype = vim.o.filetype
+	local current_file = vim.fn.expand("%:p")
+	local command = ""
+
+	if filetype == "javascript" then
+		command = "node"
+	elseif filetype == "python" then
+		-- here you should also activate the virtual environment if needed
+		command = "python"
+	elseif filetype == "sh" then
+		command = "sh"
+	end
+
+	if command == "" then
+		print("Not supported filetype")
+		return
+	end
+
+	vim.cmd(":vs")
+	vim.cmd(":term " .. command .. " " .. current_file)
 end
