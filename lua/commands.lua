@@ -74,6 +74,8 @@ function ExecuteCurrentBuffer()
 		command = "python"
 	elseif filetype == "sh" then
 		command = "sh"
+	elseif filetype == "lua" then
+		command = "lua"
 	end
 
 	if command == "" then
