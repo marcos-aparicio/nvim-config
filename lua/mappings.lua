@@ -206,6 +206,7 @@ nmap("<S-h>", ":bprevious<CR>")
 -- ]])
 
 -- custom commands mappings
+nmap("<leader>rr", ":ExecuteCurrentBuffer<CR>")
 nmap("<leader>cp", ":CopyGitPath<CR>")
 nmap("<leader>cP", ":CopyFullPath<CR>")
 nmap("<C-i>", function()
