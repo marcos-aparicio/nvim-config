@@ -211,6 +211,22 @@ packer.startup(function(use)
 		},
 	})
 
+	-- Typescript and Javascript support in LSP tsserver
+	use({
+		"pmizio/typescript-tools.nvim",
+		requires = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+		config = function()
+			require("typescript-tools").setup({
+				filetypes = {
+					"javascript",
+					"typescript",
+					"typescriptreact",
+					"typescript.tsx",
+				},
+			})
+		end,
+	})
+
 	-- Automatically set up your configuration after cloning packer.nvim
 	if packer_bootstrap then
 		packer.sync()
