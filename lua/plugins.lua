@@ -43,6 +43,9 @@ packer.startup(function(use)
 
 	use("andrewradev/linediff.vim")
 
+	-- Tmux integration
+	use("christoomey/vim-tmux-navigator")
+
 	use({
 		"windwp/nvim-autopairs",
 		config = function()
