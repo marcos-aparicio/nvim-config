@@ -14,6 +14,7 @@ local servers = {
 	"emmet_language_server",
 	"pyright",
 	"grammarly",
+	"eslint",
 }
 
 local ok, mason = pcall(require, "mason")
