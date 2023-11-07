@@ -16,7 +16,7 @@ return {
 		"scss",
 		"svelte",
 		"pug",
-		"typescriptreact",
+		-- "typescriptreact",
 		"vue",
 	},
 	init_options = {
