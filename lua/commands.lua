@@ -1,10 +1,30 @@
 -- Function to copy the current buffer's path to the clipboard
-function copy_buffer_path(full_path)
+function copy_buffer_path(full_path, include_line)
+	local start_line
+	local end_line
+
+	if vim.fn.visualmode() == "V" then
+		start_line, _ = unpack(vim.api.nvim_buf_get_mark(0, "<"))
+		end_line, _ = unpack(vim.api.nvim_buf_get_mark(0, ">"))
+	else
+		local cursor = vim.api.nvim_win_get_cursor(0)
+		start_line = cursor[1]
+		end_line = start_line
+	end
+
 	-- Get the current buffer's file path
 	local buffer_path = vim.fn.expand("%:p")
 
 	if full_path then
-		vim.fn.setreg("+", buffer_path)
+		local output_to_clipboard = buffer_path
+		if include_line then
+			if start_line == end_line then
+				output_to_clipboard = output_to_clipboard .. " Line: " .. start_line
+			else
+				output_to_clipboard = output_to_clipboard .. " Lines: " .. start_line .. " - " .. end_line
+			end
+		end
+		vim.fn.setreg("+", output_to_clipboard)
 		vim.api.nvim_echo({ { "Buffer path copied to clipboard: " .. buffer_path, "Normal" } }, true, {})
 		return
 	end
@@ -16,17 +36,34 @@ function copy_buffer_path(full_path)
 	if vim.v.shell_error == 0 and git_root ~= "" then
 		-- Convert buffer path to a relative path from the Git root
 		local relative_path = string.sub(buffer_path, string.len(git_root) + 1)
-		vim.fn.setreg("+", relative_path)
+		local output_to_clipboard = relative_path
+
+		if include_line then
+			if start_line == end_line then
+				output_to_clipboard = output_to_clipboard .. " Line: " .. start_line
+			else
+				output_to_clipboard = output_to_clipboard .. " Lines: " .. start_line .. " - " .. end_line
+			end
+		end
+		vim.fn.setreg("+", output_to_clipboard)
 		vim.api.nvim_echo(
 			{ { "Buffer path relative to Git root copied to clipboard: " .. relative_path, "Normal" } },
 			true,
 			{}
 		)
-	else
-		-- If not in a Git repository, copy the full path
-		vim.fn.setreg("+", buffer_path)
-		vim.api.nvim_echo({ { "Buffer path copied to clipboard: " .. buffer_path, "Normal" } }, true, {})
+		return
 	end
+	-- If not in a Git repository, copy the full path
+	local output_to_clipboard = buffer_path
+	if include_line then
+		if start_line == end_line then
+			output_to_clipboard = output_to_clipboard .. " Line: " .. start_line
+		else
+			output_to_clipboard = output_to_clipboard .. " Lines: " .. start_line .. " - " .. end_line
+		end
+	end
+	vim.fn.setreg("+", output_to_clipboard)
+	vim.api.nvim_echo({ { "Buffer path copied to clipboard: " .. buffer_path, "Normal" } }, true, {})
 end
 
 -- Command to call the Lua function
