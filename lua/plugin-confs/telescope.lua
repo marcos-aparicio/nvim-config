@@ -93,7 +93,26 @@ M.nmap(
 	[[:lua require('telescope.builtin').find_files({no_ignore=true,find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" }})<CR>]]
 )
 
-M.nmap("ma", ":Telescope vim_bookmarks current_file<CR>")
+function customVimBookmarksCurrentFile()
+	local bookmark_actions = require("telescope").extensions.vim_bookmarks.actions
+
+	local function wrapper(prop1, prop2)
+		bookmark_actions.delete_selected_or_at_cursor(prop1, prop2)
+		vim.api.nvim_command("e")
+	end
+
+	require("telescope").extensions.vim_bookmarks.current_file({
+		attach_mappings = function(_, map)
+			map("n", "dd", wrapper)
+
+			return true
+		end,
+	})
+end
+
+M.nmap("ma", ":lua customVimBookmarksCurrentFile()<CR>")
+M.nmap("mA", ":Telescope vim_bookmarks all<CR>")
+-- M.nmap("ma", ":lua test()<CR>")
 -- I think these are dependant in vim fugitive
 M.nmap("<leader>gs", ":Telescope git_status<CR>")
 M.nmap("<leader>gb", ":Telescope git_branches<CR>")
