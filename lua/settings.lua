@@ -22,7 +22,11 @@ vim.cmd([[
   augroup HurlExtension
     autocmd BufNewFile,BufRead *.hurl setfiletype hurl
   augroup END
+  augroup TodotxtExtension
+    autocmd BufNewFile,BufRead todo.txt setfiletype todotxt
+  augroup END
 ]])
+
 vim.g.mapleader = " "
 vim.g.pyton3_host_prog = "/usr/bin/python3"
 
