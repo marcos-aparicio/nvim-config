@@ -22,6 +22,7 @@ packer.startup(function(use)
 	use("tpope/vim-abolish")
 
 	use("tpope/vim-surround")
+	use("tpope/vim-speeddating")
 	use("tpope/vim-fugitive")
 	use("vim-airline/vim-airline")
 	use("vim-airline/vim-airline-themes")
