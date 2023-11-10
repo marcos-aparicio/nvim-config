@@ -97,6 +97,7 @@ nmap("<leader>q", ":lua ExitBuffer()<CR>")
 nmap("<leader>w", ":w<CR>:e<CR>")
 nmap("<leader>v", ":vs<CR>")
 nmap("<leader>h", ":sp<CR>")
+nmap("<leader>5", "%")
 
 nmap("<C-h>", "<C-w>h")
 nmap("<C-l>", "<C-w>l")
