@@ -7,7 +7,7 @@ for _, wiki in ipairs(wikis) do
 		path = wiki.path,
 		syntax = "markdown",
 		ext = ".md",
-		auto_generate_links = 1,
+		auto_generate_links = 0,
 	}
 	table.insert(vimwiki_paths_object, vimwiki_path_object)
 end
@@ -55,6 +55,7 @@ function set_vimwiki_mappings()
 	local buffer = vim.api.nvim_get_current_buf()
 	local buffer_path = vim.api.nvim_buf_get_name(buffer)
 
+	vim.api.nvim_buf_set_keymap(buffer, "n", "<C-p>", ":MarkdownPreview<CR>", { noremap = true })
 	for idx, wiki in ipairs(wikis) do
 		if buffer_path:match(wiki.path) then
 			vim.api.nvim_buf_set_keymap(
@@ -63,7 +64,7 @@ function set_vimwiki_mappings()
 				"<Leader>f",
 				':lua require"telescope.builtin".find_files({ cwd = "'
 					.. wiki.path
-					.. '", prompt_title = "vimwiki", previewer = false })<cr>',
+					.. '", prompt_title = "vimwiki", previewer = false,path_display="absolute" })<cr>',
 				{ noremap = true }
 			)
 			vim.api.nvim_buf_set_keymap(
@@ -103,7 +104,7 @@ function iterateVimWikis()
 	local state = require("telescope.actions.state")
 
 	-- Create a Telescope picker
-	local picker = pickers.new({}, {
+	local picker = pickers.new({ path_display = { "absolute" } }, {
 		prompt_title = "Vimwiki Wikis",
 		finder = finders.new_table({
 			results = wikis_for_telescope,
