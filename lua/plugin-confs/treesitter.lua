@@ -67,10 +67,12 @@ treesitter.setup({
 			goto_next_start = {
 				["]m"] = "@function.outer",
 				["]]"] = "@class.outer",
+				["]r"] = "@return.outer",
 			},
 			goto_next_end = {
 				["]M"] = "@function.outer",
 				["]["] = "@class.outer",
+				["]R"] = "@return.outer",
 			},
 			goto_previous_start = {
 				["[m"] = "@function.outer",
