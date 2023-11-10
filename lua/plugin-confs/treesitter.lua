@@ -35,6 +35,8 @@ treesitter.setup({
 				["as"] = { query = "@scope", query_group = "locals", desc = "Select language scope" },
 				["aa"] = "@parameter.outer",
 				["ia"] = "@parameter.inner",
+				["av"] = "@assignment.outer",
+				["iv"] = "@assignment.inner",
 			},
 			-- You can choose the select mode (default is charwise 'v')
 			--
