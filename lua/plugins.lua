@@ -72,6 +72,11 @@ packer.startup(function(use)
 	use({ "lewis6991/gitsigns.nvim", branch = "release" })
 	use("norcalli/nvim-colorizer.lua")
 
+	-- coloorsss
+	use({
+		"ziontee113/color-picker.nvim",
+	})
+
 	-- LSP like a pro
 	use({
 		"williamboman/mason.nvim",
