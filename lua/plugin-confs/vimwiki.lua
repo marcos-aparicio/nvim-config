@@ -34,6 +34,7 @@ vim.cmd([[
     autocmd FileType vimwiki silent! nunmap <buffer> glx
     autocmd FileType vimwiki silent! nunmap <buffer> gl*
     autocmd FileType vimwiki silent! nunmap <buffer> gln
+    autocmd FileType vimwiki silent! nunmap <buffer> <C-Space>
   augroup END
 ]])
 
@@ -56,6 +57,7 @@ function set_vimwiki_mappings()
 	local buffer_path = vim.api.nvim_buf_get_name(buffer)
 
 	vim.api.nvim_buf_set_keymap(buffer, "n", "<C-p>", ":MarkdownPreview<CR>", { noremap = true })
+	vim.api.nvim_buf_set_keymap(buffer, "n", "<leader>d", ":VimwikiToggleListItem<CR>", { noremap = true })
 	for idx, wiki in ipairs(wikis) do
 		if buffer_path:match(wiki.path) then
 			vim.api.nvim_buf_set_keymap(
