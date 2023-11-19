@@ -69,6 +69,7 @@ packer.startup(function(use)
 		},
 	})
 	use("sindrets/diffview.nvim")
+	use("ThePrimeagen/git-worktree.nvim")
 	use({ "lewis6991/gitsigns.nvim", branch = "release" })
 	use("norcalli/nvim-colorizer.lua")
 

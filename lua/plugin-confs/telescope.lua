@@ -12,6 +12,7 @@ telescope.load_extension("live_grep_args")
 telescope.load_extension("workspaces")
 telescope.load_extension("vimwiki")
 telescope.load_extension("vim_bookmarks")
+telescope.load_extension("git_worktree")
 
 telescope.setup({
 	defaults = {
@@ -117,3 +118,5 @@ M.nmap("mA", ":Telescope vim_bookmarks all<CR>")
 M.nmap("<leader>gs", ":Telescope git_status<CR>")
 M.nmap("<leader>gb", ":Telescope git_branches<CR>")
 M.nmap("<leader>/", ":Telescope current_buffer_fuzzy_find<CR>")
+M.nmap("<leader>gt", ":lua require('telescope').extensions.git_worktree.git_worktrees()<CR>")
+M.nmap("<leader>gnt", ":lua require('telescope').extensions.git_worktree.create_git_worktree()<CR>")
