@@ -24,8 +24,10 @@ packer.startup(function(use)
 	use("tpope/vim-surround")
 	use("tpope/vim-speeddating")
 	use("tpope/vim-fugitive")
-	use("vim-airline/vim-airline")
-	use("vim-airline/vim-airline-themes")
+	use({
+		"nvim-lualine/lualine.nvim",
+		requires = { "nvim-tree/nvim-web-devicons" },
+	})
 	use("ayu-theme/ayu-vim")
 	use({
 		"Fymyte/rasi.vim",
