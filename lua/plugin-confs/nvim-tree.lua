@@ -25,6 +25,7 @@ function my_on_attach(bufnr)
 	vim.keymap.set("n", "<C-N>", function()
 		vim.api.nvim_command("wincmd p")
 	end, opts("Toggle w/ file"))
+	vim.keymap.set("n", "O", api.tree.change_root_to_node, opts("Change root to node"))
 end
 
 nvim_tree.setup({
