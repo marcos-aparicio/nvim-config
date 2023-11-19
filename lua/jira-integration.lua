@@ -27,7 +27,7 @@ local function createBranchNameByTicket(ticket)
 	if ticket_type == "story" then
 		ticket_type = "feature"
 	end
-	local proccesed_title = string.gsub(ticket_title, " / ", "/")
+	local proccesed_title = string.gsub(ticket_title, " +/ +", "/")
 	proccesed_title = string.gsub(proccesed_title, " ", "-")
 	proccesed_title = string.gsub(proccesed_title, "-+", "-")
 	proccesed_title = string.gsub(proccesed_title, ":", "")
