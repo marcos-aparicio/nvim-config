@@ -70,10 +70,7 @@ ls.add_snippets("javascript", {
 		t(" - "),
 		i(3, "Parameter description"),
 	}),
-})
-
--- Material UI tags
-ls.add_snippets("javascript", {
+	-- Material UI tags
 	s("box", { t("<Box>"), i(1), t("</Box>") }),
 	s("grid", { t("<Grid>"), i(1), t("</Grid>") }),
 	s("typo", { t("<Typography>"), i(1), t("</Typography>") }),
