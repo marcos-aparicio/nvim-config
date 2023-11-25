@@ -33,5 +33,5 @@ nvim_tree.setup({
 	on_attach = my_on_attach,
 })
 
-M.nmap("<C-n>", ":NvimTreeFocus<CR>")
+M.nmap("<C-n>", ":NvimTreeFindFile<CR>")
 M.nmap("<C-b>", ":NvimTreeToggle<CR>")
