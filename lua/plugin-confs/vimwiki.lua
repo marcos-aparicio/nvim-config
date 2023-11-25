@@ -145,4 +145,4 @@ function iterateVimWikis()
 	picker:find()
 end
 
-M.nmap("<leader>rv", ":lua iterateVimWikis()<CR>")
+M.nmap("<leader>n", ":lua iterateVimWikis()<CR>")
