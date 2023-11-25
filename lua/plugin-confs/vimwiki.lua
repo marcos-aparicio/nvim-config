@@ -15,6 +15,11 @@ end
 vim.api.nvim_set_var("vimwiki_list", vimwiki_paths_object)
 vim.g.wiki_auto_header = 1
 
+local ok, telescope = pcall(require, "telescope")
+if not ok then
+	return
+end
+
 vim.cmd([[
   augroup vimwiki_mappings
     autocmd!
@@ -73,7 +78,9 @@ function set_vimwiki_mappings()
 				buffer,
 				"n",
 				"<Leader>l",
-				":Telescope vimwiki live_grep i=" .. idx - 1 .. " <CR>",
+				':lua require"telescope".extensions.live_grep_args.live_grep_args({ cwd = "'
+					.. wiki.path
+					.. '", prompt_title = "vimwiki live_grep", previewer = false,path_display="absolute" })<cr>',
 				{ noremap = true }
 			)
 			vim.api.nvim_buf_set_keymap(
@@ -85,11 +92,6 @@ function set_vimwiki_mappings()
 			)
 		end
 	end
-end
-
-local ok, telescope = pcall(require, "telescope")
-if not ok then
-	return
 end
 
 local wikis_for_telescope = {}
