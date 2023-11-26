@@ -14,6 +14,19 @@ if not source_ok then
 	}
 end
 
+local formatting_activated = true
+
+function ToggleFormatting()
+	formatting_activated = not formatting_activated
+	if formatting_activated then
+		print("Auto Formatting enabled")
+		return
+	end
+	print("Auto Formatting disabled")
+end
+
+vim.cmd([[command! ToggleFormatting lua ToggleFormatting()]])
+local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 null_ls.setup({
 	sources = sources,
 	on_attach = function(client, bufnr)
@@ -25,7 +38,9 @@ null_ls.setup({
 				callback = function()
 					-- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
 					-- vim.lsp.buf.formatting_sync()
-					vim.lsp.buf.format({ bufnr = bufnr })
+					if formatting_activated then
+						vim.lsp.buf.format({ bufnr = bufnr })
+					end
 				end,
 			})
 		end
