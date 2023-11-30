@@ -128,6 +128,8 @@ function ExecuteCurrentBuffer()
 		command = "sh"
 	elseif filetype == "lua" then
 		command = "lua"
+	elseif filetype == "hurl" then
+		command = "hurl --verbose"
 	end
 
 	if command == "" then
