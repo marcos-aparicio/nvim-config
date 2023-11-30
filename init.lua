@@ -1,7 +1,7 @@
 require("settings")
 require("commands")
+require("lazy")
 -- require("plugins")
 -- require("plugin-confs")
-require("lazy")
 require("mappings")
 -- require("jira-integration")
