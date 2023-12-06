@@ -94,6 +94,7 @@ nmap("<C-\\>", ":w<CR>:so %<CR>")
 
 -- basic normal remappings
 nmap("<leader>q", ":lua ExitBuffer()<CR>")
+nmap("<leader>Q", ":%bd|e#<CR>")
 nmap("<leader>w", function()
 	vim.cmd("w")
 	local filetype = vim.bo.filetype
