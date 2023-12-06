@@ -1,7 +1,5 @@
 require("settings")
 require("commands")
-require("plugins")
-require("plugin-confs")
-require("style_settings")
+require("lazy-nvim")
 require("mappings")
 require("jira-integration")

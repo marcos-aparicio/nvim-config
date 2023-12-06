@@ -159,11 +159,6 @@ nmap("<leader>.", "@:<CR>")
 nmap("<leader>s", ":s//gI<Left><Left><Left>")
 vmap("<leader>s", ":s//g<Left><Left>")
 
--- Abolish plugin commands(is a vim plugin so it is not on its own file)
-nmap("<leader>as", ":S//g<Left><Left>")
-nmap("<leader>S", ":%S//g<Left><Left>")
-vmap("<leader>as", ":S//g<Left><Left>")
-
 -- terminal mappings
 tmap("<C-j>", "<C-\\><C-N><C-w>j")
 tmap("<C-k>", "<C-\\><C-N><C-w>k")
@@ -228,4 +223,5 @@ nmap("<C-y>", function()
 	print("Buffer copied to clipboard")
 end)
 vim.keymap.set({ "n", "x", "o" }, "ms", "<Plug>(leap-backward-to)")
+
 return M
