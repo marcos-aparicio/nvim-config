@@ -22,7 +22,9 @@ local sources = {
 		extra_filetypes = { "xhtml" },
 	}),
 	formatting.black,
-	formatting.sql_formatter,
+	formatting.sql_formatter.with({
+		extra_filetypes = { "mysql" },
+	}),
 	formatting.beautysh,
 	formatting.phpcsfixer,
 }
