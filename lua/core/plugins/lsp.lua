@@ -16,9 +16,9 @@ return {
 			"jose-elias-alvarez/null-ls.nvim",
 		},
 		config = function()
-			require("core.plugins.lsp.mason")
-			require("core.plugins.lsp.handlers").setup()
-			require("core.plugins.lsp.null-ls")
+			require("core.lsp.mason")
+			require("core.lsp.handlers").setup()
+			require("core.lsp.null-ls")
 		end,
 	},
 	{
