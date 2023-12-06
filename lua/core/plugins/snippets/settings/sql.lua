@@ -14,10 +14,16 @@ local snippets = {
 	s("tables", { t("SELECT * FROM show_tables();") }),
 	s("cols", { t("SELECT * FROM show_columns('"), i(1), t("');") }),
 }
-ls.add_snippets("sql", snippets)
-ls.add_snippets(
-	"mysql",
-	tablemerge(snippets, {
-		s("desc", { t("DESCRIBE ") }),
-	})
-)
+local sql_snipps = {
+	s("all", { t("SELECT * FROM ") }),
+	s("tables", { t("SELECT * FROM show_tables();") }),
+	s("cols", { t("SELECT * FROM show_columns('"), i(1), t("');") }),
+}
+local mysql_snipps = {
+	s("all", { t("SELECT * FROM ") }),
+	s("tables", { t("CALL show_tables(); ") }),
+	s("cols", { t("DESCRIBE "), i(1), t(";") }),
+}
+
+ls.add_snippets("sql", sql_snipps)
+ls.add_snippets("mysql", mysql_snipps)
