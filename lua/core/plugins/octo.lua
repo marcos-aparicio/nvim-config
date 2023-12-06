@@ -1,9 +1,3 @@
-local M = require("mappings")
-local ok, octo = pcall(require, "octo")
-if not ok then
-	return
-end
-
 function OctoSearchLocalRepo()
 	local remote_repos = vim.fn.systemlist("git remote get-url origin")
 	local github_repo_index = 0
@@ -30,13 +24,25 @@ function OctoSearchLocalRepo()
 	return ":Octo search repo:" .. extracted_repo .. "<space>"
 end
 
-octo.setup()
-M.nmap("<leader>opl", ":Octo pr list<CR>")
-M.nmap("<leader>ope", ":Octo pr edit<space>")
-M.nmap("<leader>opr", ":Octo pr reload<CR>")
-M.nmap("<leader>or", ":Octo review<space>")
-M.nmap("<leader>oc", ":Octo comment<space>")
-M.nmap("<leader>ois", ":Octo issue list")
-M.nmap("<leader>oic", ":Octo issue create<CR>")
-M.nmap("<leader>os", OctoSearchLocalRepo, { expr = true })
-M.nmap("<leader>oo", OctoSearchLocalRepo)
+return {
+	"pwntester/octo.nvim",
+	dependencies = {
+		"nvim-lua/plenary.nvim",
+		"nvim-telescope/telescope.nvim",
+		"nvim-tree/nvim-web-devicons",
+	},
+	keys = {
+		{ "<leader>opl", ":Octo pr list<CR>" },
+		{ "<leader>ope", ":Octo pr edit<space>" },
+		{ "<leader>opr", ":Octo pr reload<CR>" },
+		{ "<leader>or", ":Octo review<space>" },
+		{ "<leader>oc", ":Octo comment<space>" },
+		{ "<leader>ois", ":Octo issue list" },
+		{ "<leader>oic", ":Octo issue create<CR>" },
+		{ "<leader>os", OctoSearchLocalRepo, expr = true },
+	},
+	cmd = { "Octo" },
+	config = function()
+		require("octo").setup()
+	end,
+}

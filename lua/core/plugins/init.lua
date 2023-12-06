@@ -25,74 +25,81 @@
 -- require("plugin-confs.nvim-tree")
 
 return {
-	"tpope/vim-abolish",
+	{ "nvim-tree/nvim-web-devicons", lazy = true },
+	{ "tpope/vim-abolish" },
 	"tpope/vim-surround",
 	"tpope/vim-speeddating",
-	"tpope/vim-fugitive",
+	"tpope/vim-dispatch",
 	{
-		"ayu-theme/ayu-vim",
+		"Shatur/neovim-ayu",
 		lazy = false,
 		priority = 1000,
 		config = function()
-			vim.g.ayucolor = "dark"
-			vim.cmd([[
-  colorscheme ayu
-  hi Normal guibg=NONE ctermbg=NONE
-  ]])
+			require("ayu").setup({
+				mirage = false,
+				overrides = {
+					Normal = { bg = "None" },
+					ColorColumn = { bg = "None" },
+					SignColumn = { bg = "None" },
+					Folded = { bg = "None" },
+					FoldColumn = { bg = "None" },
+					CursorLine = { bg = "None" },
+					CursorColumn = { bg = "None" },
+					WhichKeyFloat = { bg = "None" },
+					VertSplit = { bg = "None" },
+				},
+			})
+			require("ayu").colorscheme()
 		end,
 	},
-	"tpope/vim-dispatch",
 	-- "Treesitter for rasi filetype"
 	{
 		"Fymyte/rasi.vim",
 		ft = "rasi",
 	},
-	"christoomey/vim-tmux-navigator",
+	{ "christoomey/vim-tmux-navigator", config = function() end },
 	"ianding1/leetcode.vim",
 	"easymotion/vim-easymotion",
 	"ziontee113/color-picker.nvim",
-	"windwp/nvim-autopairs",
+	{
+		"windwp/nvim-autopairs",
+		config = function()
+			require("nvim-autopairs").setup()
+		end,
+	},
 	{
 		"akinsho/bufferline.nvim",
 		version = "*",
 		dependencies = { "nvim-tree/nvim-web-devicons", "moll/vim-bbye" },
 	},
-	{ "vimwiki/vimwiki", branch = "dev" },
 	{
 		"andrewradev/linediff.vim",
-		cmd = {
-			"Linediff",
-			"LinediffAdd",
-			"LinediffLast",
-			"LinediffMerge",
-			"LinediffPick",
-			"LinediffReset",
-			"LinediffShow",
-		},
+		cmd = "Linediff",
 	},
 	{
 		"sindrets/diffview.nvim",
-		cmd = {
-			{
-				"Diffview",
-				"DiffviewClose",
-				"DiffviewFileHistory",
-				"DiffviewFocusFiles",
-				"DiffviewLog",
-				"DiffviewOpen",
-				"DiffviewRefresh",
-				"DiffviewToggleFiles",
-			},
-		},
+		cmd = "Diffview",
 	},
-	"norcalli/nvim-colorizer.lua",
+	{
+		"norcalli/nvim-colorizer.lua",
+		config = function()
+			require("colorizer").setup()
+		end,
+	},
 	{
 		"lewis6991/gitsigns.nvim",
-		branch = "release",
+		tag = "v0.6",
+		lazy = false,
+		config = function()
+			require("gitsigns").setup()
+		end,
 	},
 	{
 		"iamcco/markdown-preview.nvim",
 		cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+		keys = {
+			{ "<C-p>", "<Cmd>MarkdownPreview<CR>", ft = { "markdown", "vimwiki" } },
+		},
 		ft = { "markdown", "vimwiki" },
 		build = function()
 			vim.fn["mkdp#util#install"]()
@@ -108,14 +115,5 @@ return {
 		},
 	},
 	"MattesGroeger/vim-bookmarks",
-	{
-		"jackMort/ChatGPT.nvim",
-		dependencies = {
-			"MunifTanjim/nui.nvim",
-			"nvim-lua/plenary.nvim",
-			"nvim-telescope/telescope.nvim",
-		},
-	},
-	"natecraddock/workspaces.nvim",
 	"ThePrimeagen/harpoon",
 }

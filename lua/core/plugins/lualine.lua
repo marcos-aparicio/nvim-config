@@ -1,8 +1,3 @@
-local prequire = require("utils").prequire
-local lualine = prequire("lualine")
-if not lualine then
-	return false
-end
 local colors = {
 	color1 = nil,
 	color2 = "#242b38",
@@ -40,8 +35,10 @@ local custom_ayu_mirage = {
 		b = { fg = colors.color4, bg = colors.color5 },
 	},
 }
-
-lualine.setup({
+return {
+  "nvim-lualine/lualine.nvim",
+  dependencies = { "nvim-tree/nvim-web-devicons" },
+  opts = {
 	options = {
 		theme = custom_ayu_mirage,
 		component_separators = "|",
@@ -69,4 +66,5 @@ lualine.setup({
 	},
 	tabline = {},
 	extensions = {},
-})
+}
+}

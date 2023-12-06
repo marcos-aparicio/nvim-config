@@ -1,5 +1,5 @@
+local wikis = require("private.plugins.vimwiki")
 local M = require("mappings")
-local wikis = require("plugin-confs.vimwiki-private")
 
 local vimwiki_paths_object = {}
 for _, wiki in ipairs(wikis) do
@@ -11,41 +11,12 @@ for _, wiki in ipairs(wikis) do
 	}
 	table.insert(vimwiki_paths_object, vimwiki_path_object)
 end
-
-vim.api.nvim_set_var("vimwiki_list", vimwiki_paths_object)
-vim.g.wiki_auto_header = 1
-
-local ok, telescope = pcall(require, "telescope")
-if not ok then
-	return
+local wikis_for_telescope = {}
+for _, wiki in ipairs(wikis) do
+	table.insert(wikis_for_telescope, wiki.name)
 end
 
-vim.cmd([[
-  augroup vimwiki_mappings
-    autocmd!
-    autocmd FileType vimwiki lua set_vimwiki_mappings()
-    autocmd FileType vimwiki silent! iunmap <buffer> <C-d>
-  augroup END
-  augroup vimwiki_disable_mappings
-    autocmd!
-    autocmd FileType vimwiki silent! nunmap <buffer> gl1
-    autocmd FileType vimwiki silent! nunmap <buffer> gl+
-    autocmd FileType vimwiki silent! nunmap <buffer> gl-
-    autocmd FileType vimwiki silent! nunmap <buffer> gl
-    autocmd FileType vimwiki silent! nunmap <buffer> glr
-    autocmd FileType vimwiki silent! nunmap <buffer> gll
-    autocmd FileType vimwiki silent! nunmap <buffer> glh
-    autocmd FileType vimwiki silent! nunmap <buffer> glp
-    autocmd FileType vimwiki silent! nunmap <buffer> glx
-    autocmd FileType vimwiki silent! nunmap <buffer> gl*
-    autocmd FileType vimwiki silent! nunmap <buffer> gln
-    autocmd FileType vimwiki silent! nunmap <buffer> <C-Space>
-  augroup END
-]])
-
--- setting general keybinding to iterate through vimwikis
-
-function VimwikiTelescopeByIdx(idx)
+function vimwiki_telescope_by_idx(idx)
 	if idx == nil then
 		idx = 1
 	end
@@ -94,13 +65,8 @@ function set_vimwiki_mappings()
 	end
 end
 
-local wikis_for_telescope = {}
-for _, wiki in ipairs(wikis) do
-	table.insert(wikis_for_telescope, wiki.name)
-end
-
 -- Create the Telescope picker
-function iterateVimWikis()
+function iterate_vimwikis()
 	local actions = require("telescope.actions")
 	local pickers = require("telescope.pickers")
 	local finders = require("telescope.finders")
@@ -147,4 +113,34 @@ function iterateVimWikis()
 	picker:find()
 end
 
-M.nmap("<leader>n", ":lua iterateVimWikis()<CR>")
+vim.api.nvim_set_var("vimwiki_list", vimwiki_paths_object)
+vim.g.wiki_auto_header = 1
+vim.cmd([[
+    augroup vimwiki_mappings
+      autocmd!
+      autocmd FileType vimwiki lua set_vimwiki_mappings()
+      autocmd FileType vimwiki silent! iunmap <buffer> <C-d>
+    augroup END
+    augroup vimwiki_disable_mappings
+      autocmd!
+      autocmd FileType vimwiki silent! nunmap <buffer> gl1
+      autocmd FileType vimwiki silent! nunmap <buffer> gl+
+      autocmd FileType vimwiki silent! nunmap <buffer> gl-
+      autocmd FileType vimwiki silent! nunmap <buffer> gl
+      autocmd FileType vimwiki silent! nunmap <buffer> glr
+      autocmd FileType vimwiki silent! nunmap <buffer> gll
+      autocmd FileType vimwiki silent! nunmap <buffer> glh
+      autocmd FileType vimwiki silent! nunmap <buffer> glp
+      autocmd FileType vimwiki silent! nunmap <buffer> glx
+      autocmd FileType vimwiki silent! nunmap <buffer> gl*
+      autocmd FileType vimwiki silent! nunmap <buffer> gln
+      autocmd FileType vimwiki silent! nunmap <buffer> <C-Space>
+    augroup END
+    ]])
+M.nmap("<leader>n", ":lua iterate_vimwikis()<CR>")
+
+return {
+	"vimwiki/vimwiki",
+	branch = "dev",
+	event = "VeryLazy",
+}

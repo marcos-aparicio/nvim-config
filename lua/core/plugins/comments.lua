@@ -1,23 +1,27 @@
-local M = require("mappings")
-local status_ok, comment = pcall(require, "Comment")
-if not status_ok then
-	return
-end
-
-comment.setup({
-	pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
-	opleader = {
-		---Line-comment keymap
-		line = "gc",
-		---Block-comment keymap
-		block = "gs",
+return {
+	"windwp/nvim-ts-autotag",
+	"JoosepAlviste/nvim-ts-context-commentstring",
+	{
+		"numToStr/Comment.nvim",
+		lazy = false,
+		config = function()
+			require("Comment").setup({
+				pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
+				opleader = {
+					---Line-comment keymap
+					line = "gc",
+					---Block-comment keymap
+					block = "gs",
+				},
+				toggler = {
+					line = "gcc",
+					block = "gsc",
+				},
+				mappings = {
+					basic = true,
+					extra = true,
+				},
+			})
+		end,
 	},
-	toggler = {
-		line = "gcc",
-		block = "gsc",
-	},
-	mappings = {
-		basic = true,
-		extra = true,
-	},
-})
+}

@@ -1,11 +1,12 @@
--- this file also includes all treesitter extensions
-local status_ok, treesitter = pcall(require, "nvim-treesitter.configs")
-if not status_ok then
-	return
-end
-
--- checking if it actually loaded
-treesitter.setup({
+return {
+"nvim-treesitter/nvim-treesitter-textobjects","HiPhish/rainbow-delimiters.nvim",
+  {
+  "nvim-treesitter/nvim-treesitter",
+  build = function()
+    require("nvim-treesitter.install").update({ with_sync = true })
+  end,
+  config = function()
+    require("nvim-treesitter.configs").setup({
 	ensure_installed = "all",
 	sync_install = false,
 	ignore_install = { "" }, --languages you dont want the maintained version
@@ -93,4 +94,6 @@ treesitter.setup({
 			},
 		},
 	},
-})
+    })
+  end
+} }

@@ -22,6 +22,11 @@ vim.cmd([[
   augroup HurlExtension
     autocmd BufNewFile,BufRead *.hurl setfiletype hurl
   augroup END
+  augroup SqlExtension
+   autocmd FileType mysql setlocal completefunc=complete_sql
+   autocmd FileType mysql setlocal omnifunc=omni_sql
+   autocmd FileType mysql setfiletype sql
+  augroup END
   augroup TodotxtExtension
     autocmd BufNewFile,BufRead todo.txt setfiletype todotxt
   augroup END

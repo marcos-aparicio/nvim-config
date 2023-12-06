@@ -10,4 +10,6 @@ local i = ls.insert_node
 ls.add_snippets("python", {
 	s("ptype", { t("print(type("), i(1, "variable"), t("))") }),
 	s("plist", { t("print(', '.join(str(item) for item in "), i(1, "my_list"), t("))") }),
+	s("pprint", { t('__import__("pprint").pprint('), i(1, "what_to_print"), t(")") }),
 })
+--

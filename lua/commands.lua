@@ -118,12 +118,14 @@ function ExecuteCurrentBuffer()
 	local filetype = vim.o.filetype
 	local current_file = vim.fn.expand("%:p")
 	local command = ""
+	local curr_dir = vim.fn.getcwd()
 
 	if filetype == "javascript" then
 		command = "node"
 	elseif filetype == "python" then
 		-- here you should also activate the virtual environment if needed
-		command = "python"
+		local venv = vim.fn.systemlist("sh /home/marcos/.local/privbin/find_virtual_env " .. curr_dir)[1] or ""
+		command = "source " .. venv .. " && python"
 	elseif filetype == "sh" then
 		command = "sh"
 	elseif filetype == "lua" then

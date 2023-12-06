@@ -15,6 +15,7 @@ local servers = {
 	"pyright",
 	"grammarly",
 	"eslint",
+	"intelephense",
 }
 
 local ok, mason = pcall(require, "mason")
@@ -45,16 +46,16 @@ local opts = {}
 
 for _, server in pairs(servers) do
 	opts = {
-		on_attach = require("plugin-confs.lsp.handlers").on_attach,
+		on_attach = require("core.plugins.lsp.handlers").on_attach,
 		capabilities = object_assign(
-			require("plugin-confs.lsp.handlers").capabilities,
-			require("plugin-confs.lsp.settings.nvim_ufo")
+			require("core.plugins.lsp.handlers").capabilities,
+			require("core.plugins.lsp.settings.nvim_ufo")
 		),
 	}
 
 	server = vim.split(server, "@")[1]
 
-	local require_ok, conf_opts = pcall(require, "plugin-confs.lsp.settings." .. server)
+	local require_ok, conf_opts = pcall(require, "core.plugins.lsp.settings." .. server)
 	if require_ok then
 		opts = vim.tbl_deep_extend("force", conf_opts, opts)
 	end

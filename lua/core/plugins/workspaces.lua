@@ -1,9 +1,5 @@
-local ok, workspaces = pcall(require, "workspaces")
-if not ok then
-	return
-end
-
 function fileToOpenPerProject()
+  local workspaces = require("workspaces")
 	local current_workspace = workspaces.name()
 	local ok, files_to_open = pcall(require, "plugin-confs.workspaces-private-config")
 
@@ -18,16 +14,13 @@ function fileToOpenPerProject()
 	vim.api.nvim_command("e " .. file_to_open)
 end
 
-workspaces.setup({
+return {
+  "natecraddock/workspaces.nvim",
+  opts = {
 	hooks = {
 		open = {
 			fileToOpenPerProject,
 			"Telescope find_files",
-			-- "NvimTreeRefresh",
-			-- "NvimTreeOpen",
-			-- function()
-			-- 	vim.api.nvim_command("wincmd p")
-			-- end,
 		},
 	},
-})
+}}
