@@ -10,6 +10,7 @@ return {
 			"octo",
 			"python",
 			"markdown",
+			"php",
 		}
 		for _, language in pairs(languages) do
 			pcall(require, "core.plugins.snippets.settings." .. language)
