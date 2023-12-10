@@ -132,6 +132,10 @@ function ExecuteCurrentBuffer()
 		command = "lua"
 	elseif filetype == "hurl" then
 		command = "hurl --verbose"
+	elseif filetype == "php" then
+		command = "php "
+	elseif string.match(current_file, "plt$") or filetype == "gp" or filetype == "plt" then
+		command = "gnuplot "
 	end
 
 	if command == "" then
