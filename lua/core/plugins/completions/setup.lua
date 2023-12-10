@@ -70,6 +70,10 @@ cmp.setup({
 
 	sources = cmp.config.sources(default_sources),
 
+	experimental = {
+		ghost_text = false,
+	},
+
 	formatting = {
 		fields = { "kind", "abbr", "menu" }, --the order of the items
 		format = function(entry, vim_item)
