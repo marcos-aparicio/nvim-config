@@ -12,6 +12,10 @@ local wiki_paths = {
 		name = "Work",
 	},
 	{
+		path = os.getenv("HOME") .. "/Obsidian/obsidian/C",
+		name = "College",
+	},
+	{
 		path = os.getenv("HOME") .. "/Obsidian/obsidian/T",
 		name = "Tickler",
 	},
