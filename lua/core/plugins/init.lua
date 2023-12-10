@@ -1,29 +1,3 @@
--- require("plugin-confs.telescope")
--- require("plugin-confs.toggleterm")
--- require("plugin-confs.gitsigns")
--- require("plugin-confs.treesitter")
--- require("plugin-confs.colorizer")
--- require("plugin-confs.prettier")
--- require("plugin-confs.completions")
--- require("plugin-confs.luasnip")
--- require("plugin-confs.lualine")
--- require("plugin-confs.vim-bookmarks")
--- require("plugin-confs.chatgpt-nvim")
--- require("plugin-confs.octo-nvim")
--- require("plugin-confs.color-picker")
--- require("plugin-confs.lsp")
--- require("plugin-confs.dbui")
--- require("plugin-confs.bufferline")
--- require("plugin-confs.harpoon")
--- require("plugin-confs.comments")
--- require("plugin-confs.workspaces")
--- require("plugin-confs.leetcode")
--- require("plugin-confs.vimwiki")
--- require("plugin-confs.vira")
--- require("plugin-confs.taskwiki")
--- require("plugin-confs.debugging")
--- require("plugin-confs.nvim-tree")
-
 return {
 	{ "nvim-tree/nvim-web-devicons", lazy = true },
 	{ "tpope/vim-abolish" },
@@ -116,4 +90,17 @@ return {
 	},
 	"MattesGroeger/vim-bookmarks",
 	"ThePrimeagen/harpoon",
+	{
+		"github/copilot.vim",
+		config = function()
+			vim.g.copilot_filetypes =
+				{ markdown = false, vimwiki = false, xml = false, html = false, json = false, toggleterm = false }
+			vim.cmd([[highlight CopilotSuggestion guifg=#555555 ctermfg=8]])
+			vim.keymap.set("i", "<C-;>", 'copilot#Accept("<CR>")', {
+				expr = true,
+				replace_keycodes = false,
+			})
+			vim.g.copilot_no_tab_map = true
+		end,
+	},
 }
