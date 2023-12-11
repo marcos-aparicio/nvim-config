@@ -12,7 +12,7 @@ return {
 		{ "<leader>gnb", ':G checkout -b ""<left>' },
 		{ "<leader>gr", ":G rebase -i HEAD~" },
 		{ "<leader>gk", ":G checkout -- %" },
-		{ "<leader>gd", ":Gvdiff" },
+		{ "<leader>gd", ":Gvdiff " },
 		{ "<leader>gw", ":diffput<CR>", mode = "v" },
 	},
 	cmd = { "G" },
