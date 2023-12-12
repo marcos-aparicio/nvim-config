@@ -114,8 +114,8 @@ nmap("<C-j>", "<C-w>j")
 nmap("<C-k>", "<C-w>k")
 
 -- better normal mode movement
-nmap("gl", "$")
-nmap("gh", "^")
+nmap("gl", "g$")
+nmap("gh", "g^")
 nmap("gt", "gg")
 nmap("gb", "G")
 
@@ -128,6 +128,10 @@ nmap("<C-S-Tab>", ":tabprevious<CR>")
 -- nmap("<leader>tp", ":tabprevious<CR>")
 
 -- some navigation normal remappings
+nmap("j", "gj")
+nmap("k", "gk")
+vmap("j", "gj")
+vmap("k", "gk")
 nmap("<C-d>", "<C-d>zz")
 nmap("<C-u>", "<C-u>zz")
 nmap("<C-o>", "<C-o>zz")
@@ -143,8 +147,8 @@ vmap("ic", "iB")
 vmap("ac", "aB")
 
 --- better visual mode movement
-vmap("gl", "$")
-vmap("gh", "^")
+vmap("gl", "g$")
+vmap("gh", "g^")
 vmap("gt", "gg")
 vmap("gb", "G")
 
