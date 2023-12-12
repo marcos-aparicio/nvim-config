@@ -1,5 +1,6 @@
 return {
 	filetypes = {
 		"mail",
+		"tex",
 	},
 }
