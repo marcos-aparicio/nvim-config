@@ -164,6 +164,11 @@ nmap("<leader>.", "@:<CR>")
 nmap("<leader>s", ":s//gI<Left><Left><Left>")
 vmap("<leader>s", ":s//g<Left><Left>")
 
+nmap("<TAB>", ">>")
+nmap("<S-TAB>", "<<")
+vmap("<TAB>", ">gv")
+vmap("<S-TAB>", "<gv")
+
 -- terminal mappings
 tmap("<C-j>", "<C-\\><C-N><C-w>j")
 tmap("<C-k>", "<C-\\><C-N><C-w>k")
