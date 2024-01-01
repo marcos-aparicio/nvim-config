@@ -10,6 +10,11 @@ return {
 						color = "#f1502f",
 						name = "Blade",
 					},
+					["toml"] = {
+						icon = "",
+						color = "#ffffff",
+						name = "TOML",
+					},
 				},
 			})
 		end,
