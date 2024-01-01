@@ -19,7 +19,7 @@ local sources = {
 		end,
 	}),
 	formatting.prettierd.with({
-		extra_filetypes = { "xhtml" },
+		extra_filetypes = { "xhtml", "php" },
 	}),
 	formatting.black,
 	formatting.sql_formatter.with({
@@ -27,5 +27,9 @@ local sources = {
 	}),
 	formatting.beautysh,
 	formatting.phpcsfixer,
+	formatting.blade_formatter.with({
+		extra_filetypes = { "php" },
+	}),
+	formatting.astyle,
 }
 return sources
