@@ -116,6 +116,8 @@ nmap("<C-k>", "<C-w>k")
 -- better normal mode movement
 nmap("gl", "g$")
 nmap("gh", "g^")
+nmap("gL", "$")
+nmap("gH", "^")
 nmap("gt", "gg")
 nmap("gb", "G")
 
