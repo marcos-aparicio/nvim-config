@@ -1,13 +1,13 @@
 return {
 	"nvim-treesitter/nvim-treesitter-textobjects",
 	"HiPhish/rainbow-delimiters.nvim",
+	"EmranMR/tree-sitter-blade",
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = function()
 			require("nvim-treesitter.install").update({ with_sync = true })
 		end,
 		config = function()
-			vim.g.markdown_folding = true
 			require("nvim-treesitter.configs").setup({
 				ensure_installed = "all",
 				sync_install = false,
@@ -97,6 +97,37 @@ return {
 					},
 				},
 			})
+			local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+			parser_config.blade = {
+				install_info = {
+					url = "https://github.com/EmranMR/tree-sitter-blade",
+					files = { "src/parser.c" },
+					branch = "main",
+				},
+				filetype = "blade",
+			}
+
+			vim.cmd([[
+        augroup BladeFiletypeRelated
+          autocmd BufNewFile,BufRead *.blade.php set ft=blade
+        augroup END
+      ]])
+			local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
+
+			-- Repeat movement with ; and ,
+			-- ensure ; goes forward and , goes backward regardless of the last direction
+			-- vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move_next)
+			-- vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_previous)
+
+			-- vim way: ; goes to the direction you were moving.
+			-- vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move)
+			-- vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_opposite)
+
+			-- Optionally, make builtin f, F, t, T also repeatable with ; and ,
+			-- vim.keymap.set({ "n", "x", "o" }, "f", ts_repeat_move.builtin_f)
+			-- vim.keymap.set({ "n", "x", "o" }, "F", ts_repeat_move.builtin_F)
+			-- vim.keymap.set({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t)
+			-- vim.keymap.set({ "n", "x", "o" }, "T", ts_repeat_move.builtin_T)
 		end,
 	},
 }
