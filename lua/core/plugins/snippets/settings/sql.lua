@@ -20,6 +20,7 @@ local sql_snipps = {
 	s("cols", { t("SELECT * FROM show_columns('"), i(1), t("');") }),
 }
 local mysql_snipps = {
+	s("count", { t("SELECT COUNT(*) FROM ") }),
 	s("all", { t("SELECT * FROM ") }),
 	s("tables", { t("CALL show_tables(); ") }),
 	s("cols", { t("DESCRIBE "), i(1), t(";") }),
