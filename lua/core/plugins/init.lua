@@ -11,7 +11,7 @@ return {
 						name = "Blade",
 					},
 					["toml"] = {
-						icon = "",
+						icon = "T",
 						color = "#ffffff",
 						name = "TOML",
 					},
