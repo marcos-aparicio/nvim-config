@@ -1,5 +1,19 @@
 return {
-	{ "nvim-tree/nvim-web-devicons", lazy = true },
+	{
+		"nvim-tree/nvim-web-devicons",
+		lazy = true,
+		config = function()
+			require("nvim-web-devicons").setup({
+				override_by_extension = {
+					["blade.php"] = {
+						icon = "",
+						color = "#f1502f",
+						name = "Blade",
+					},
+				},
+			})
+		end,
+	},
 	{ "tpope/vim-abolish" },
 	"tpope/vim-obsession",
 	"tpope/vim-surround",
