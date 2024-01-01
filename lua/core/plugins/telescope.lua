@@ -6,7 +6,8 @@ return {
 	"ThePrimeagen/git-worktree.nvim",
 	{
 		"nvim-telescope/telescope.nvim",
-		tag = "0.1.5",
+		-- tag = "0.1.5",
+		branch = "master",
 		dependencies = { "nvim-lua/plenary.nvim" },
 		config = function()
 			local telescope = require("telescope")
