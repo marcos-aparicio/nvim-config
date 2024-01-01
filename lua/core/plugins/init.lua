@@ -41,7 +41,16 @@ return {
 	{ "christoomey/vim-tmux-navigator", config = function() end },
 	"ianding1/leetcode.vim",
 	"easymotion/vim-easymotion",
-	"ziontee113/color-picker.nvim",
+	{
+		"ziontee113/color-picker.nvim",
+		keys = {
+			{ "<leader>co", "<Cmd>PickColor<CR>", mode = { "n" } },
+			{ "<C-c>", "<Cmd>PickColorInsert<CR>", mode = { "i" } },
+		},
+		config = function()
+			require("color-picker").setup()
+		end,
+	},
 	{
 		"windwp/nvim-autopairs",
 		config = function()
