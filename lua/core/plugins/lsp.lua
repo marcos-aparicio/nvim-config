@@ -14,8 +14,10 @@ return {
 			"hrsh7th/nvim-cmp",
 			"williamboman/mason-lspconfig.nvim",
 			"nvimtools/none-ls.nvim",
+			"folke/neodev.nvim",
 		},
 		config = function()
+			require("neodev").setup()
 			require("core.lsp.mason")
 			require("core.lsp.handlers").setup()
 			require("core.lsp.null-ls")
