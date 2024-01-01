@@ -1,6 +1,6 @@
 return {
 	"MunifTanjim/prettier.nvim",
-	"jose-elias-alvarez/null-ls.nvim",
+	"nvimtools/none-ls.nvim",
 	{
 		"williamboman/mason-lspconfig.nvim",
 		dependencies = {
@@ -13,7 +13,7 @@ return {
 		dependencies = {
 			"hrsh7th/nvim-cmp",
 			"williamboman/mason-lspconfig.nvim",
-			"jose-elias-alvarez/null-ls.nvim",
+			"nvimtools/none-ls.nvim",
 		},
 		config = function()
 			require("core.lsp.mason")
