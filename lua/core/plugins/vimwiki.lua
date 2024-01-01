@@ -65,6 +65,20 @@ function set_vimwiki_mappings()
 	end
 end
 
+function set_additional_mappings()
+	local buffer = vim.api.nvim_get_current_buf()
+
+	vim.api.nvim_buf_set_keymap(buffer, "n", "[a", "/^# <CR>N", { noremap = true })
+	vim.api.nvim_buf_set_keymap(buffer, "n", "[s", "/^## <CR>N", { noremap = true })
+	vim.api.nvim_buf_set_keymap(buffer, "n", "[d", "/^### <CR>N", { noremap = true })
+	vim.api.nvim_buf_set_keymap(buffer, "n", "[f", "/^#### <CR>N", { noremap = true })
+
+	vim.api.nvim_buf_set_keymap(buffer, "n", "]a", "/^# <CR>n", { noremap = true })
+	vim.api.nvim_buf_set_keymap(buffer, "n", "]s", "/^## <CR>n", { noremap = true })
+	vim.api.nvim_buf_set_keymap(buffer, "n", "]d", "/^### <CR>n", { noremap = true })
+	vim.api.nvim_buf_set_keymap(buffer, "n", "]f", "/^#### <CR>n", { noremap = true })
+end
+
 -- Create the Telescope picker
 function iterate_vimwikis()
 	local actions = require("telescope.actions")
@@ -119,6 +133,7 @@ vim.cmd([[
     augroup vimwiki_mappings
       autocmd!
       autocmd FileType vimwiki lua set_vimwiki_mappings()
+      autocmd FileType vimwiki lua set_additional_mappings()
       autocmd FileType vimwiki silent! iunmap <buffer> <C-d>
     augroup END
     augroup vimwiki_disable_mappings
@@ -134,6 +149,17 @@ vim.cmd([[
       autocmd FileType vimwiki silent! nunmap <buffer> glx
       autocmd FileType vimwiki silent! nunmap <buffer> gl*
       autocmd FileType vimwiki silent! nunmap <buffer> gln
+      autocmd FileType vimwiki silent! nunmap <buffer> gL
+      autocmd FileType vimwiki silent! nunmap <buffer> gL1
+      autocmd FileType vimwiki silent! nunmap <buffer> gL+
+      autocmd FileType vimwiki silent! nunmap <buffer> gL-
+      autocmd FileType vimwiki silent! nunmap <buffer> gL*
+      autocmd FileType vimwiki silent! nunmap <buffer> gLR
+      autocmd FileType vimwiki silent! nunmap <buffer> gLr
+      autocmd FileType vimwiki silent! nunmap <buffer> gLL
+      autocmd FileType vimwiki silent! nunmap <buffer> gLl
+      autocmd FileType vimwiki silent! nunmap <buffer> gLH
+      autocmd FileType vimwiki silent! nunmap <buffer> gLh
       autocmd FileType vimwiki silent! nunmap <buffer> <C-Space>
     augroup END
     ]])
