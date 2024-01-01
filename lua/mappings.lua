@@ -163,6 +163,7 @@ imap("<C-v>", "<C-r>+")
 
 -- better replacing and handle of commands
 nmap("<leader>.", "@:<CR>")
+nmap("<leader>S", ":%s//gI<Left><Left><Left>")
 nmap("<leader>s", ":s//gI<Left><Left><Left>")
 vmap("<leader>s", ":s//g<Left><Left>")
 
