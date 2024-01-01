@@ -12,6 +12,7 @@ if not source_ok then
 		formatting.black,
 		formatting.sql_formatter,
 		formatting.pretty_php,
+		formatting.astyle,
 	}
 end
 
