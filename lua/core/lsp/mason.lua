@@ -19,7 +19,6 @@ local servers = {
 	"bashls",
 	"cssls",
 	"jdtls",
-	"shellcheck",
 }
 
 local ok, mason = pcall(require, "mason")
