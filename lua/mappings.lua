@@ -98,7 +98,7 @@ nmap("<leader>Q", ":%bd|e#<CR>")
 nmap("<leader>w", function()
 	vim.cmd("w")
 	local filetype = vim.bo.filetype
-	if filetype == "octo" then
+	if filetype == "octo" or filetype == "vimwiki" or filetype == "markdown" then
 		return
 	end
 	vim.cmd("e")
