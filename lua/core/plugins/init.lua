@@ -6,6 +6,12 @@ return {
 	"tpope/vim-speeddating",
 	"tpope/vim-dispatch",
 	{
+		"Pocco81/HighStr.nvim",
+		config = function()
+			require("high-str").setup()
+		end,
+	},
+	{
 		"Shatur/neovim-ayu",
 		lazy = false,
 		priority = 1000,
