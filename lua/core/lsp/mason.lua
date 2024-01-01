@@ -15,7 +15,11 @@ local servers = {
 	"pyright",
 	"grammarly",
 	"eslint",
-	"intelephense",
+	"phpactor",
+	"bashls",
+	"cssls",
+	"jdtls",
+	"shellcheck",
 }
 
 local ok, mason = pcall(require, "mason")
