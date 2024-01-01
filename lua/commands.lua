@@ -98,7 +98,7 @@ function OpenAlacrittyReadonly()
 	local current_col = vim.fn.col(".")
 
 	local alacritty_command =
-		string.format('alacritty --command nvim -c "set readonly" +%d,%d %s', current_line, current_col, current_file)
+		string.format("alacritty --command nvim -R +%d,%d %s", current_line, current_col, current_file)
 	vim.fn.jobstart(alacritty_command, {
 		detach = true,
 	})
