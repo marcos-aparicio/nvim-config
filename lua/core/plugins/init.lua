@@ -1,6 +1,7 @@
 return {
 	{ "nvim-tree/nvim-web-devicons", lazy = true },
 	{ "tpope/vim-abolish" },
+	"tpope/vim-obsession",
 	"tpope/vim-surround",
 	"tpope/vim-speeddating",
 	"tpope/vim-dispatch",
