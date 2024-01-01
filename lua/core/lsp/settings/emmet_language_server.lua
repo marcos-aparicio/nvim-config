@@ -11,6 +11,7 @@ return {
 		"html",
 		"javascript",
 		"javascriptreact",
+		"php",
 		"less",
 		"sass",
 		"scss",
