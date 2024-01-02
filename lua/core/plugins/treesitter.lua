@@ -11,7 +11,7 @@ return {
 			require("nvim-treesitter.configs").setup({
 				ensure_installed = "all",
 				sync_install = false,
-				ignore_install = { "" }, --languages you dont want the maintained version
+				ignore_install = { "latex" }, --languages you dont want the maintained version
 				autotag = { enable = true },
 				highlight = {
 					enable = true,
