@@ -25,19 +25,19 @@ function my_on_attach(bufnr)
 end
 
 return {
-  "nvim-tree/nvim-tree.lua",
-  version = "*",
-  lazy = false,
-  dependencies = {
-    "nvim-tree/nvim-web-devicons",
-  },
-  config = function()
-    require("nvim-tree").setup {
-	update_cwd = true,
-	on_attach = my_on_attach,
-    }
+	"nvim-tree/nvim-tree.lua",
+	version = "*",
+	lazy = false,
+	dependencies = {
+		"nvim-tree/nvim-web-devicons",
+	},
+	config = function()
+		require("nvim-tree").setup({
+			update_cwd = true,
+			on_attach = my_on_attach,
+		})
 
-M.nmap("<C-n>", ":NvimTreeFindFile<CR>")
-M.nmap("<C-b>", ":NvimTreeToggle<CR>")
-  end,
+		M.nmap("<C-n>", ":NvimTreeFindFile<CR>")
+		M.nmap("<C-b>", ":NvimTreeToggle<CR>")
+	end,
 }
