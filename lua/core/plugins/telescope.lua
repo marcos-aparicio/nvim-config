@@ -94,7 +94,7 @@ return {
 			})
 
 			M.nmap("<leader>f", ":Telescope find_files<CR>")
-			M.nmap("<leader>tt", ':lua require("telescope").extensions.live_grep_args.live_grep_args()<CR>')
+			M.nmap("<leader>ll", ':lua require("telescope").extensions.live_grep_args.live_grep_args()<CR>')
 			M.nmap("<leader>p", ":Telescope workspaces<CR>")
 
 			M.nmap(
