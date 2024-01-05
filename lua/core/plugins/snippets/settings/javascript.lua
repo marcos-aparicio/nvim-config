@@ -17,7 +17,7 @@ local function repeatStr(args, _, _)
 	return args[1]
 end
 
-ls.add_snippets("javascript", {
+local snippets = {
 	s("state", { t("const ["), i(1), t(", set"), f(setState, { 1 }), t("] = useState("), i(2), t(");") }),
 	s("log", { t("console.log("), i(1), t(");") }),
 	s("logs", { t("console.log(`"), i(1), t("`);") }),
@@ -47,4 +47,6 @@ ls.add_snippets("javascript", {
 	s("box", { t("<Box>"), i(1), t("</Box>") }),
 	s("grid", { t("<Grid>"), i(1), t("</Grid>") }),
 	s("typo", { t("<Typography>"), i(1), t("</Typography>") }),
-})
+}
+ls.add_snippets("javascript", snippets)
+ls.add_snippets("typescriptreact", snippets)
