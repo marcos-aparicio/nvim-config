@@ -3,10 +3,9 @@ return {
 	"ElPiloto/telescope-vimwiki.nvim",
 	"nvim-telescope/telescope-live-grep-args.nvim",
 	"tom-anders/telescope-vim-bookmarks.nvim",
-	"ThePrimeagen/git-worktree.nvim",
+	"polarmutex/git-worktree.nvim",
 	{
 		"nvim-telescope/telescope.nvim",
-		-- tag = "0.1.5",
 		branch = "master",
 		dependencies = { "nvim-lua/plenary.nvim" },
 		config = function()
@@ -23,7 +22,7 @@ return {
 
 			telescope.setup({
 				defaults = {
-					path_display = { "shorten" },
+					path_display = { "truncate" },
 					mappings = {
 						i = {
 							["<C-c>"] = actions.close,
