@@ -2,7 +2,6 @@
 -- @field [workspace Name]
 -- @value [workspace file to open] Relative to workspace main path
 local files_to_open = {
-	aimd = "src/index.js",
 	nvim = "init.lua",
 	awesome = "rc.lua",
 	Finances = "2023.journal",
