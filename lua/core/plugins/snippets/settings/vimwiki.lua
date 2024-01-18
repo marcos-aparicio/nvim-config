@@ -8,7 +8,7 @@ local s = ls.snippet
 local t = ls.text_node
 local i = ls.insert_node
 
-ls.add_snippets("vimwiki", {
+local markdown_mappings = {
 	s("todo", { t("- [ ] ") }),
 	s("task", { t("* [ ] ") }),
 	s("h6", { t("###### ") }),
@@ -29,4 +29,7 @@ ls.add_snippets("vimwiki", {
 		t({ "", "", "### What is the actual behaviour?", "" }),
 		i(4),
 	}),
-})
+}
+
+ls.add_snippets("vimwiki", markdown_mappings)
+ls.add_snippets("markdown", markdown_mappings)
