@@ -25,15 +25,15 @@ local wiki_paths = {
 	},
 	{
 		path = os.getenv("HOME") .. "/Obsidian/project_reference/college",
-		name = "Project Reference: College",
+		name = "Prj: College",
 	},
 	{
 		path = os.getenv("HOME") .. "/Obsidian/project_reference/work",
-		name = "Project Reference: Work",
+		name = "Prj: Work",
 	},
 	{
 		path = os.getenv("HOME") .. "/Obsidian/project_reference/personal",
-		name = "Project Reference: Personal",
+		name = "Prj: Personal",
 	},
 }
 return wiki_paths
