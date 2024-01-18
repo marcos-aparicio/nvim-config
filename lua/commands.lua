@@ -113,6 +113,18 @@ function string_processing_buffer_testing()
 	vim.cmd("w")
 end
 
+local conda_python = false
+function toggle_use_conda_python()
+	conda_python = not conda_python
+	if conda_python then
+		print("Using conda python")
+		return
+	end
+	print("Using standard python")
+end
+
+vim.cmd([[command! ToggleUseCondaPython lua toggle_use_conda_python()]])
+
 function ExecuteCurrentBuffer()
 	-- local tempname = vim.fn.tempname()
 	local filetype = vim.o.filetype
@@ -123,9 +135,14 @@ function ExecuteCurrentBuffer()
 	if filetype == "javascript" then
 		command = "node"
 	elseif filetype == "python" then
-		-- here you should also activate the virtual environment if needed
-		local venv = vim.fn.systemlist("sh /home/marcos/.local/privbin/find_virtual_env " .. curr_dir)[1] or ""
-		command = "source " .. venv .. " && python"
+		if conda_python then
+			command = "python "
+		-- command = "when-changed " .. current_file .. " /home/marcos/anaconda3/envs/venv/bin/python " .. current_file
+		else
+			-- here you should also activate the virtual environment if needed
+			local venv = vim.fn.systemlist("sh /home/marcos/.local/privbin/find_virtual_env " .. curr_dir)[1] or ""
+			command = "source " .. venv .. " && python"
+		end
 	elseif filetype == "sh" then
 		command = "sh"
 	elseif filetype == "lua" then
