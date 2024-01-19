@@ -6,6 +6,15 @@ vim.cmd([[
 		au BufWritePre * %s/\s\+$//e
 	augroup END
 
+  augroup FormattingLedgerFiles
+    autocmd BufWritePost /home/marcos/Finances/*.journal
+    \ let keyword = system('grep "include.*journal" '.expand('%:p')) |
+    \ if &filetype == 'ledger' && keyword != '' |
+    \     echo "Not formatting since it is a index file, or includes include" |
+    \ else |
+    \     execute '!sh /home/marcos/.local/privbin/reorder-journal.sh ' . expand('%:p') |
+    \ endif
+  augroup END
   augroup TerminalMode
     autocmd!
     autocmd BufEnter * if &buftype == 'terminal' | :startinsert | endif
