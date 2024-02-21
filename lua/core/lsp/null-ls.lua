@@ -8,7 +8,7 @@ local source_ok, sources = pcall(require, "private.plugins.formatting")
 if not source_ok then
 	sources = {
 		formatting.stylua,
-		formatting.prettierd,
+		formatting.prettier,
 		formatting.black,
 		formatting.sql_formatter,
 		formatting.pretty_php,
@@ -16,18 +16,6 @@ if not source_ok then
 	}
 end
 
-local formatting_activated = true
-
-function ToggleFormatting()
-	formatting_activated = not formatting_activated
-	if formatting_activated then
-		print("Auto Formatting enabled")
-		return
-	end
-	print("Auto Formatting disabled")
-end
-
-vim.cmd([[command! ToggleFormatting lua ToggleFormatting()]])
 local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 null_ls.setup({
 	sources = sources,
