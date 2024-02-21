@@ -77,6 +77,10 @@ cmp.setup({
 	formatting = {
 		fields = { "kind", "abbr", "menu" }, --the order of the items
 		format = function(entry, vim_item)
+			-- local tw_item = require("tailwindcss-colorizer-cmp").formatter(entry, vim_item)
+			-- if tw_item.kind == "XX" then
+			-- 	return tw_item
+			-- end
 			vim_item.kind = ""
 			vim_item.menu = ({
 				luasnip = "[Snippet]",
@@ -84,7 +88,7 @@ cmp.setup({
 				buffer = "[Buffer]",
 				path = "[Path]",
 			})[entry.source.name]
-			return vim_item
+			return require("tailwindcss-colorizer-cmp").formatter(entry, vim_item)
 		end,
 	},
 })
