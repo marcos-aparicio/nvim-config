@@ -35,5 +35,9 @@ local wiki_paths = {
 		path = os.getenv("HOME") .. "/Obsidian/project_reference/personal",
 		name = "Prj: Personal",
 	},
+	{
+		path = os.getenv("HOME") .. "/Obsidian/Diary",
+		name = "Diary",
+	},
 }
 return wiki_paths
