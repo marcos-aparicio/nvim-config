@@ -3,7 +3,7 @@ return {
 	"ElPiloto/telescope-vimwiki.nvim",
 	"nvim-telescope/telescope-live-grep-args.nvim",
 	"tom-anders/telescope-vim-bookmarks.nvim",
-	"polarmutex/git-worktree.nvim",
+	"nooproblem/git-worktree.nvim",
 	{
 		"nvim-telescope/telescope.nvim",
 		branch = "master",
