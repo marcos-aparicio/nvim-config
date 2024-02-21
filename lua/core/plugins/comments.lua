@@ -26,6 +26,7 @@ return {
 			})
 			commentFT.mysql = { "--%s" }
 			commentFT.hurl = { "#%s" }
+			commentFT.taskedit = { "#%s" }
 			commentFT.ledger = { "#%s" }
 			commentFT.hledger = { "#%s" }
 		end,
