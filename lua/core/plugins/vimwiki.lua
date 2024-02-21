@@ -175,4 +175,5 @@ return {
 	branch = "dev",
 	event = "VeryLazy",
 	ft = { "md", "markdown", "vimwiki" },
+	cmd = "OpenVimwiki",
 }
