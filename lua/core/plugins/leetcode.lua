@@ -18,7 +18,7 @@ return {
 		opts = {
 			-- configuration goes here
 			arg = leet_arg,
-			lang = "javascript",
+			lang = "python",
 			hooks = {
 				LeetEnter = {
 					function()
