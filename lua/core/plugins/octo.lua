@@ -43,6 +43,10 @@ return {
 	},
 	cmd = { "Octo" },
 	config = function()
-		require("octo").setup()
+		require("octo").setup({
+			suppress_missing_scope = {
+				project_v2 = true,
+			},
+		})
 	end,
 }
