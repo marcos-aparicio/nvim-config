@@ -50,3 +50,5 @@ local snippets = {
 }
 ls.add_snippets("javascript", snippets)
 ls.add_snippets("typescriptreact", snippets)
+ls.add_snippets("javascriptreact", snippets)
+ls.add_snippets("typescriptreact", snippets)
