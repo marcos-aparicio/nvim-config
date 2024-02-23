@@ -9,7 +9,7 @@ return {
 		end,
 		config = function()
 			require("nvim-treesitter.configs").setup({
-				ensure_installed = "all",
+				ensure_installed = { "lua" },
 				sync_install = false,
 				ignore_install = { "latex" }, --languages you dont want the maintained version
 				autotag = { enable = true },
