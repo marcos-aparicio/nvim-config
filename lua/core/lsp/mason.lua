@@ -6,21 +6,10 @@ local function object_assign(t1, t2)
 	return t1
 end
 
-local servers = {
-	"lua_ls",
-	"csharp_ls",
-	"html",
-	"tsserver",
-	"emmet_language_server",
-	"pyright",
-	"grammarly",
-	"eslint",
-	"phpactor",
-	"bashls",
-	"cssls",
-	"tailwindcss",
-	"jdtls",
-}
+local servers_ok, servers = pcall(require, "private.plugins.servers")
+if not servers_ok then
+	servers = {}
+end
 
 local ok, mason = pcall(require, "mason")
 
