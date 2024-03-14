@@ -6,7 +6,8 @@ return {
 	"nooproblem/git-worktree.nvim",
 	{
 		"nvim-telescope/telescope.nvim",
-		branch = "master",
+		-- branch = "",
+		tag = "0.1.6",
 		dependencies = { "nvim-lua/plenary.nvim" },
 		config = function()
 			local telescope = require("telescope")
