@@ -1,5 +1,5 @@
 return {
-	{ "tpope/vim-abolish" },
+	"tpope/vim-abolish",
 	"tpope/vim-obsession",
 	"tpope/vim-surround",
 	"tpope/vim-speeddating",
@@ -103,7 +103,6 @@ return {
 			"tpope/vim-repeat",
 		},
 	},
-	"MattesGroeger/vim-bookmarks",
 	"ThePrimeagen/harpoon",
 	{
 		"github/copilot.vim",
@@ -144,5 +143,22 @@ return {
 			require("laravel").setup()
 			require("telescope").load_extension("laravel")
 		end,
+	},
+	"kkoomen/vim-doge",
+	-- lazy.nvim
+	{
+		"folke/noice.nvim",
+		event = "VeryLazy",
+		opts = {
+			-- add any options here
+		},
+		dependencies = {
+			-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+			"MunifTanjim/nui.nvim",
+			-- OPTIONAL:
+			--   `nvim-notify` is only needed, if you want to use the notification view.
+			--   If not available, we use `mini` as the fallback
+			"rcarriga/nvim-notify",
+		},
 	},
 }
