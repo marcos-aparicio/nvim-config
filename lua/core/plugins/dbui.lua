@@ -24,6 +24,7 @@ return {
 			pattern = "dbout",
 			callback = function()
 				local buff = tonumber(vim.fn.expand("<abuf>"), 10)
+				vim.keymap.set("n", "<leader>q", ":Bdelete<CR>")
 				vim.keymap.set("n", "<tab>", function()
 					-- Get the buffer numbers of all open buffers
 					local buffer_list = vim.api.nvim_list_bufs()
