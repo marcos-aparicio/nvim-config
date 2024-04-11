@@ -114,6 +114,7 @@ function string_processing_buffer_testing()
 end
 
 local conda_python = false
+local show_error = true
 function toggle_use_conda_python()
 	conda_python = not conda_python
 	if conda_python then
@@ -123,7 +124,17 @@ function toggle_use_conda_python()
 	print("Using standard python")
 end
 
+function toggle_showing_error()
+	show_error = not show_error
+	if show_error then
+		print("not showing 2>")
+		return
+	end
+	print("showing 2>")
+end
+
 vim.cmd([[command! ToggleUseCondaPython lua toggle_use_conda_python()]])
+vim.cmd([[command! ToggleShowingError lua toggle_showing_error()]])
 
 function ExecuteCurrentBuffer()
 	-- local tempname = vim.fn.tempname()
@@ -131,6 +142,8 @@ function ExecuteCurrentBuffer()
 	local current_file = vim.fn.expand("%:p")
 	local command = ""
 	local curr_dir = vim.fn.getcwd()
+
+	local redirect = show_error and "" or " 2>/dev/null"
 
 	if filetype == "javascript" then
 		command = "node"
@@ -152,7 +165,7 @@ function ExecuteCurrentBuffer()
 	elseif filetype == "php" then
 		command = "php "
 	elseif string.match(current_file, "plt$") or filetype == "gp" or filetype == "plt" then
-		command = "gnuplot "
+		command = "plot "
 	end
 
 	if command == "" then
@@ -161,5 +174,5 @@ function ExecuteCurrentBuffer()
 	end
 
 	vim.cmd(":vs")
-	vim.cmd(":term " .. command .. " " .. current_file)
+	vim.cmd(":term " .. command .. "" .. redirect .. " " .. current_file)
 end
