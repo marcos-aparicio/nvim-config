@@ -205,11 +205,6 @@ nmap("<leader>gd", ":Gvdiff")
 -- mappings when gitdiff for custom insertions/deletions within a single file
 vmap("<leader>gw", ":diffput<CR>")
 
--- vim bookmark mappings
-nmap("mm", "zz:BookmarkToggle<CR>")
-nmap("mn", ":BookmarkNext<CR>zz")
-nmap("mp", ":BookmarkPrev<CR>zz")
-
 -- bufferline navigation
 nmap("<S-l>", ":bnext<CR>")
 nmap("<S-h>", ":bprevious<CR>")

@@ -2,12 +2,11 @@ local M = require("mappings")
 return {
 	"ElPiloto/telescope-vimwiki.nvim",
 	"nvim-telescope/telescope-live-grep-args.nvim",
-	"tom-anders/telescope-vim-bookmarks.nvim",
 	"nooproblem/git-worktree.nvim",
 	{
 		"nvim-telescope/telescope.nvim",
-		-- branch = "",
-		tag = "0.1.6",
+		branch = "master",
+		-- tag = "0.1.6",
 		dependencies = { "nvim-lua/plenary.nvim" },
 		config = function()
 			local telescope = require("telescope")
@@ -18,7 +17,7 @@ return {
 			telescope.load_extension("live_grep_args")
 			telescope.load_extension("workspaces")
 			telescope.load_extension("vimwiki")
-			telescope.load_extension("vim_bookmarks")
+			telescope.load_extension("bookmarks")
 			telescope.load_extension("git_worktree")
 
 			telescope.setup({
@@ -91,6 +90,16 @@ return {
 						},
 					},
 				},
+				extensions = {
+					bookmarks = {
+						list = {
+							theme = "ivy",
+							layout_config = {
+								width = 0.8,
+							},
+						},
+					},
+				},
 			})
 
 			M.nmap("<leader>f", ":Telescope find_files<CR>")
@@ -102,26 +111,6 @@ return {
 				[[:lua require('telescope.builtin').find_files({no_ignore=true,find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" }})<CR>]]
 			)
 
-			function customVimBookmarksCurrentFile()
-				local bookmark_actions = require("telescope").extensions.vim_bookmarks.actions
-
-				local function wrapper(prop1, prop2)
-					bookmark_actions.delete_selected_or_at_cursor(prop1, prop2)
-					vim.api.nvim_command("e")
-				end
-
-				require("telescope").extensions.vim_bookmarks.current_file({
-					attach_mappings = function(_, map)
-						map("n", "dd", wrapper)
-
-						return true
-					end,
-				})
-			end
-
-			M.nmap("ma", ":lua customVimBookmarksCurrentFile()<CR>")
-			M.nmap("mA", ":Telescope vim_bookmarks all<CR>")
-			-- M.nmap("ma", ":lua test()<CR>")
 			-- I think these are dependant in vim fugitive
 			M.nmap("<leader>gs", ":Telescope git_status<CR>")
 			M.nmap("<leader>gb", ":Telescope git_branches<CR>")
