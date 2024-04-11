@@ -1,6 +1,7 @@
 return {
 	"nvim-treesitter/nvim-treesitter-textobjects",
 	"HiPhish/rainbow-delimiters.nvim",
+	"nvim-treesitter/nvim-treesitter-context",
 	"EmranMR/tree-sitter-blade",
 	{
 		"nvim-treesitter/nvim-treesitter",
@@ -114,9 +115,9 @@ return {
       ]])
 			local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
 
+			vim.keymap.set({ "n", "x", "o" }, "<leader>tc", ":TSContextToggle<CR>")
 			-- Repeat movement with ; and ,
 			-- ensure ; goes forward and , goes backward regardless of the last direction
-			-- vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move_next)
 			-- vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_previous)
 
 			-- vim way: ; goes to the direction you were moving.
