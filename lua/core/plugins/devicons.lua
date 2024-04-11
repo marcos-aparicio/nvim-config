@@ -19,6 +19,10 @@ return {
 					color = "#FFFF00",
 					name = "Vite",
 				},
+				["drawio"] = {
+					icon = "󰽀",
+					color = "#f1502f",
+				},
 			},
 		})
 	end,
