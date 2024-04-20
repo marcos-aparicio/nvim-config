@@ -22,6 +22,12 @@ return {
 
 			telescope.setup({
 				defaults = {
+					theme = "ivy",
+					layout_config = {
+						width = 0.9,
+						height = 0.9,
+						prompt_position = "top",
+					},
 					path_display = { "truncate" },
 					mappings = {
 						i = {
