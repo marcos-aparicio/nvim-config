@@ -29,8 +29,10 @@ return {
 				opts = { buffer = true },
 			},
 			["<leader>ot"] = { action = ":ObsidianTags<CR>" },
+			["<leader>op"] = { action = ":ObsidianTemplate<CR>" },
 			["<leader>ll"] = { action = ":ObsidianSearch<CR>" },
 			["<leader>os"] = { action = ":ObsidianSearch<CR>" },
+			["<leader>ol"] = { action = ":ObsidianLinks<CR>" },
 			["<leader>or"] = { action = ":ObsidianRename<CR>" },
 			["<leader>on"] = { action = ":ObsidianNew<CR>" },
 			-- Smart action depending on context, either follow link or toggle checkbox.
@@ -45,6 +47,15 @@ return {
 			{
 				name = "zettelkasten",
 				path = "~/Vaults/zettelkasten",
+				overrides = {
+					notes_subdir = "Zettels",
+					new_notes_location = "Zettels",
+					templates = {
+						folder = "Templates",
+						date_format = "%Y-%m-%d",
+						time_format = "%H:%M",
+					},
+				},
 			},
 			{
 				name = "personal reference",
