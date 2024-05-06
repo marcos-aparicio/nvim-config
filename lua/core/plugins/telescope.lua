@@ -1,6 +1,5 @@
 local M = require("mappings")
 return {
-	"ElPiloto/telescope-vimwiki.nvim",
 	"nvim-telescope/telescope-live-grep-args.nvim",
 	"nooproblem/git-worktree.nvim",
 	{
@@ -16,19 +15,33 @@ return {
 
 			telescope.load_extension("live_grep_args")
 			telescope.load_extension("workspaces")
-			telescope.load_extension("vimwiki")
 			telescope.load_extension("bookmarks")
 			telescope.load_extension("git_worktree")
+
+			-- other_opts = {
+			-- 	dynamic_preview_title = true,
+			-- 	layout_strategy = "vertical",
+			-- 	layout_config = { vertical = { width = 0.9, height = 0.9, preview_height = 0.6, preview_cutoff = 0 } },
+			-- 	path_display = { "smart", shorten = { len = 3 } },
+			-- 	wrap_results = true,
+			-- }
 
 			telescope.setup({
 				defaults = {
 					theme = "ivy",
 					layout_config = {
 						width = 0.9,
+						preview_width = 0.6,
 						height = 0.9,
 						prompt_position = "top",
 					},
-					path_display = { "truncate" },
+
+					wrap_results = true,
+					-- layout_strategy = "vertical",
+					-- layout_config = {
+					-- 	vertical = { width = 0.9, height = 0.9, preview_height = 0.6, preview_cutoff = 0 },
+					-- },
+					-- path_display = { "truncate" },
 					mappings = {
 						i = {
 							["<C-c>"] = actions.close,
