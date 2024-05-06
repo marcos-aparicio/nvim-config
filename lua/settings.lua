@@ -1,10 +1,16 @@
 HOME = os.getenv("HOME")
 
+-- WIP for concealing dates
 vim.cmd([[
 	augroup StripTrailingWhiteSpace
 		au!
 		au BufWritePre * %s/\s\+$//e
 	augroup END
+
+  augroup Concealing
+    autocmd!
+    autocmd BufRead /home/marcos/Obsidian/obsidian/M/dates.md call matchadd('Conceal','= date\([^)]*\)',9999,-1,{'conceal':'e'})
+  augroup END
 
   augroup FormattingLedgerFiles
     autocmd BufWritePost /home/marcos/Finances/*.journal
