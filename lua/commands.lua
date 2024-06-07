@@ -154,7 +154,7 @@ function ExecuteCurrentBuffer()
 		else
 			-- here you should also activate the virtual environment if needed
 			local venv = vim.fn.systemlist("sh /home/marcos/.local/privbin/find_virtual_env " .. curr_dir)[1] or ""
-			command = "source " .. venv .. " && python"
+			command = "source " .. venv .. " || echo 'not using a virtual env';python"
 		end
 	elseif filetype == "sh" then
 		command = "sh"
