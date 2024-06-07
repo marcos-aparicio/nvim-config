@@ -3,7 +3,7 @@ return {
 	dependencies = { "hrsh7th/nvim-cmp", "rafamadriz/friendly-snippets" },
 	config = function()
 		local languages = {
-			"vimwiki",
+			"markdown",
 			"javascript",
 			"ledger",
 			"sql",
