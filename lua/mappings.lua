@@ -78,27 +78,19 @@ function ExitBuffer()
 		vim.cmd("Bdelete")
 		return
 	end
-	vim.cmd("quit")
+	vim.cmd("bd")
 end
-
--- markdown keybinding(s)
-vim.cmd([[
-augroup MarkdownKeybindings
-    autocmd!
-    autocmd FileType markdown nnoremap g; g$
-augroup END
- ]])
 
 -- sourcing neovim directly from command
 nmap("<C-\\>", ":w<CR>:so %<CR>")
 
 -- basic normal remappings
 nmap("<leader>q", ":lua ExitBuffer()<CR>")
-nmap("<leader>Q", ":%bd|e#<CR>")
+nmap("<leader>Q", ":%bd|e#|bd#<CR>")
 nmap("<leader>w", function()
 	vim.cmd("w")
 	local filetype = vim.bo.filetype
-	if filetype == "octo" or filetype == "vimwiki" or filetype == "markdown" then
+	if filetype == "octo" or filetype == "markdown" then
 		return
 	end
 	vim.cmd("e")
