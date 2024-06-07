@@ -2,6 +2,8 @@ local OBSIDIAN_PATH = vim.fn.expand("~") .. "/Vaults/**/**.md"
 
 vim.keymap.set("n", "<leader>ow", ":ObsidianWorkspace<CR>", { noremap = true })
 vim.opt.conceallevel = 2
+-- TODO: haz mas fina esta webada
+local work_subvault = "/home/marcos/Vaults/zettelkasten/Operations/Work"
 
 local function createNoteWithDefaultTemplate()
 	local ZETTEL_TEMPLATE_FILENAME = "note-taking.md"
@@ -13,6 +15,8 @@ local function createNoteWithDefaultTemplate()
 
 	-- prompt for note title
 	-- @see: borrowed from obsidian.command.new
+
+	local current_directory = vim.fn.getcwd()
 	local note
 	local title = utils.input("Enter title or path (optional): ")
 
@@ -28,6 +32,9 @@ local function createNoteWithDefaultTemplate()
 		if possible_folder and title:sub(0, possible_folder - 1) ~= "Zettels" then
 			template_used = "default.md"
 		end
+	end
+	if current_directory == work_subvault then
+		title = "Operations/Work/" .. title
 	end
 
 	note = obsidian:create_note({ title = title, no_write = true })
@@ -76,6 +83,10 @@ return {
 			["<leader>os"] = { action = ":ObsidianSearch<CR>" },
 			["<leader>ol"] = { action = ":ObsidianLinks<CR>" },
 			["<leader>ob"] = { action = ":ObsidianBacklinks<CR>" },
+			["<leader>om"] = { action = ":ObsidianTags MOC<CR>" },
+			["<leader>oo"] = { action = ":ObsidianOpen<CR>" },
+			--- From Obsidian Insert or Obsidian paste Img
+			["<leader>oi"] = { action = ":ObsidianPasteImg<CR>" },
 			["<leader>or"] = { action = ":ObsidianRename<CR>" },
 			["<leader>on"] = { action = createNoteWithDefaultTemplate, desc = "[N]ew Obsidian [N]ote" },
 			-- Smart action depending on context, either follow link or toggle checkbox.
@@ -101,6 +112,7 @@ return {
 					},
 				},
 			},
+			-- Might not use those
 			{
 				name = "personal reference",
 				path = "~/Vaults/personal_reference",
