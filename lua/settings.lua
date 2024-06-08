@@ -1,51 +1,80 @@
 HOME = os.getenv("HOME")
 
--- WIP for concealing dates
-vim.cmd([[
-	augroup StripTrailingWhiteSpace
-		au!
-		au BufWritePre * %s/\s\+$//e
-	augroup END
+vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+	pattern = "/home/marcos/Finances/*.journal",
+	desc = "Format journal files after saving, it should be in the ledger path",
+	callback = function()
+		local keyword = vim.fn.system('grep "include.*journal" ' .. vim.fn.expand("%:p"))
+		if vim.bo.filetype == "ledger" and keyword ~= "" then
+			print("Not formatting since it is an index file or includes include")
+		else
+			vim.api.nvim_command(
+				"!sh " .. os.getenv("HOME") .. "/.local/privbin/reorder-journal.sh " .. vim.fn.expand("%:p")
+			)
+		end
+	end,
+})
 
-  augroup Concealing
-    autocmd!
-    autocmd BufRead /home/marcos/Obsidian/obsidian/M/dates.md call matchadd('Conceal','= date\([^)]*\)',9999,-1,{'conceal':'e'})
-  augroup END
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+	pattern = "*.md",
+	desc = "Conceal arrows in markdown files",
+	callback = function()
+		vim.api.nvim_command('call matchadd("Conceal", "<--", 9999, -1, {"conceal": "⬅"})')
+		vim.api.nvim_command('call matchadd("Conceal", "-->", 9999, -1, {"conceal": "➡"})')
+	end,
+})
 
-  augroup FormattingLedgerFiles
-    autocmd BufWritePost /home/marcos/Finances/*.journal
-    \ let keyword = system('grep "include.*journal" '.expand('%:p')) |
-    \ if &filetype == 'ledger' && keyword != '' |
-    \     echo "Not formatting since it is a index file, or includes include" |
-    \ else |
-    \     execute '!sh /home/marcos/.local/privbin/reorder-journal.sh ' . expand('%:p') |
-    \ endif
-  augroup END
-  augroup TerminalMode
-    autocmd!
-    autocmd BufEnter * if &buftype == 'terminal' | :startinsert | endif
-  augroup END
-  augroup packer_user_config
-    autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerCompile
-  augroup end
-  augroup transparent_signs
-    au!
-    autocmd ColorScheme * highlight SignColumn guibg=NONE
-  augroup END
+vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+	pattern = "*",
+	desc = "Strip trailing whitespace before saving",
+	callback = function()
+		vim.fn.execute("%s/\\s\\+$//e")
+	end,
+})
 
-  augroup HurlExtension
-    autocmd BufNewFile,BufRead *.hurl setfiletype hurl
-  augroup END
-  augroup SqlExtension
-   autocmd FileType mysql setlocal completefunc=complete_sql
-   autocmd FileType mysql setlocal omnifunc=omni_sql
-   autocmd FileType mysql setfiletype sql
-  augroup END
-  augroup TodotxtExtension
-    autocmd BufNewFile,BufRead todo.txt setfiletype todotxt
-  augroup END
-]])
+vim.api.nvim_create_augroup("Extensions", { clear = true })
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+	pattern = "*.hurl",
+	group = "Extensions",
+	callback = function()
+		vim.bo.filetype = "hurl"
+	end,
+})
+
+vim.api.nvim_create_autocmd({ "FileType" }, {
+	pattern = "mysql",
+	group = "Extensions",
+	callback = function()
+		vim.bo.completefunc = "complete_sql"
+		vim.bo.omnifunc = "omni_sql"
+		vim.bo.filetype = "sql"
+	end,
+})
+
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+	pattern = "todo.txt",
+	group = "Extensions",
+	callback = function()
+		vim.bo.filetype = "todotxt"
+	end,
+})
+
+vim.api.nvim_create_autocmd({ "BufEnter" }, {
+	pattern = "*",
+	group = "Extensions",
+	callback = function()
+		if vim.bo.buftype == "terminal" then
+			vim.api.nvim_command("startinsert")
+		end
+	end,
+})
+
+vim.api.nvim_create_autocmd({ "ColorScheme" }, {
+	pattern = "*",
+	callback = function()
+		vim.api.nvim_command("highlight SignColumn guibg=NONE")
+	end,
+})
 
 vim.g.mapleader = " "
 vim.g.pyton3_host_prog = "/usr/bin/python3"
