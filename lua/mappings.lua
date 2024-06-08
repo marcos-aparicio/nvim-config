@@ -211,13 +211,6 @@ nmap("<S-h>", ":bprevious<CR>")
 
 -- custom commands mappings
 nmap("<leader>rr", ":ExecuteCurrentBuffer<CR>")
-nmap("<leader>cp", ":CopyGitPath<CR>")
-nmap("<leader>cc", ":PrintBufferPath<CR>")
-nmap("<leader>cP", ":CopyFullPath<CR>")
-nmap("<leader>Cp", ":lua copy_buffer_path(nil,true)<CR>")
-nmap("<leader>CP", ":lua copy_buffer_path(true,true)<CR>")
-vmap("<leader>cp", ":<C-U>lua copy_buffer_path(nil,true)<CR>")
-vmap("<leader>cP", ":<C-U>lua copy_buffer_path(true,true)<CR>")
 nmap("<C-y>", function()
 	vim.cmd(":%y+")
 	print("Buffer copied to clipboard")

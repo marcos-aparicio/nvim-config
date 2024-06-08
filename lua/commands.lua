@@ -1,11 +1,17 @@
 -- Function to copy the current buffer's path to the clipboard
-function copy_buffer_path(full_path, include_line)
-	local start_line
-	local end_line
+function copy_buffer_path(args)
+	if args == nil or #args["fargs"] < 1 then
+		print("args is nil")
+		return
+	end
 
-	if vim.fn.visualmode() == "V" then
-		start_line, _ = unpack(vim.api.nvim_buf_get_mark(0, "<"))
-		end_line, _ = unpack(vim.api.nvim_buf_get_mark(0, ">"))
+	local full_path = args["fargs"][1] == "full" or false
+	local include_line = args["fargs"][2] == "include_line" or false
+	local start_line, end_line
+
+	if args.range then
+		start_line = args.line1
+		end_line = args.line2
 	else
 		local cursor = vim.api.nvim_win_get_cursor(0)
 		start_line = cursor[1]
@@ -18,10 +24,9 @@ function copy_buffer_path(full_path, include_line)
 	if full_path then
 		local output_to_clipboard = buffer_path
 		if include_line then
-			if start_line == end_line then
-				output_to_clipboard = output_to_clipboard .. " Line: " .. start_line
-			else
-				output_to_clipboard = output_to_clipboard .. " Lines: " .. start_line .. " - " .. end_line
+			output_to_clipboard = output_to_clipboard .. " Line: " .. start_line
+			if start_line ~= end_line then
+				output_to_clipboard = output_to_clipboard .. " - " .. end_line
 			end
 		end
 		vim.fn.setreg("+", output_to_clipboard)
@@ -56,17 +61,73 @@ function copy_buffer_path(full_path, include_line)
 	-- If not in a Git repository, copy the full path
 	local output_to_clipboard = buffer_path
 	if include_line then
-		if start_line == end_line then
-			output_to_clipboard = output_to_clipboard .. " Line: " .. start_line
-		else
-			output_to_clipboard = output_to_clipboard .. " Lines: " .. start_line .. " - " .. end_line
+		output_to_clipboard = output_to_clipboard .. " Line: " .. start_line
+		if start_line ~= end_line then
+			output_to_clipboard = output_to_clipboard .. " - " .. end_line
 		end
 	end
 	vim.fn.setreg("+", output_to_clipboard)
 	vim.api.nvim_echo({ { "Buffer path copied to clipboard: " .. buffer_path, "Normal" } }, true, {})
 end
 
-function show_buffer_path()
+vim.api.nvim_create_user_command("CopyBufferPath", copy_buffer_path, {
+	desc = "Copy the current buffer's path with multiple options",
+	nargs = "*",
+	range = true,
+	complete = function(_, cmdLine)
+		local parts = vim.split(vim.trim(cmdLine), " ")
+		if #parts == 1 then
+			return { "full", "git" }
+		end
+		if #parts == 2 then
+			return { "include_line" }
+		end
+	end,
+})
+vim.keymap.set({ "n" }, "<leader>cp", ":CopyBufferPath git<CR>")
+vim.keymap.set({ "n" }, "<leader>cP", ":CopyBufferPath full<CR>")
+vim.keymap.set({ "v" }, "<leader>cp", ":CopyBufferPath git include_line<CR>")
+vim.keymap.set({ "v" }, "<leader>cP", ":CopyBufferPath full include_line<CR>")
+
+vim.api.nvim_create_user_command("OpenAlacrittyReadonly", function()
+	local current_file = vim.fn.expand("%:p")
+	local current_line = vim.fn.line(".")
+	local current_col = vim.fn.col(".")
+
+	local alacritty_command =
+		string.format("alacritty --command nvim -R +%d,%d %s", current_line, current_col, current_file)
+	vim.fn.jobstart(alacritty_command, {
+		detach = true,
+	})
+end, {
+	desc = "Open alacritty with the current buffer in read-only mode",
+})
+
+local show_error = true
+vim.api.nvim_create_user_command("ToggleShowingError", function()
+	show_error = not show_error
+	if show_error then
+		print("not showing 2>")
+		return
+	end
+	print("showing 2>")
+end, {
+	desc = "Toggle showing 2> when executing current buffer",
+})
+
+local conda_python = false
+vim.api.nvim_create_user_command("ToggleUseCondaPython", function()
+	conda_python = not conda_python
+	if conda_python then
+		print("Using conda python")
+		return
+	end
+	print("Using standard python")
+end, {
+	desc = "Using conda python or not when executing current buffer",
+})
+
+vim.api.nvim_create_user_command("PrintBufferPath", function()
 	local buffer_path = vim.fn.expand("%:p")
 	print("Buffer's absolute path: " .. buffer_path)
 	-- Use the git command to find the root of the git repository
@@ -78,66 +139,12 @@ function show_buffer_path()
 		local relative_path = string.sub(buffer_path, string.len(git_root) + 1)
 		print("Buffer's git root path: " .. relative_path)
 	end
-end
+end, {
+	desc = "Show the current buffer's path",
+})
+vim.keymap.set({ "n" }, "<leader>cc", ":PrintBufferPath<CR>")
 
--- Command to call the Lua function
-vim.cmd([[
-command! CopyGitPath :lua copy_buffer_path()
-command! CopyFullPath :lua copy_buffer_path(true)
-command! StringProcessing :lua string_processing_buffer_testing()
-command! ExecuteCurrentBuffer :lua ExecuteCurrentBuffer()
-command! PrintBufferPath :lua show_buffer_path()
-" Add a custom command to open Alacritty with the current buffer in read-only mode
-command! -nargs=0 OpenAlacrittyReadonly :lua OpenAlacrittyReadonly()
-]])
-
--- Function to open Alacritty with the current buffer in read-only mode
-function OpenAlacrittyReadonly()
-	local current_file = vim.fn.expand("%:p")
-	local current_line = vim.fn.line(".")
-	local current_col = vim.fn.col(".")
-
-	local alacritty_command =
-		string.format("alacritty --command nvim -R +%d,%d %s", current_line, current_col, current_file)
-	vim.fn.jobstart(alacritty_command, {
-		detach = true,
-	})
-end
-
-function string_processing_buffer_testing()
-	local tempname = vim.fn.tempname()
-	local stringProcessingTemplate = "/home/marcos/.local/privbin/string-processing"
-	vim.cmd("edit " .. tempname)
-	vim.cmd("read !cat " .. vim.fn.shellescape(stringProcessingTemplate))
-	vim.cmd("1delete") -- Delete all lines in the buffer
-	vim.cmd("w")
-end
-
-local conda_python = false
-local show_error = true
-function toggle_use_conda_python()
-	conda_python = not conda_python
-	if conda_python then
-		print("Using conda python")
-		return
-	end
-	print("Using standard python")
-end
-
-function toggle_showing_error()
-	show_error = not show_error
-	if show_error then
-		print("not showing 2>")
-		return
-	end
-	print("showing 2>")
-end
-
-vim.cmd([[command! ToggleUseCondaPython lua toggle_use_conda_python()]])
-vim.cmd([[command! ToggleShowingError lua toggle_showing_error()]])
-
-function ExecuteCurrentBuffer()
-	-- local tempname = vim.fn.tempname()
+vim.api.nvim_create_user_command("ExecuteCurrentBuffer", function()
 	local filetype = vim.o.filetype
 	local current_file = vim.fn.expand("%:p")
 	local command = ""
@@ -175,4 +182,6 @@ function ExecuteCurrentBuffer()
 
 	vim.cmd(":vs")
 	vim.cmd(":term " .. command .. "" .. redirect .. " " .. current_file)
-end
+end, {
+	desc = "Execute the current buffer",
+})
