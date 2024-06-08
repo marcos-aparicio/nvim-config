@@ -1,81 +1,3 @@
-HOME = os.getenv("HOME")
-
-vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-	pattern = "/home/marcos/Finances/*.journal",
-	desc = "Format journal files after saving, it should be in the ledger path",
-	callback = function()
-		local keyword = vim.fn.system('grep "include.*journal" ' .. vim.fn.expand("%:p"))
-		if vim.bo.filetype == "ledger" and keyword ~= "" then
-			print("Not formatting since it is an index file or includes include")
-		else
-			vim.api.nvim_command(
-				"!sh " .. os.getenv("HOME") .. "/.local/privbin/reorder-journal.sh " .. vim.fn.expand("%:p")
-			)
-		end
-	end,
-})
-
-vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
-	pattern = "*.md",
-	desc = "Conceal arrows in markdown files",
-	callback = function()
-		vim.api.nvim_command('call matchadd("Conceal", "<--", 9999, -1, {"conceal": "⬅"})')
-		vim.api.nvim_command('call matchadd("Conceal", "-->", 9999, -1, {"conceal": "➡"})')
-	end,
-})
-
-vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-	pattern = "*",
-	desc = "Strip trailing whitespace before saving",
-	callback = function()
-		vim.fn.execute("%s/\\s\\+$//e")
-	end,
-})
-
-vim.api.nvim_create_augroup("Extensions", { clear = true })
-vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
-	pattern = "*.hurl",
-	group = "Extensions",
-	callback = function()
-		vim.bo.filetype = "hurl"
-	end,
-})
-
-vim.api.nvim_create_autocmd({ "FileType" }, {
-	pattern = "mysql",
-	group = "Extensions",
-	callback = function()
-		vim.bo.completefunc = "complete_sql"
-		vim.bo.omnifunc = "omni_sql"
-		vim.bo.filetype = "sql"
-	end,
-})
-
-vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
-	pattern = "todo.txt",
-	group = "Extensions",
-	callback = function()
-		vim.bo.filetype = "todotxt"
-	end,
-})
-
-vim.api.nvim_create_autocmd({ "BufEnter" }, {
-	pattern = "*",
-	group = "Extensions",
-	callback = function()
-		if vim.bo.buftype == "terminal" then
-			vim.api.nvim_command("startinsert")
-		end
-	end,
-})
-
-vim.api.nvim_create_autocmd({ "ColorScheme" }, {
-	pattern = "*",
-	callback = function()
-		vim.api.nvim_command("highlight SignColumn guibg=NONE")
-	end,
-})
-
 vim.g.mapleader = " "
 vim.g.pyton3_host_prog = "/usr/bin/python3"
 vim.g.markdown_folding = true
@@ -101,8 +23,6 @@ vim.o.foldlevelstart = 99
 vim.o.foldenable = true
 vim.o.autoread = true
 
--- settings required for vimwiki to work
-vim.o.compatible = false
 vim.cmd("filetype plugin on")
 vim.cmd("syntax on")
 
