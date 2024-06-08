@@ -1,4 +1,5 @@
 require("settings")
+require("autocmds")
 require("commands")
 require("lazy-nvim")
 require("mappings")
