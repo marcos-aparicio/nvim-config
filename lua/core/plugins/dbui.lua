@@ -20,6 +20,7 @@ return {
 		"DBUIFindBuffer",
 	},
 	config = function()
+		vim.keymap.set("n", "<C-b>", ":DBUIToggle<CR>")
 		vim.api.nvim_create_autocmd("FileType", {
 			pattern = "dbout",
 			callback = function()
