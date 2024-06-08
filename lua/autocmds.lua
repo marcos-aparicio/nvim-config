@@ -21,8 +21,8 @@ autocmd({ "BufNewFile", "BufRead" }, {
 	pattern = "*.md",
 	desc = "Conceal arrows in markdown files",
 	callback = function()
-		nvim_cmd('call matchadd("Conceal", "<--", 9999, -1, {"conceal": "⬅"})')
-		nvim_cmd('call matchadd("Conceal", "-->", 9999, -1, {"conceal": "➡"})')
+		vim.fn.call("matchadd", { "Conceal", "<--", 1000, -1, { conceal = "⬅" } })
+		vim.fn.call("matchadd", { "Conceal", "-->", 1000, -1, { conceal = "➡" } })
 	end,
 })
 
