@@ -34,10 +34,10 @@ autocmd({ "BufWritePre" }, {
 	end,
 })
 
-vim.api.nvim_create_augroup("Extensions", { clear = true })
+vim.api.nvim_create_augroup("Exts", { clear = true })
 autocmd({ "BufNewFile", "BufRead" }, {
 	pattern = "*.hurl",
-	group = "Extensions",
+	group = "Exts",
 	callback = function()
 		vim.bo.filetype = "hurl"
 	end,
@@ -45,17 +45,16 @@ autocmd({ "BufNewFile", "BufRead" }, {
 
 autocmd({ "FileType" }, {
 	pattern = "mysql",
-	group = "Extensions",
+	group = "Exts",
 	callback = function()
 		vim.bo.completefunc = "complete_sql"
 		vim.bo.omnifunc = "omni_sql"
-		vim.bo.filetype = "sql"
 	end,
 })
 
 autocmd({ "BufNewFile", "BufRead" }, {
 	pattern = "todo.txt",
-	group = "Extensions",
+	group = "Exts",
 	callback = function()
 		vim.bo.filetype = "todotxt"
 	end,
@@ -63,7 +62,7 @@ autocmd({ "BufNewFile", "BufRead" }, {
 
 autocmd({ "BufEnter" }, {
 	pattern = "*",
-	group = "Extensions",
+	group = "Exts",
 	callback = function()
 		if vim.bo.buftype == "terminal" then
 			nvim_cmd("startinsert")
