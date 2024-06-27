@@ -52,82 +52,114 @@ local function createNoteWithDefaultTemplate()
 end
 
 return {
-	"epwalsh/obsidian.nvim",
-	version = "*", -- recommended, use latest release instead of latest commit
-	lazy = true,
-	-- Replace the above line with this if you only want to load obsidian.nvim for markdown files in your vault:
-	event = {
-		"BufReadPre " .. OBSIDIAN_PATH,
-		"BufNewFile " .. OBSIDIAN_PATH,
-	},
-	cmd = { "ObsidianWorkspace" },
-	dependencies = {
-		-- Required.
-		"nvim-lua/plenary.nvim",
-		"nvim-telescope/telescope.nvim",
-		"nvim-treesitter/nvim-treesitter",
-	},
-	opts = {
-		mappings = {
-			-- Toggle check-boxes.
-			["<leader>ch"] = {
-				action = function()
-					return require("obsidian").util.toggle_checkbox()
-				end,
-				opts = { buffer = true },
-			},
-			["<leader>ot"] = { action = ":ObsidianTags<CR>" },
-			["<leader>op"] = { action = ":ObsidianTemplate<CR>" },
-			["<leader>tt"] = { action = ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>" },
-			["<leader>ll"] = { action = ":ObsidianSearch<CR>" },
-			["<leader>os"] = { action = ":ObsidianSearch<CR>" },
-			["<leader>ol"] = { action = ":ObsidianLinks<CR>" },
-			["<leader>ob"] = { action = ":ObsidianBacklinks<CR>" },
-			["<leader>om"] = { action = ":ObsidianTags MOC<CR>" },
-			["<leader>oo"] = { action = ":ObsidianOpen<CR>" },
-			--- From Obsidian Insert or Obsidian paste Img
-			["<leader>oi"] = { action = ":ObsidianPasteImg<CR>" },
-			["<leader>or"] = { action = ":ObsidianRename<CR>" },
-			["<leader>on"] = { action = createNoteWithDefaultTemplate, desc = "[N]ew Obsidian [N]ote" },
-			-- Smart action depending on context, either follow link or toggle checkbox.
-			["<CR>"] = {
-				action = function()
-					return require("obsidian").util.smart_action()
-				end,
-				opts = { buffer = true, expr = true },
-			},
+	{
+		"epwalsh/obsidian.nvim",
+		version = "*", -- recommended, use latest release instead of latest commit
+		lazy = true,
+		-- Replace the above line with this if you only want to load obsidian.nvim for markdown files in your vault:
+		event = {
+			"BufReadPre " .. OBSIDIAN_PATH,
+			"BufNewFile " .. OBSIDIAN_PATH,
 		},
-
-		workspaces = {
-			{
-				name = "zettelkasten",
-				path = "~/Vaults/zettelkasten",
-				overrides = {
-					notes_subdir = "Zettels",
-					new_notes_location = "Zettels",
-					templates = {
-						folder = "Templates",
-						date_format = "%Y-%m-%d",
-						time_format = "%H:%M",
-					},
+		cmd = { "ObsidianWorkspace" },
+		dependencies = {
+			-- Required.
+			"nvim-lua/plenary.nvim",
+			"nvim-telescope/telescope.nvim",
+			"nvim-treesitter/nvim-treesitter",
+		},
+		opts = {
+			mappings = {
+				-- Toggle check-boxes.
+				["<leader>ch"] = {
+					action = function()
+						return require("obsidian").util.toggle_checkbox()
+					end,
+					opts = { buffer = true },
+				},
+				["<leader>ot"] = { action = ":ObsidianTags<CR>" },
+				["<leader>op"] = { action = ":ObsidianTemplate<CR>" },
+				["<leader>tt"] = { action = ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>" },
+				["<leader>ll"] = { action = ":ObsidianSearch<CR>" },
+				["<leader>os"] = { action = ":ObsidianSearch<CR>" },
+				["<leader>ol"] = { action = ":ObsidianLinks<CR>" },
+				["<leader>ob"] = { action = ":ObsidianBacklinks<CR>" },
+				["<leader>om"] = { action = ":ObsidianTags MOC<CR>" },
+				["<leader>oo"] = { action = ":ObsidianOpen<CR>" },
+				--- From Obsidian Insert or Obsidian paste Img
+				["<leader>oi"] = { action = ":ObsidianPasteImg<CR>" },
+				["<leader>or"] = { action = ":ObsidianRename<CR>" },
+				["<leader>on"] = { action = createNoteWithDefaultTemplate, desc = "[N]ew Obsidian [N]ote" },
+				-- Smart action depending on context, either follow link or toggle checkbox.
+				["<CR>"] = {
+					action = function()
+						return require("obsidian").util.smart_action()
+					end,
+					opts = { buffer = true, expr = true },
 				},
 			},
-			-- Might not use those
-			{
-				name = "personal reference",
-				path = "~/Vaults/personal_reference",
+
+			workspaces = {
+				{
+					name = "zettelkasten",
+					path = "~/Vaults/zettelkasten",
+					overrides = {
+						notes_subdir = "Zettels",
+						new_notes_location = "Zettels",
+						templates = {
+							folder = "Templates",
+							date_format = "%Y-%m-%d",
+							time_format = "%H:%M",
+						},
+					},
+				},
+				-- Might not use those
+				{
+					name = "personal reference",
+					path = "~/Vaults/personal_reference",
+				},
+				{
+					name = "informatics reference",
+					path = "~/Vaults/informatics_reference",
+				},
 			},
-			{
-				name = "informatics reference",
-				path = "~/Vaults/informatics_reference",
-			},
+			-- Optional, by default when you use `:ObsidianFollowLink` on a link to an external
+			-- URL it will be ignored but you can customize this behavior here.
+			---@param url string
+			follow_url_func = function(url)
+				-- Open the URL in the default web browser.
+				vim.fn.jobstart({ "xdg-open", url }) -- linux
+			end,
 		},
-		-- Optional, by default when you use `:ObsidianFollowLink` on a link to an external
-		-- URL it will be ignored but you can customize this behavior here.
-		---@param url string
-		follow_url_func = function(url)
-			-- Open the URL in the default web browser.
-			vim.fn.jobstart({ "xdg-open", url }) -- linux
+	},
+	-- additional plugin for taskwarrior management from nvim
+	{
+		"huantrinh1802/m_taskwarrior_d.nvim",
+		version = "*",
+		dependencies = { "MunifTanjim/nui.nvim" },
+		config = function()
+			-- Require
+			require("m_taskwarrior_d").setup()
+			-- Optional
+			vim.api.nvim_set_keymap(
+				"n",
+				"<leader>te",
+				"<cmd>TWEditTask<cr>",
+				{ desc = "TaskWarrior Edit", noremap = true, silent = true }
+			)
+			vim.api.nvim_set_keymap("n", "<leader>tv", "<cmd>TWView<cr>", { noremap = true, silent = true })
+			vim.api.nvim_set_keymap("n", "<leader>tq", "<cmd>TWQueryTasks<cr>", { noremap = true, silent = true })
+			vim.api.nvim_set_keymap("n", "<leader>tu", "<cmd>TWUpdateCurrent<cr>", { noremap = true, silent = true })
+			vim.api.nvim_set_keymap("n", "<leader>ts", "<cmd>TWSyncTasks<cr>", { noremap = true, silent = true })
+			vim.api.nvim_set_keymap("n", "<c-space>", "<cmd>TWToggle<cr>", { silent = true })
+			-- Be caution: it may be slow to open large files, because it scan the whole buffer
+			vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost" }, {
+				group = vim.api.nvim_create_augroup("TWTask", { clear = true }),
+				pattern = "*.list.md,*.list.markdown", -- Pattern to match Markdown files
+				callback = function()
+					vim.cmd("TWSyncTasks")
+				end,
+			})
 		end,
 	},
 }
