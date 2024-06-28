@@ -1,4 +1,5 @@
 local OBSIDIAN_PATH = vim.fn.expand("~") .. "/Vaults/**/**.md"
+local OBSIDIAN_LIST_PATH = vim.fn.expand("~") .. "/Vaults/**/*lists.md"
 
 vim.keymap.set("n", "<leader>ow", ":ObsidianWorkspace<CR>", { noremap = true })
 vim.opt.conceallevel = 2
@@ -137,29 +138,68 @@ return {
 		"huantrinh1802/m_taskwarrior_d.nvim",
 		version = "*",
 		dependencies = { "MunifTanjim/nui.nvim" },
+		event = {
+			"BufReadPre " .. OBSIDIAN_LIST_PATH,
+			"BufNewFile " .. OBSIDIAN_LIST_PATH,
+		},
 		config = function()
 			-- Require
 			require("m_taskwarrior_d").setup()
-			-- Optional
-			vim.api.nvim_set_keymap(
-				"n",
-				"<leader>te",
-				"<cmd>TWEditTask<cr>",
-				{ desc = "TaskWarrior Edit", noremap = true, silent = true }
-			)
-			vim.api.nvim_set_keymap("n", "<leader>tv", "<cmd>TWView<cr>", { noremap = true, silent = true })
-			vim.api.nvim_set_keymap("n", "<leader>tq", "<cmd>TWQueryTasks<cr>", { noremap = true, silent = true })
-			vim.api.nvim_set_keymap("n", "<leader>tu", "<cmd>TWUpdateCurrent<cr>", { noremap = true, silent = true })
-			vim.api.nvim_set_keymap("n", "<leader>ts", "<cmd>TWSyncTasks<cr>", { noremap = true, silent = true })
-			vim.api.nvim_set_keymap("n", "<c-space>", "<cmd>TWToggle<cr>", { silent = true })
-			-- Be caution: it may be slow to open large files, because it scan the whole buffer
-			vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost" }, {
-				group = vim.api.nvim_create_augroup("TWTask", { clear = true }),
-				pattern = "*.list.md,*.list.markdown", -- Pattern to match Markdown files
+
+			vim.api.nvim_create_autocmd({ "BufEnter", "BufReadPre", "BufNewFile" }, {
+				group = vim.api.nvim_create_augroup("TWTaskBindings", { clear = true }),
+				pattern = OBSIDIAN_LIST_PATH,
 				callback = function()
-					vim.cmd("TWSyncTasks")
+					local bufnr = vim.api.nvim_get_current_buf()
+					-- vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+					print(bufnr)
+
+					vim.api.nvim_buf_set_keymap(
+						bufnr,
+						"n",
+						"<leader>te",
+						"<cmd>TWEditTask<cr>",
+						{ desc = "TaskWarrior Edit", noremap = true, silent = true }
+					)
+					vim.api.nvim_buf_set_keymap(
+						bufnr,
+						"n",
+						"<leader>tv",
+						"<cmd>TWView<cr>",
+						{ noremap = true, silent = true }
+					)
+					vim.api.nvim_buf_set_keymap(
+						bufnr,
+						"n",
+						"<leader>tq",
+						"<cmd>TWQueryTasks<cr>",
+						{ noremap = true, silent = true }
+					)
+					vim.api.nvim_buf_set_keymap(
+						bufnr,
+						"n",
+						"<leader>tu",
+						"<cmd>TWUpdateCurrent<cr>",
+						{ noremap = true, silent = true }
+					)
+					vim.api.nvim_buf_set_keymap(
+						bufnr,
+						"n",
+						"<leader>ts",
+						"<cmd>TWSyncTasks<cr>",
+						{ noremap = true, silent = true }
+					)
+					vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ch", "<cmd>TWToggle<cr>", { silent = true })
 				end,
 			})
+			-- Be caution: it may be slow to open large files, because it scan the whole buffer
+			-- vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost" }, {
+			-- 	group = vim.api.nvim_create_augroup("TWTask", { clear = true }),
+			-- 	pattern = OBSIDIAN_LIST_PATH, -- Pattern to match Markdown files
+			-- 	callback = function()
+			-- 		vim.cmd("TWSyncTasks")
+			-- 	end,
+			-- })
 		end,
 	},
 }
