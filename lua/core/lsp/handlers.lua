@@ -38,6 +38,7 @@ end
 
 local function lsp_keymaps(bufnr)
 	local opts = { noremap = true, silent = true }
+	vim.keymap.set("n", "<leader>lsr", ":LspRestart<CR>", opts)
 	vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
 	vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
 	vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
