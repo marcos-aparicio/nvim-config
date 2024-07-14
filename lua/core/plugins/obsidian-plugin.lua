@@ -71,13 +71,6 @@ return {
 		},
 		opts = {
 			mappings = {
-				-- Toggle check-boxes.
-				["<leader>ch"] = {
-					action = function()
-						return require("obsidian").util.toggle_checkbox()
-					end,
-					opts = { buffer = true },
-				},
 				["<leader>ot"] = { action = ":ObsidianTags<CR>" },
 				["<leader>op"] = { action = ":ObsidianTemplate<CR>" },
 				["<leader>tt"] = { action = ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>" },
@@ -94,6 +87,12 @@ return {
 				-- Smart action depending on context, either follow link or toggle checkbox.
 				["<CR>"] = {
 					action = function()
+						-- local bufnr = vim.api.nvim_get_current_buf()
+						--
+						-- local success, val = pcall(vim.api.nvim_buf_get_var, bufnr, "is_task")
+						-- if success then
+						-- 	return vim.cmd("TWToggle")
+						-- end
 						return require("obsidian").util.smart_action()
 					end,
 					opts = { buffer = true, expr = true },
@@ -151,8 +150,7 @@ return {
 				pattern = OBSIDIAN_LIST_PATH,
 				callback = function()
 					local bufnr = vim.api.nvim_get_current_buf()
-					-- vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-					print(bufnr)
+					vim.api.nvim_buf_set_var(bufnr, "is_task", 1)
 
 					vim.api.nvim_buf_set_keymap(
 						bufnr,
@@ -182,6 +180,7 @@ return {
 						"<cmd>TWUpdateCurrent<cr>",
 						{ noremap = true, silent = true }
 					)
+
 					vim.api.nvim_buf_set_keymap(
 						bufnr,
 						"n",
@@ -190,6 +189,7 @@ return {
 						{ noremap = true, silent = true }
 					)
 					vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ch", "<cmd>TWToggle<cr>", { silent = true })
+					-- vim.keymap.set("n", "<CR>", ":TWToggle<CR>", { noremap = true, silent = true, buffer = bufnr })
 				end,
 			})
 			-- Be caution: it may be slow to open large files, because it scan the whole buffer
