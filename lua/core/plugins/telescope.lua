@@ -1,7 +1,6 @@
 local M = require("mappings")
 return {
 	"nvim-telescope/telescope-live-grep-args.nvim",
-	"nooproblem/git-worktree.nvim",
 	{
 		"nvim-telescope/telescope.nvim",
 		branch = "master",
@@ -16,7 +15,6 @@ return {
 			telescope.load_extension("live_grep_args")
 			telescope.load_extension("workspaces")
 			telescope.load_extension("bookmarks")
-			telescope.load_extension("git_worktree")
 
 			-- other_opts = {
 			-- 	dynamic_preview_title = true,
@@ -107,6 +105,9 @@ return {
 								end,
 							},
 						},
+					},
+					current_buffer_fuzzy_find = {
+						previewer = false,
 					},
 				},
 				extensions = {
