@@ -1,6 +1,5 @@
 vim.g.mapleader = " "
 vim.g.pyton3_host_prog = "/usr/bin/python3"
-vim.g.markdown_folding = true
 
 vim.opt.number = true
 vim.opt.relativenumber = true
