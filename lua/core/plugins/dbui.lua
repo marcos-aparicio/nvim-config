@@ -21,6 +21,7 @@ return {
 	},
 	config = function()
 		vim.keymap.set("n", "<C-b>", ":DBUIToggle<CR>")
+		vim.keymap.set("n", "<C-n>", ":DBUIToggle<CR>")
 		vim.api.nvim_create_autocmd("FileType", {
 			pattern = "dbout",
 			callback = function()
