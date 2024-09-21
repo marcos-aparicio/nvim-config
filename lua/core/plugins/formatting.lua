@@ -30,11 +30,11 @@ return {
 			local conform = require("conform")
 			conform.setup({
 				formatters_by_ft = {
-					python = { { "isort", "black" } },
+					python = { "isort", "black" },
 					javascript = { "prettier", "prettierd" },
 					typescript = { "prettierd" },
 					javascriptreact = { "prettierd" },
-					blade = { "prettierd", "blade-formatter", "prettier" },
+					blade = { "blade-formatter", "prettierd", "prettier" },
 					typescriptreact = { "prettierd" },
 					svelte = { "prettierd" },
 					css = { "prettierd" },
