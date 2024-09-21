@@ -109,10 +109,10 @@ return {
 			}
 
 			vim.cmd([[
-        augroup BladeFiletypeRelated
-          autocmd BufNewFile,BufRead *.blade.php set ft=blade
-        augroup END
-      ]])
+			     augroup BladeFiletypeRelated
+			       autocmd BufNewFile,BufRead *.blade.php set ft=php
+			     augroup END
+			   ]])
 			local ts_repeat_move = require("nvim-treesitter.textobjects.repeatable_move")
 
 			vim.keymap.set({ "n", "x", "o" }, "<leader>tc", ":TSContextToggle<CR>")
