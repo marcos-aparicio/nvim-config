@@ -181,22 +181,6 @@ nmap("<C-S-j>", ":resize -2<CR>")
 nmap("<C-S-k>", ":resize +2<CR>")
 nmap("<C-S-l>", ":vertical resize +2<CR>")
 
--- fugitive keybindings
-nmap("<leader>ga", ":G add<space>")
-nmap("<leader>gw", ":Gwrite<CR>")
-nmap("<leader>gc", ":G commit<CR>")
-nmap("<leader>gu", ":G reset %<CR>")
-nmap("<leader>gl", ":G log<CR><C-w>L<CR>")
-nmap("<leader>gps", ":G push<space>")
-nmap("<leader>gpl", ":G pull origin<space>")
-nmap("<leader>gnb", ':G checkout -b ""<left>')
-nmap("<leader>gr", ":G rebase -i HEAD~")
-nmap("<leader>gk", ":G checkout -- %")
-nmap("<leader>gd", ":Gvdiff")
-
--- mappings when gitdiff for custom insertions/deletions within a single file
-vmap("<leader>gw", ":diffput<CR>")
-
 -- bufferline navigation
 nmap("<S-l>", ":bnext<CR>")
 nmap("<S-h>", ":bprevious<CR>")
