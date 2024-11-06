@@ -1,7 +1,12 @@
 return {
 	"nvim-treesitter/nvim-treesitter-textobjects",
 	"HiPhish/rainbow-delimiters.nvim",
-	"nvim-treesitter/nvim-treesitter-context",
+	{
+		"nvim-treesitter/nvim-treesitter-context",
+		opts = {
+			enable = false,
+		},
+	},
 	"EmranMR/tree-sitter-blade",
 	{
 		"nvim-treesitter/nvim-treesitter",
@@ -11,6 +16,7 @@ return {
 		config = function()
 			require("nvim-treesitter.configs").setup({
 				ensure_installed = { "lua" },
+				auto_install = true,
 				sync_install = false,
 				ignore_install = { "latex" }, --languages you dont want the maintained version
 				autotag = { enable = true },
@@ -87,15 +93,15 @@ return {
 							["[["] = "@class.outer",
 						},
 					},
-					swap = {
-						enable = true,
-						swap_next = {
-							["<leader>a"] = "@parameter.inner",
-						},
-						swap_previous = {
-							["<leader>A"] = "@parameter.inner",
-						},
-					},
+					-- swap = {
+					-- 	enable = true,
+					-- 	swap_next = {
+					-- 		["<leader>a"] = "@parameter.inner",
+					-- 	},
+					-- 	swap_previous = {
+					-- 		["<leader>A"] = "@parameter.inner",
+					-- 	},
+					-- },
 				},
 			})
 			local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
