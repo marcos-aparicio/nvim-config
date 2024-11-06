@@ -12,5 +12,6 @@ return {
 		{ "<leader>aiq", ":ChatGPT<CR>" },
 		{ "<leader>air", ":ChatGPT run<space>" },
 		{ "<leader>aid", ":ChatGPTRun docstring<CR>", mode = "v" },
+		{ "<leader>ait", ":ChatGPTRun add_tests<CR>", mode = "v" },
 	},
 }
