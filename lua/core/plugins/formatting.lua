@@ -31,14 +31,14 @@ return {
 			conform.setup({
 				formatters_by_ft = {
 					python = { "isort", "black" },
-					javascript = { "prettier", "prettierd" },
+					javascript = { "prettier" },
 					typescript = { "prettierd" },
-					javascriptreact = { "prettierd" },
+					javascriptreact = { "prettier" },
 					blade = { "blade-formatter", "prettierd", "prettier" },
 					typescriptreact = { "prettierd" },
 					svelte = { "prettierd" },
 					css = { "prettierd" },
-					html = { "prettierd" },
+					html = { "prettier" },
 					json = { "prettierd" },
 					yaml = { "prettierd" },
 					-- markdown = { "prettierd" },
@@ -63,27 +63,6 @@ return {
 				})
 				print("formatting applied")
 			end, { desc = "Format file or range (in visual mode)" })
-		end,
-	},
-	{
-		"laytan/tailwind-sorter.nvim",
-		dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-lua/plenary.nvim" },
-		build = "cd formatter && npm i && npm run build",
-		config = function()
-			require("tailwind-sorter").setup({
-				on_save_enabled = true, -- If `true`, automatically enables on save sorting.
-				on_save_pattern = {
-					"*.html",
-					"*.js",
-					"*.jsx",
-					"*.tsx",
-					"*.twig",
-					"*.hbs",
-					"*.heex",
-					"*.astro",
-				}, -- The file patterns to watch and sort.
-				node_path = "node",
-			})
 		end,
 	},
 }
