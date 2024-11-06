@@ -24,16 +24,18 @@ return {
 		--- @type table<string, any> https://docs.emmet.io/customization/preferences/
 		preferences = {},
 		--- @type "always" | "never" defaults to `"always"`
-		showexpandedabbreviation = "always",
+		showExpandedAbbreviation = "always",
 		--- @type boolean defaults to `true`
-		showabbreviationsuggestions = true,
+		showAbbreviationSuggestions = true,
 		--- @type boolean defaults to `false`
-		showsuggestionsassnippets = true,
+		showSuggestionsAsSnippets = true,
 		--- @type table<string, any> https://docs.emmet.io/customization/syntax-profiles/
-		syntaxprofiles = {},
+		syntaxProfiles = {
+			html = { self_closing_tag = true },
+		},
 		--- @type table<string, string> https://docs.emmet.io/customization/snippets/#variables
 		variables = {},
 		--- @type string[]
-		excludelanguages = {},
+		excludeLanguages = {},
 	},
 }
