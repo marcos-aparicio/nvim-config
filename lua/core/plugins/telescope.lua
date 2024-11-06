@@ -1,6 +1,7 @@
 local M = require("mappings")
 return {
 	"nvim-telescope/telescope-live-grep-args.nvim",
+	"jvgrootveld/telescope-zoxide",
 	{
 		"nvim-telescope/telescope.nvim",
 		branch = "master",
@@ -15,6 +16,7 @@ return {
 			telescope.load_extension("live_grep_args")
 			telescope.load_extension("workspaces")
 			telescope.load_extension("bookmarks")
+			telescope.load_extension("zoxide")
 
 			-- other_opts = {
 			-- 	dynamic_preview_title = true,
@@ -123,6 +125,7 @@ return {
 			})
 
 			M.nmap("<leader>f", ":Telescope find_files<CR>")
+			M.nmap("<leader>b", ":Telescope buffers<CR>")
 			M.nmap("<leader>ll", ':lua require("telescope").extensions.live_grep_args.live_grep_args()<CR>')
 			M.nmap("<leader>p", ":Telescope workspaces<CR>")
 
@@ -130,6 +133,8 @@ return {
 				"<leader>rf",
 				[[:lua require('telescope.builtin').find_files({no_ignore=true,find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" }})<CR>]]
 			)
+
+			M.nmap("<leader>z", telescope.extensions.zoxide.list)
 
 			-- I think these are dependant in vim fugitive
 			M.nmap("<leader>gs", ":Telescope git_status<CR>")
