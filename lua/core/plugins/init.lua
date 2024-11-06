@@ -26,6 +26,9 @@ return {
 					CursorLine = { bg = "None" },
 					CursorColumn = { bg = "None" },
 					WhichKeyFloat = { bg = "None" },
+					LineNr = { fg = "#FFD580" },
+					LineNrAbove = { fg = "#606366" },
+					LineNrBelow = { fg = "#606366" },
 					VertSplit = { bg = "None" },
 				},
 			})
@@ -119,6 +122,7 @@ return {
 	},
 	{
 		"adalessa/laravel.nvim",
+		tag = "v2.2.1",
 		dependencies = {
 			"nvim-telescope/telescope.nvim",
 			"tpope/vim-dotenv",
