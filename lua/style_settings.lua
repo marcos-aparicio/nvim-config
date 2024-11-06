@@ -4,16 +4,10 @@ vim.g.Powerline_symbols = "fancy"
 
 vim.g.ayucolor = "dark"
 
-local ok, _ = pcall(
-	vim.cmd,
-	[[
-  colorscheme ayu
-  hi Normal guibg=NONE ctermbg=NONE
-  ]]
-)
+local ok, _ = pcall(vim.cmd, "colorscheme ayu")
+
 if not ok then
-	vim.cmd([[
-    colorscheme default
-    hi Normal guibg=NONE ctermbg=NONE
-  ]])
+	vim.cmd([[ colorscheme default ]])
 end
+
+vim.cmd([[ hi Normal guibg=NONE ctermbg=NONE ]])
