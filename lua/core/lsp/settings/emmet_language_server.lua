@@ -15,6 +15,7 @@ return {
 		"less",
 		"sass",
 		"scss",
+		"mustache",
 		"svelte",
 		"pug",
 		-- "typescriptreact",
