@@ -1,3 +1,5 @@
+vim.keymap.set({ "n" }, "<S-Right>", ":BufferLineMoveNext<CR>")
+vim.keymap.set({ "n" }, "<S-Left>", ":BufferLineMovePrev<CR>")
 return {
 	"akinsho/bufferline.nvim",
 	version = "*",
