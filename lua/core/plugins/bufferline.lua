@@ -1,5 +1,14 @@
 vim.keymap.set({ "n" }, "<S-Right>", ":BufferLineMoveNext<CR>")
 vim.keymap.set({ "n" }, "<S-Left>", ":BufferLineMovePrev<CR>")
+
+vim.keymap.set({ "n" }, "<S-l>", ":BufferLineCycleNext<CR>")
+vim.keymap.set({ "n" }, "<S-h>", ":BufferLineCyclePrev<CR>")
+
+vim.keymap.set({ "n" }, "<leader>p", ":BufferLineTogglePin<CR>")
+
+-- nmap("<leader>Q", ":%bd|e#|bd#<CR>") normal vim way
+vim.keymap.set({ "n" }, "<leader>Q", ":BufferLineCloseOthers<CR>")
+
 return {
 	"akinsho/bufferline.nvim",
 	version = "*",

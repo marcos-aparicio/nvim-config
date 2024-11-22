@@ -89,11 +89,11 @@ nmap("<leader>q", ":lua ExitBuffer()<CR>")
 nmap("<leader>Q", ":%bd|e#|bd#<CR>")
 nmap("<leader>w", function()
 	vim.cmd("w")
-	local filetype = vim.bo.filetype
-	if filetype == "octo" or filetype == "markdown" then
-		return
-	end
-	vim.cmd("e")
+	-- local filetype = vim.bo.filetype
+	-- if filetype == "octo" or filetype == "markdown" or filetype == "handlebars" then
+	-- 	return
+	-- end
+	-- vim.cmd("e")
 end)
 nmap("<leader>v", ":vs<CR>")
 nmap("<leader>h", ":sp<CR>")
@@ -182,8 +182,6 @@ nmap("<C-S-k>", ":resize +2<CR>")
 nmap("<C-S-l>", ":vertical resize +2<CR>")
 
 -- bufferline navigation
-nmap("<S-l>", ":bnext<CR>")
-nmap("<S-h>", ":bprevious<CR>")
 
 -- vira mappings(example of conditional remappings)
 -- vim.cmd([[
