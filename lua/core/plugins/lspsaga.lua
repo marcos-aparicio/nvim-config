@@ -1,3 +1,4 @@
+vim.keymap.set({ "n" }, "<leader>ao", ":Lspsaga outline<CR>")
 return {
 	"nvimdev/lspsaga.nvim",
 	event = "LspAttach",
