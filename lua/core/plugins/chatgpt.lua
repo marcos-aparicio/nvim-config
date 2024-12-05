@@ -9,8 +9,9 @@ return {
 		api_key_cmd = "pass show personal/api_keys/openai",
 	},
 	keys = {
+		{ "<leader>aie", ":ChatGPTEditWithInstructions<CR>", mode = { "v", "n" } },
 		{ "<leader>aiq", ":ChatGPT<CR>" },
-		{ "<leader>air", ":ChatGPT run<space>" },
+		{ "<leader>air", ":ChatGPTRun<space>", mode = { "v", "n" } },
 		{ "<leader>aid", ":ChatGPTRun docstring<CR>", mode = "v" },
 		{ "<leader>ait", ":ChatGPTRun add_tests<CR>", mode = "v" },
 	},
