@@ -22,10 +22,9 @@ return {
 			hooks = {
 				LeetEnter = {
 					function()
-						local M = require("mappings")
-						M.nmap("<leader>ls", "<cmd>Leet submit<cr>")
-						M.nmap("<leader>lt", "<cmd>Leet test<cr>")
-						M.nmap("<leader>ld", "<cmd>Leet desc<cr>")
+						vim.keymap.set("n", "<leader>ls", "<cmd>Leet submit<cr>", { noremap = true, silent = true })
+						vim.keymap.set("n", "<leader>lt", "<cmd>Leet test<cr>", { noremap = true, silent = true })
+						vim.keymap.set("n", "<leader>ld", "<cmd>Leet desc<cr>", { noremap = true, silent = true })
 					end,
 				},
 			},
