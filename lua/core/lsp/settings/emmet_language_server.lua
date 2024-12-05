@@ -17,6 +17,7 @@ return {
 		"scss",
 		"mustache",
 		"svelte",
+		"blade",
 		"pug",
 		-- "typescriptreact",
 		"vue",
