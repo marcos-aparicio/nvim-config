@@ -30,32 +30,6 @@ return {
 	{ "lewis6991/gitsigns.nvim", tag = "v0.6", lazy = false, opts = {} },
 	{ "Pocco81/HighStr.nvim", main = "high-str", opts = {} },
 	{
-		"Shatur/neovim-ayu",
-		lazy = false,
-		priority = 1000,
-		main = "ayu",
-		opts = {
-			mirage = false,
-			overrides = {
-				Normal = { bg = "None" },
-				ColorColumn = { bg = "None" },
-				SignColumn = { bg = "None" },
-				Folded = { bg = "None" },
-				FoldColumn = { bg = "None" },
-				CursorLine = { bg = "None" },
-				CursorColumn = { bg = "None" },
-				WhichKeyFloat = { bg = "None" },
-				LineNr = { fg = "#FFD580" },
-				LineNrAbove = { fg = "#606366" },
-				LineNrBelow = { fg = "#606366" },
-				VertSplit = { bg = "None" },
-			},
-		},
-		init = function()
-			require("ayu").colorscheme()
-		end,
-	},
-	{
 		"ziontee113/color-picker.nvim",
 		keys = {
 			{ "<leader>co", "<Cmd>PickColor<CR>", mode = { "n" } },
