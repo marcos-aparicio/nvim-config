@@ -1,89 +1,58 @@
 return {
 	"tpope/vim-abolish",
 	"tpope/vim-obsession",
+	"ThePrimeagen/harpoon",
 	"tpope/vim-surround",
+	"easymotion/vim-easymotion",
 	"tpope/vim-speeddating",
 	"tpope/vim-dispatch",
-	{
-		"Pocco81/HighStr.nvim",
-		config = function()
-			require("high-str").setup()
-		end,
-	},
+	-- "Treesitter for rasi filetype"
+	{ "Fymyte/rasi.vim", ft = "rasi" },
+	{ "christoomey/vim-tmux-navigator", opts = {} },
+	{ "andrewradev/linediff.vim", cmd = "Linediff" },
+	{ "norcalli/nvim-colorizer.lua", main = "colorizer" },
+	{ "lewis6991/gitsigns.nvim", tag = "v0.6", lazy = false, opts = {} },
+	{ "Pocco81/HighStr.nvim", main = "high-str", opts = {} },
 	{
 		"Shatur/neovim-ayu",
 		lazy = false,
 		priority = 1000,
-		config = function()
-			require("ayu").setup({
-				mirage = false,
-				overrides = {
-					Normal = { bg = "None" },
-					ColorColumn = { bg = "None" },
-					SignColumn = { bg = "None" },
-					Folded = { bg = "None" },
-					FoldColumn = { bg = "None" },
-					CursorLine = { bg = "None" },
-					CursorColumn = { bg = "None" },
-					WhichKeyFloat = { bg = "None" },
-					LineNr = { fg = "#FFD580" },
-					LineNrAbove = { fg = "#606366" },
-					LineNrBelow = { fg = "#606366" },
-					VertSplit = { bg = "None" },
-				},
-			})
+		main = "ayu",
+		opts = {
+			mirage = false,
+			overrides = {
+				Normal = { bg = "None" },
+				ColorColumn = { bg = "None" },
+				SignColumn = { bg = "None" },
+				Folded = { bg = "None" },
+				FoldColumn = { bg = "None" },
+				CursorLine = { bg = "None" },
+				CursorColumn = { bg = "None" },
+				WhichKeyFloat = { bg = "None" },
+				LineNr = { fg = "#FFD580" },
+				LineNrAbove = { fg = "#606366" },
+				LineNrBelow = { fg = "#606366" },
+				VertSplit = { bg = "None" },
+			},
+		},
+		init = function()
 			require("ayu").colorscheme()
 		end,
 	},
-	-- "Treesitter for rasi filetype"
-	{
-		"Fymyte/rasi.vim",
-		ft = "rasi",
-	},
-	{ "christoomey/vim-tmux-navigator", config = function() end },
-	"easymotion/vim-easymotion",
 	{
 		"ziontee113/color-picker.nvim",
 		keys = {
 			{ "<leader>co", "<Cmd>PickColor<CR>", mode = { "n" } },
 			{ "<C-c>", "<Cmd>PickColorInsert<CR>", mode = { "i" } },
 		},
-		config = function()
-			require("color-picker").setup()
-		end,
+		main = "color-picker",
+		opts = {},
 	},
-	{
-		"windwp/nvim-autopairs",
-		config = function()
-			require("nvim-autopairs").setup()
-		end,
-	},
+	{ "windwp/nvim-autopairs", main = "nvim-autopairs", opts = {} },
 	{
 		"akinsho/bufferline.nvim",
 		version = "*",
 		dependencies = { "nvim-tree/nvim-web-devicons", "moll/vim-bbye" },
-	},
-	{
-		"andrewradev/linediff.vim",
-		cmd = "Linediff",
-	},
-	{
-		"sindrets/diffview.nvim",
-		cmd = "Diffview",
-	},
-	{
-		"norcalli/nvim-colorizer.lua",
-		config = function()
-			require("colorizer").setup()
-		end,
-	},
-	{
-		"lewis6991/gitsigns.nvim",
-		tag = "v0.6",
-		lazy = false,
-		config = function()
-			require("gitsigns").setup()
-		end,
 	},
 	{
 		"iamcco/markdown-preview.nvim",
@@ -106,7 +75,6 @@ return {
 			"tpope/vim-repeat",
 		},
 	},
-	"ThePrimeagen/harpoon",
 	{
 		"github/copilot.vim",
 		config = function()
@@ -147,33 +115,6 @@ return {
 			require("laravel").setup()
 			require("telescope").load_extension("laravel")
 		end,
-	},
-	"kkoomen/vim-doge",
-	-- lazy.nvim
-	{
-		"folke/noice.nvim",
-		event = "VeryLazy",
-		keys = {
-			{
-				"<leader>1",
-				":Noice dismiss<CR>",
-			},
-		},
-		dependencies = {
-			-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-			"MunifTanjim/nui.nvim",
-			-- OPTIONAL:
-			--   `nvim-notify` is only needed, if you want to use the notification view.
-			--   If not available, we use `mini` as the fallback
-			{
-				"rcarriga/nvim-notify",
-				config = function()
-					require("notify").setup({
-						background_colour = "#000000",
-					})
-				end,
-			},
-		},
 	},
 	{
 		"chrisgrieser/nvim-rip-substitute",
