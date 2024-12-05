@@ -1,4 +1,3 @@
-local M = require("mappings")
 return {
 	"nvim-telescope/telescope-live-grep-args.nvim",
 	"jvgrootveld/telescope-zoxide",
@@ -12,20 +11,12 @@ return {
 			local actions = require("telescope.actions")
 			local action_layout = require("telescope.actions.layout")
 			local action_state = require("telescope.actions.state")
+			local builtin = require("telescope.builtin")
 
 			telescope.load_extension("live_grep_args")
 			telescope.load_extension("workspaces")
 			telescope.load_extension("bookmarks")
 			telescope.load_extension("zoxide")
-
-			-- other_opts = {
-			-- 	dynamic_preview_title = true,
-			-- 	layout_strategy = "vertical",
-			-- 	layout_config = { vertical = { width = 0.9, height = 0.9, preview_height = 0.6, preview_cutoff = 0 } },
-			-- 	path_display = { "smart", shorten = { len = 3 } },
-			-- 	wrap_results = true,
-			-- }
-
 			telescope.setup({
 				defaults = {
 					theme = "ivy",
@@ -37,11 +28,6 @@ return {
 					},
 
 					wrap_results = true,
-					-- layout_strategy = "vertical",
-					-- layout_config = {
-					-- 	vertical = { width = 0.9, height = 0.9, preview_height = 0.6, preview_cutoff = 0 },
-					-- },
-					-- path_display = { "truncate" },
 					mappings = {
 						i = {
 							["<C-c>"] = actions.close,
@@ -65,6 +51,17 @@ return {
 					},
 					find_files = {
 						file_ignore_patterns = { "node_modules" },
+					},
+					git_bcommits = {
+						mappings = {
+							n = {
+								yy = function()
+									local entry = action_state.get_selected_entry()
+									vim.fn.setreg("+", entry.value)
+									print(entry.value .. " was copied to the clipboard")
+								end,
+							},
+						},
 					},
 					git_branches = {
 						mappings = {
@@ -124,24 +121,34 @@ return {
 				},
 			})
 
-			M.nmap("<leader>f", ":Telescope find_files<CR>")
-			M.nmap("<leader>b", ":Telescope buffers<CR>")
-			M.nmap("<leader>ll", ':lua require("telescope").extensions.live_grep_args.live_grep_args()<CR>')
-			M.nmap("<leader>p", ":Telescope workspaces<CR>")
+			local keymaps = {
+				{ "n", "<leader>f", builtin.find_files },
+				{ "n", "<leader>b", builtin.buffers },
+				{ "n", "<leader>gfl", builtin.git_bcommits },
+				{ "v", "<leader>ll", "y<ESC>:Telescope live_grep_args default_text=<c-r>0<CR>" },
+				{ "n", "<leader>z", telescope.extensions.zoxide.list },
+				{ "n", "<leader>gs", builtin.git_status },
+				{ "n", "<leader>gb", builtin.git_branches },
+				{ "n", "<leader>/", builtin.current_buffer_fuzzy_find },
+				{ "n", "<leader>ll", telescope.extensions.live_grep_args.live_grep_args },
+				{
+					"n",
+					"<leader>rf",
+					function()
+						builtin.find_files({
+							no_ignore = true,
+							find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
+						})
+					end,
+				},
+			}
 
-			M.nmap(
-				"<leader>rf",
-				[[:lua require('telescope.builtin').find_files({no_ignore=true,find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" }})<CR>]]
-			)
-
-			M.nmap("<leader>z", telescope.extensions.zoxide.list)
-
-			-- I think these are dependant in vim fugitive
-			M.nmap("<leader>gs", ":Telescope git_status<CR>")
-			M.nmap("<leader>gb", ":Telescope git_branches<CR>")
-			M.nmap("<leader>/", ":Telescope current_buffer_fuzzy_find<CR>")
-			M.nmap("<leader>gt", ":lua require('telescope').extensions.git_worktree.git_worktrees()<CR>")
-			M.nmap("<leader>gnt", ":lua require('telescope').extensions.git_worktree.create_git_worktree()<CR>")
+			for _, map in ipairs(keymaps) do
+				local opts = { noremap = true, silent = true }
+				-- Merge opts with map[4], if it exists
+				local final_opts = map[4] and vim.tbl_extend("force", opts, map[4]) or opts
+				vim.keymap.set(map[1], map[2], map[3], final_opts)
+			end
 		end,
 	},
 }
