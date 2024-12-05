@@ -8,7 +8,23 @@ return {
 	"tpope/vim-dispatch",
 	-- "Treesitter for rasi filetype"
 	{ "Fymyte/rasi.vim", ft = "rasi" },
-	{ "christoomey/vim-tmux-navigator", opts = {} },
+	{
+		"christoomey/vim-tmux-navigator",
+		cmd = {
+			"TmuxNavigateLeft",
+			"TmuxNavigateDown",
+			"TmuxNavigateUp",
+			"TmuxNavigateRight",
+			"TmuxNavigatePrevious",
+		},
+		keys = {
+			{ "<C-h>", "<cmd><C-U>TmuxNavigateLeft<cr>" },
+			{ "<C-j>", "<cmd><C-U>TmuxNavigateDown<cr>" },
+			{ "<C-k>", "<cmd><C-U>TmuxNavigateUp<cr>" },
+			{ "<C-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
+			{ "<C-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
+		},
+	},
 	{ "andrewradev/linediff.vim", cmd = "Linediff" },
 	{ "norcalli/nvim-colorizer.lua", main = "colorizer" },
 	{ "lewis6991/gitsigns.nvim", tag = "v0.6", lazy = false, opts = {} },
