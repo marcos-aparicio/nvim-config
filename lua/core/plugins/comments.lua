@@ -4,31 +4,33 @@ return {
 	{
 		"numToStr/Comment.nvim",
 		lazy = false,
-		config = function()
-			local commentFT = require("Comment.ft")
-
-			require("Comment").setup({
-				pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
-				opleader = {
-					---Line-comment keymap
-					line = "gc",
-					---Block-comment keymap
-					block = "gs",
-				},
-				toggler = {
-					line = "gcc",
-					block = "gsc",
-				},
-				mappings = {
-					basic = true,
-					extra = true,
-				},
-			})
-			commentFT.mysql = { "--%s" }
-			commentFT.hurl = { "#%s" }
-			commentFT.taskedit = { "#%s" }
-			commentFT.ledger = { "#%s" }
-			commentFT.hledger = { "#%s" }
+		main = "Comment",
+		opts = {
+			opleader = {
+				---Line-comment keymap
+				line = "gc",
+				---Block-comment keymap
+				block = "gs",
+			},
+			toggler = {
+				line = "gcc",
+				block = "gsc",
+			},
+			mappings = {
+				basic = true,
+				extra = true,
+			},
+		},
+		config = function(_, opts)
+			opts["pre_hook"] = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook()
+			require("Comment").setup(opts)
+			local ft = require("Comment.ft")
+			ft.blade = "{{-- %s --}}"
+			ft.mysql = "--%s"
+			ft.hurl = "#%s"
+			ft.taskedit = "#%s"
+			ft.ledger = "#%s"
+			ft.hledger = "#%s"
 		end,
 	},
 }
