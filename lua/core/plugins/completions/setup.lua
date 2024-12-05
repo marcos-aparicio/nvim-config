@@ -84,6 +84,7 @@ cmp.setup({
 			vim_item.kind = ""
 			vim_item.menu = ({
 				luasnip = "[Snippet]",
+				BladeNav = "[BladeNav]",
 				nvim_lsp = "[LSP]",
 				buffer = "[Buffer]",
 				path = "[Path]",
@@ -93,13 +94,14 @@ cmp.setup({
 	},
 })
 
-for _, language in ipairs({ "sql", "mysql", "plsql" }) do
-	cmp.setup.filetype(language, {
-		sources = cmp.config.sources({
-			table.unpack(default_sources),
-			{
-				name = "vim-dadbod-completion",
-			},
-		}),
-	})
-end
+-- TODO: fix this completion source
+-- for _, language in ipairs({ "sql", "mysql", "plsql" }) do
+-- 	cmp.setup.filetype(language, {
+-- 		sources = cmp.config.sources({
+-- 			table.unpack(default_sources),
+-- 			{
+-- 				name = "vim-dadbod-completion",
+-- 			},
+-- 		}),
+-- 	})
+-- end
