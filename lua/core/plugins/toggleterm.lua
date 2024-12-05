@@ -3,7 +3,11 @@ return {
 	version = "*",
 	-- opts = { --[[ things you want to change go here]]
 	-- },
-	keys = { { "<C-;>", "<Cmd>ToggleTerm<CR>", mode = { "t", "n" } } },
+	keys = {
+		{ "<C-;>", "<Cmd>ToggleTerm<CR>", mode = { "t", "n" } },
+		{ "<leader>lg", "<Cmd>TermExec direction=float cmd=lazygit<CR>", mode = { "t", "n" } },
+		{ "<leader>ld", "<Cmd>TermExec direction=float cmd=lazydocker<CR>", mode = { "t", "n" } },
+	},
 	config = function()
 		require("toggleterm").setup({
 			-- open_mapping = [[<c-;]],
