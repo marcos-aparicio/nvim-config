@@ -1,5 +1,4 @@
 local prequire = require("utils").prequire
-local tablemerge = require("utils").tablemerge
 local ls = prequire("luasnip")
 if not ls then
 	return
