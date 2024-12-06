@@ -1,4 +1,5 @@
--- mapping functions based on: https://github.com/arnvald/viml-to-lua/blob/main/lua/mappings.lua (checkout his repo is very informative)
+local get_current_identifier_node_content = require("utils").get_current_identifier_node_content
+
 local keymaps = {
 	{ "n", "<leader>w", ":w<CR>" },
 	{
@@ -101,3 +102,29 @@ for _, map in ipairs(keymaps) do
 	vim.keymap.set(map[1], map[2], map[3], final_opts)
 end
 vim.keymap.set({ "n", "x", "o" }, "ms", "<Plug>(leap-backward-to)")
+
+local autocmd = vim.api.nvim_create_autocmd
+autocmd({ "FileType" }, {
+	pattern = "php",
+	callback = function()
+		vim.keymap.set({ "n" }, "<leader>re", function()
+			local name = get_current_identifier_node_content("method_declaration", "name")
+			if not string.match(name, "test.*") then
+				return
+			end
+			local current_file = vim.fn.expand("%:p")
+
+			if string.match(current_file, ".*tests/Feature/.*%.php$") then
+				vim.cmd(":vs")
+				vim.cmd(":term vendor/bin/sail test % --filter " .. name)
+				return
+			end
+
+			if string.match(current_file, ".*tests/Browser/.*%.php$") then
+				vim.cmd(":vs")
+				vim.cmd(":term vendor/bin/sail dusk % --filter " .. name)
+				return
+			end
+		end)
+	end,
+})
