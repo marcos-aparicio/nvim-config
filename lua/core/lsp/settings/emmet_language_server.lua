@@ -14,6 +14,7 @@ return {
 		"php",
 		"less",
 		"sass",
+		"xml",
 		"scss",
 		"mustache",
 		"svelte",
