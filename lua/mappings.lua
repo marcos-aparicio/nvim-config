@@ -36,6 +36,9 @@ local keymaps = {
 	{ "n", "ygh", "y^" },
 	{ "n", "<C-Tab>", ":tabnext<CR>" },
 	{ "n", "<C-S-Tab>", ":tabprevious<CR>" },
+	-- some positioning remappings
+	{ "n", "zj", "zt" },
+	{ "n", "zk", "zb" },
 	-- some navigation normal remappings
 	{ { "n", "v" }, "j", "gj" },
 	{ { "n", "v" }, "k", "gk" },
