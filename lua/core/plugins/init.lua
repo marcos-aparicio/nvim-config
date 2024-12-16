@@ -1,6 +1,7 @@
 return {
 	"tpope/vim-abolish",
 	"tpope/vim-obsession",
+	"kkoomen/vim-doge",
 	"ThePrimeagen/harpoon",
 	"tpope/vim-surround",
 	"easymotion/vim-easymotion",
