@@ -7,6 +7,10 @@ local function executeCurrentBuffer()
 	local current_file = vim.fn.expand("%:p")
 	local curr_dir = vim.fn.expand("%:p:h")
 	local redirect = show_error and "" or " 2>/dev/null"
+	local usual_running = function(command)
+		vim.cmd(":vs")
+		vim.cmd(":term " .. command .. redirect .. " " .. current_file)
+	end
 
 	local filetype_command = {
 		["java"] = "java",
@@ -19,8 +23,7 @@ local function executeCurrentBuffer()
 
 	local command = filetype_command[filetype] or ""
 	if command ~= "" then
-		vim.cmd(":vs")
-		vim.cmd(":term " .. command .. redirect .. " " .. current_file)
+		usual_running(command)
 		return
 	end
 
@@ -31,7 +34,7 @@ local function executeCurrentBuffer()
 				vim.cmd(":term npm run test %")
 				return
 			end
-			command = "node"
+			usual_running("node")
 		end,
 		["php"] = function()
 			vim.cmd(":vs")
