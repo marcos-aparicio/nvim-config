@@ -1,25 +1,21 @@
-local function object_assign(t1, t2)
-	for key, value in pairs(t2) do
-		t1[key] = value
+local function safe_require(module)
+	local ok, result = pcall(require, module)
+	if ok then
+		return result
+	else
+		return nil
 	end
-
-	return t1
 end
 
-local servers_ok, servers = pcall(require, "private.plugins.servers")
-if not servers_ok then
-	servers = {}
-end
+local servers = safe_require("private.plugins.servers") or {}
 
-local ok, mason = pcall(require, "mason")
-
-if not ok then
+local mason = safe_require("mason")
+if not mason then
 	return
 end
 
-local masonlsp_ok, mason_lspconfig = pcall(require, "mason-lspconfig")
-
-if not masonlsp_ok then
+local mason_lspconfig = safe_require("mason-lspconfig")
+if not mason_lspconfig then
 	return
 end
 
@@ -29,9 +25,8 @@ mason_lspconfig.setup({
 	automatic_installation = true,
 })
 
-local lspconfig_ok, lspconfig = pcall(require, "lspconfig")
-
-if not lspconfig_ok then
+local lspconfig = safe_require("lspconfig")
+if not lspconfig then
 	return
 end
 
