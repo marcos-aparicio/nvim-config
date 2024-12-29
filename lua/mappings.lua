@@ -1,6 +1,9 @@
 local get_current_identifier_node_content = require("utils").get_current_identifier_node_content
 
 local keymaps = {
+	-- lazy commands
+	{ "n", "<leader>lp", ":Lazy profile<CR>" },
+	--
 	{ "n", "<leader>w", ":w<CR>" },
 	{
 		"n",
