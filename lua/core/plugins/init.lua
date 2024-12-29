@@ -2,7 +2,6 @@ return {
 	"tpope/vim-abolish",
 	"tpope/vim-obsession",
 	"kkoomen/vim-doge",
-	"ThePrimeagen/harpoon",
 	"tpope/vim-surround",
 	"easymotion/vim-easymotion",
 	"tpope/vim-speeddating",
@@ -28,10 +27,16 @@ return {
 	},
 	{ "andrewradev/linediff.vim", cmd = "Linediff" },
 	{ "norcalli/nvim-colorizer.lua", main = "colorizer" },
-	{ "lewis6991/gitsigns.nvim", tag = "v0.6", lazy = false, opts = {} },
+	{
+		"lewis6991/gitsigns.nvim",
+		tag = "v0.6",
+		event = { "BufReadPost", "BufWritePost", "BufNewFile" },
+		opts = {},
+	},
 	{ "Pocco81/HighStr.nvim", main = "high-str", opts = {} },
 	{
 		"ziontee113/color-picker.nvim",
+		cmd = { "PickColor", "PickColorInsert" },
 		keys = {
 			{ "<leader>co", "<Cmd>PickColor<CR>", mode = { "n" } },
 			{ "<C-c>", "<Cmd>PickColorInsert<CR>", mode = { "i" } },
@@ -68,6 +73,7 @@ return {
 	},
 	{
 		"github/copilot.vim",
+		event = "VeryLazy",
 		config = function()
 			vim.g.copilot_filetypes =
 				{ markdown = false, vimwiki = false, xml = false, html = false, json = false, toggleterm = false }
@@ -119,14 +125,5 @@ return {
 				desc = " rip substitute",
 			},
 		},
-	},
-	{
-		"folke/which-key.nvim",
-		event = "VeryLazy",
-		init = function()
-			vim.o.timeout = true
-			vim.o.timeoutlen = 300
-		end,
-		opts = {},
 	},
 }
