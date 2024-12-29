@@ -21,9 +21,11 @@ return {
 	{
 		"hrsh7th/cmp-nvim-lsp",
 		dependencies = { "williamboman/mason-lspconfig.nvim" },
-		config = function()
+		event = { "BufReadPost", "BufWritePost", "BufNewFile" },
+		opts = function()
 			require("core.lsp.mason")
 			require("core.lsp.handlers").setup()
+			return {}
 		end,
 	},
 	{
@@ -35,24 +37,22 @@ return {
 			"typescriptreact",
 			"typescript.tsx",
 		},
-		config = function()
-			require("typescript-tools").setup({
-				filetypes = {
-					"javascript",
-					"typescript",
-					"typescriptreact",
-					"typescript.tsx",
-				},
-			})
-		end,
+		main = "typescript-tools",
+		opts = {
+			filetypes = {
+				"javascript",
+				"typescript",
+				"typescriptreact",
+				"typescript.tsx",
+			},
+		},
 	},
 	{
 		"roobert/tailwindcss-colorizer-cmp.nvim",
+		main = "tailwindcss-colorizer-cmp",
 		-- optionally, override the default options:
-		config = function()
-			require("tailwindcss-colorizer-cmp").setup({
-				color_square_width = 2,
-			})
-		end,
+		opts = {
+			color_square_width = 2,
+		},
 	},
 }

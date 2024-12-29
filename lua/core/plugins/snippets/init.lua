@@ -2,7 +2,7 @@ return {
 	"L3MON4D3/LuaSnip",
 	dependencies = { "hrsh7th/nvim-cmp", "rafamadriz/friendly-snippets", "saadparwaiz1/cmp_luasnip" },
 	event = { "BufReadPost", "BufWritePost", "BufNewFile" },
-	config = function()
+	opts = function()
 		local languages = {
 			"markdown",
 			"javascript",
@@ -17,5 +17,6 @@ return {
 		for _, language in pairs(languages) do
 			pcall(require, "core.plugins.snippets.settings." .. language)
 		end
+		return {}
 	end,
 }

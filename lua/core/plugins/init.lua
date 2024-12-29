@@ -64,17 +64,18 @@ return {
 	},
 	{
 		"ggandor/leap.nvim",
-		config = function()
+		main = "leap",
+		event = "VeryLazy",
+		opts = function()
 			require("leap").add_default_mappings()
+			return {}
 		end,
-		dependencies = {
-			"tpope/vim-repeat",
-		},
+		dependencies = { "tpope/vim-repeat" },
 	},
 	{
 		"github/copilot.vim",
 		event = "VeryLazy",
-		config = function()
+		init = function()
 			vim.g.copilot_filetypes =
 				{ markdown = false, vimwiki = false, xml = false, html = false, json = false, toggleterm = false }
 			vim.cmd([[highlight CopilotSuggestion guifg=#555555 ctermfg=8]])
@@ -87,31 +88,21 @@ return {
 	},
 	{
 		"adalessa/laravel.nvim",
-		tag = "v2.2.1",
 		dependencies = {
-			"nvim-telescope/telescope.nvim",
 			"tpope/vim-dotenv",
+			"nvim-telescope/telescope.nvim",
 			"MunifTanjim/nui.nvim",
+			"kevinhwang91/promise-async",
 		},
-		cmd = { "Sail", "Artisan", "Composer", "Npm", "Yarn", "Laravel" },
+		cmd = { "Laravel" },
 		keys = {
 			{ "<leader>la", ":Laravel artisan<cr>" },
 			{ "<leader>lr", ":Laravel routes<cr>" },
 			{ "<leader>lm", ":Laravel related<cr>" },
-			{
-				"<leader>lt",
-				function()
-					require("laravel.tinker").send_to_tinker()
-				end,
-				mode = "v",
-				desc = "Laravel Application Routes",
-			},
 		},
 		event = { "VeryLazy" },
-		config = function()
-			require("laravel").setup()
-			require("telescope").load_extension("laravel")
-		end,
+		opts = {},
+		config = true,
 	},
 	{
 		"chrisgrieser/nvim-rip-substitute",

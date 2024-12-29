@@ -42,11 +42,10 @@ return {
 		{ "<leader>os", OctoSearchLocalRepo, expr = true },
 	},
 	cmd = { "Octo" },
-	config = function()
-		require("octo").setup({
-			suppress_missing_scope = {
-				project_v2 = true,
-			},
-		})
-	end,
+	main = "octo",
+	opts = {
+		suppress_missing_scope = {
+			project_v2 = true,
+		},
+	},
 }

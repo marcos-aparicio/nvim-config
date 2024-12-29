@@ -143,9 +143,9 @@ return {
 			"BufReadPre " .. OBSIDIAN_LIST_PATH,
 			"BufNewFile " .. OBSIDIAN_LIST_PATH,
 		},
-		config = function()
+		main = "m_taskwarrior_d",
+		opts = function()
 			-- Require
-			require("m_taskwarrior_d").setup()
 
 			vim.api.nvim_create_autocmd({ "BufEnter", "BufReadPre", "BufNewFile" }, {
 				group = vim.api.nvim_create_augroup("TWTaskBindings", { clear = true }),
@@ -202,6 +202,7 @@ return {
 			-- 		vim.cmd("TWSyncTasks")
 			-- 	end,
 			-- })
+			return {}
 		end,
 	},
 }

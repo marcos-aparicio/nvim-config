@@ -10,8 +10,29 @@ return {
 			"marilari88/neotest-vitest",
 			"nvim-neotest/nvim-nio",
 		},
-		config = function()
-			require("neotest").setup({
+		opts = function()
+			local neotest = require("neotest")
+			local map = vim.keymap.set
+			map("n", "<leader>tr", function()
+				neotest.run.run()
+			end)
+			map("n", "<leader>tt", function()
+				neotest.run.run(vim.fn.expand("%"))
+			end)
+			map("n", "<leader>ts", function()
+				neotest.summary.toggle()
+			end)
+			map("n", "<leader>to", function()
+				neotest.output.open({ enter = true, auto_close = true })
+			end)
+			map("n", "<leader>tO", function()
+				neotest.output_panel.toggle()
+			end)
+			map("n", "<leader>tw", function()
+				neotest.watch.toggle(vim.fn.expand("%"))
+			end)
+
+			return {
 				adapters = {
 					require("neotest-python")({
 						dap = { justMyCode = false },
@@ -20,25 +41,7 @@ return {
 					}),
 					require("neotest-vitest"),
 				},
-			})
-			vim.keymap.set("n", "<leader>tr", function()
-				require("neotest").run.run()
-			end)
-			vim.keymap.set("n", "<leader>tt", function()
-				require("neotest").run.run(vim.fn.expand("%"))
-			end)
-			vim.keymap.set("n", "<leader>ts", function()
-				require("neotest").summary.toggle()
-			end)
-			vim.keymap.set("n", "<leader>to", function()
-				require("neotest").output.open({ enter = true, auto_close = true })
-			end)
-			vim.keymap.set("n", "<leader>tO", function()
-				require("neotest").output_panel.toggle()
-			end)
-			vim.keymap.set("n", "<leader>tw", function()
-				require("neotest").watch.toggle(vim.fn.expand("%"))
-			end)
+			}
 		end,
 	},
 }

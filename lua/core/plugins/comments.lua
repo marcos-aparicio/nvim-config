@@ -5,25 +5,7 @@ return {
 		"numToStr/Comment.nvim",
 		event = { "BufReadPost", "BufWritePost", "BufNewFile" },
 		main = "Comment",
-		opts = {
-			opleader = {
-				---Line-comment keymap
-				line = "gc",
-				---Block-comment keymap
-				block = "gs",
-			},
-			toggler = {
-				line = "gcc",
-				block = "gsc",
-			},
-			mappings = {
-				basic = true,
-				extra = true,
-			},
-		},
-		config = function(_, opts)
-			opts["pre_hook"] = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook()
-			require("Comment").setup(opts)
+		opts = function()
 			local ft = require("Comment.ft")
 			ft.blade = "{{-- %s --}}"
 			ft.mysql = "--%s"
@@ -31,6 +13,23 @@ return {
 			ft.taskedit = "#%s"
 			ft.ledger = "#%s"
 			ft.hledger = "#%s"
+			return {
+				pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
+				opleader = {
+					---Line-comment keymap
+					line = "gc",
+					---Block-comment keymap
+					block = "gs",
+				},
+				toggler = {
+					line = "gcc",
+					block = "gsc",
+				},
+				mappings = {
+					basic = true,
+					extra = true,
+				},
+			}
 		end,
 	},
 }

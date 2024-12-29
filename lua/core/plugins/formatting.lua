@@ -28,36 +28,8 @@ return {
 		"stevearc/conform.nvim",
 		event = { "BufWritePre" },
 		cmd = { "ConformInfo" },
-		opts = {
-			formatters_by_ft = {
-				python = { "isort", "black" },
-				javascript = { "prettier" },
-				typescript = { "prettierd" },
-				javascriptreact = { "prettier" },
-				-- blade = { "blade-formatter", "prettierd", "prettier" },
-				blade = { "pretty-php" },
-				typescriptreact = { "prettierd" },
-				svelte = { "prettierd" },
-				css = { "prettierd" },
-				html = { "prettier" },
-				json = { "prettierd" },
-				yaml = { "prettierd" },
-				-- markdown = { "prettierd" },
-				graphql = { "prettierd" },
-				lua = { "stylua" },
-				php = { "pretty-php" },
-			},
-			format_on_save = function()
-				return {
-					lsp_fallback = true,
-					async = false,
-					timeout_ms = 1000,
-				}
-			end,
-		},
-		config = function(_, opts)
+		opts = function()
 			local conform = require("conform")
-			conform.setup(opts)
 
 			vim.keymap.set({ "n", "v" }, "<leader>mp", function()
 				conform.format({
@@ -67,6 +39,33 @@ return {
 				})
 				print("formatting applied")
 			end, { desc = "Format file or range (in visual mode)" })
+			return {
+				formatters_by_ft = {
+					python = { "isort", "black" },
+					javascript = { "prettier" },
+					typescript = { "prettierd" },
+					javascriptreact = { "prettier" },
+					-- blade = { "blade-formatter", "prettierd", "prettier" },
+					blade = { "pretty-php" },
+					typescriptreact = { "prettierd" },
+					svelte = { "prettierd" },
+					css = { "prettierd" },
+					html = { "prettier" },
+					json = { "prettierd" },
+					yaml = { "prettierd" },
+					-- markdown = { "prettierd" },
+					graphql = { "prettierd" },
+					lua = { "stylua" },
+					php = { "pretty-php" },
+				},
+				format_on_save = function()
+					return {
+						lsp_fallback = true,
+						async = false,
+						timeout_ms = 1000,
+					}
+				end,
+			}
 		end,
 	},
 }
