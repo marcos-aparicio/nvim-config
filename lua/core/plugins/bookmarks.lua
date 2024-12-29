@@ -4,6 +4,7 @@ return {
 	--
 	config = function()
 		require("bookmarks").setup({
+			save_file = vim.fn.stdpath("data") .. "/bookmarks",
 			sign_priority = 20, --set bookmark sign priority to cover other sign
 			on_attach = function()
 				local bm = require("bookmarks")
