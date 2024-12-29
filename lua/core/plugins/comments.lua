@@ -1,9 +1,9 @@
 return {
-	"windwp/nvim-ts-autotag",
-	"JoosepAlviste/nvim-ts-context-commentstring",
+	{ "windwp/nvim-ts-autotag", event = { "BufReadPre", "BufNewFile" } },
+	{ "JoosepAlviste/nvim-ts-context-commentstring", event = { "BufReadPre", "BufNewFile" } },
 	{
 		"numToStr/Comment.nvim",
-		lazy = false,
+		event = { "BufReadPost", "BufWritePost", "BufNewFile" },
 		main = "Comment",
 		opts = {
 			opleader = {
