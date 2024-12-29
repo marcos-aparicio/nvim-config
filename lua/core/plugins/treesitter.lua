@@ -1,9 +1,14 @@
 return {
-	"HiPhish/rainbow-delimiters.nvim",
-	"nvim-treesitter/nvim-treesitter-textobjects",
-	{ "nvim-treesitter/nvim-treesitter-context", opts = { enable = false } },
+	{ "HiPhish/rainbow-delimiters.nvim", event = { "BufReadPost", "BufWritePost", "BufNewFile" } },
+	{ "nvim-treesitter/nvim-treesitter-textobjects", event = { "BufReadPost", "BufWritePost", "BufNewFile" } },
+	{
+		"nvim-treesitter/nvim-treesitter-context",
+		opts = { enable = false },
+		event = { "BufReadPost", "BufWritePost", "BufNewFile" },
+	},
 	{
 		"nvim-treesitter/nvim-treesitter",
+		event = { "VeryLazy", "BufReadPost", "BufWritePost", "BufNewFile" },
 		build = function()
 			require("nvim-treesitter.install").update({ with_sync = true })
 		end,
