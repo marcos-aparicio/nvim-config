@@ -1,7 +1,7 @@
 return {
 	"Shatur/neovim-ayu",
-	lazy = false,
 	priority = 1000,
+	event = "VeryLazy",
 	main = "ayu",
 	opts = {
 		mirage = false,
