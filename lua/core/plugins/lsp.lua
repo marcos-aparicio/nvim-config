@@ -1,6 +1,17 @@
 return {
 	"MunifTanjim/prettier.nvim",
 	{
+		"folke/lazydev.nvim",
+		ft = "lua", -- only load on lua files
+		opts = {
+			library = {
+				-- See the configuration section for more details
+				-- Load luvit types when the `vim.uv` word is found
+				{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
+			},
+		},
+	},
+	{
 		"williamboman/mason-lspconfig.nvim",
 		dependencies = {
 			"neovim/nvim-lspconfig",
@@ -9,13 +20,8 @@ return {
 	},
 	{
 		"hrsh7th/cmp-nvim-lsp",
-		dependencies = {
-			"hrsh7th/nvim-cmp",
-			"williamboman/mason-lspconfig.nvim",
-			"folke/neodev.nvim",
-		},
+		dependencies = { "williamboman/mason-lspconfig.nvim" },
 		config = function()
-			require("neodev").setup()
 			require("core.lsp.mason")
 			require("core.lsp.handlers").setup()
 		end,
