@@ -1,23 +1,72 @@
 return {
-	{ "nvim-telescope/telescope-live-grep-args.nvim" },
-	{ "jvgrootveld/telescope-zoxide" },
+	{ "nvim-telescope/telescope-live-grep-args.nvim", cmd = "Telescope live_grep_args" },
+	{ "jvgrootveld/telescope-zoxide", cmd = "Telescope zoxide" },
+	{
+		"tomasky/bookmarks.nvim",
+		cmd = "Telescope bookmarks",
+		opts = function()
+			return {
+				save_file = vim.fn.stdpath("data") .. "/bookmarks",
+				sign_priority = 20, --set bookmark sign priority to cover other sign
+				on_attach = function()
+					local bm = require("bookmarks")
+					local map = vim.keymap.set
+					map("n", "mm", bm.bookmark_toggle, { noremap = true, silent = true })
+					map("n", "mi", bm.bookmark_ann, { noremap = true, silent = true })
+					map("n", "mc", bm.bookmark_clean, { noremap = true, silent = true })
+					map("n", "mn", bm.bookmark_next, { noremap = true, silent = true })
+					map("n", "mp", bm.bookmark_prev, { noremap = true, silent = true })
+					map("n", "ma", ":Telescope bookmarks list<CR>", { noremap = true, silent = true })
+				end,
+			}
+		end,
+	},
 	{
 		"nvim-telescope/telescope.nvim",
-		event = "VeryLazy",
 		branch = "master",
+		event = "VeryLazy",
 		-- tag = "0.1.6",
 		dependencies = { "nvim-lua/plenary.nvim" },
-		config = function()
+		opts = function()
 			local telescope = require("telescope")
 			local actions = require("telescope.actions")
 			local action_layout = require("telescope.actions.layout")
 			local action_state = require("telescope.actions.state")
 			local builtin = require("telescope.builtin")
 
+			local keymaps = {
+				{ "n", "<leader>f", builtin.find_files },
+				{ "n", "<leader>b", builtin.buffers },
+				{ "n", "<leader>gfl", builtin.git_bcommits },
+				{ "v", "<leader>ll", "y<ESC>:Telescope live_grep_args default_text=<c-r>0<CR>" },
+				{ "n", "<leader>z", telescope.extensions.zoxide.list },
+				{ "n", "<leader>gs", builtin.git_status },
+				{ "n", "<leader>gb", builtin.git_branches },
+				{ "n", "<leader>/", builtin.current_buffer_fuzzy_find },
+				{ "n", "<leader>ll", telescope.extensions.live_grep_args.live_grep_args },
+				{
+					"n",
+					"<leader>rf",
+					function()
+						builtin.find_files({
+							no_ignore = true,
+							find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
+						})
+					end,
+				},
+			}
+
+			for _, map in ipairs(keymaps) do
+				local opts = { noremap = true, silent = true }
+				-- Merge opts with map[4], if it exists
+				local final_opts = map[4] and vim.tbl_extend("force", opts, map[4]) or opts
+				vim.keymap.set(map[1], map[2], map[3], final_opts)
+			end
+
 			telescope.load_extension("live_grep_args")
 			telescope.load_extension("bookmarks")
 			telescope.load_extension("zoxide")
-			telescope.setup({
+			return {
 				defaults = {
 					theme = "ivy",
 					layout_config = {
@@ -119,36 +168,7 @@ return {
 						},
 					},
 				},
-			})
-
-			local keymaps = {
-				{ "n", "<leader>f", builtin.find_files },
-				{ "n", "<leader>b", builtin.buffers },
-				{ "n", "<leader>gfl", builtin.git_bcommits },
-				{ "v", "<leader>ll", "y<ESC>:Telescope live_grep_args default_text=<c-r>0<CR>" },
-				{ "n", "<leader>z", telescope.extensions.zoxide.list },
-				{ "n", "<leader>gs", builtin.git_status },
-				{ "n", "<leader>gb", builtin.git_branches },
-				{ "n", "<leader>/", builtin.current_buffer_fuzzy_find },
-				{ "n", "<leader>ll", telescope.extensions.live_grep_args.live_grep_args },
-				{
-					"n",
-					"<leader>rf",
-					function()
-						builtin.find_files({
-							no_ignore = true,
-							find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
-						})
-					end,
-				},
 			}
-
-			for _, map in ipairs(keymaps) do
-				local opts = { noremap = true, silent = true }
-				-- Merge opts with map[4], if it exists
-				local final_opts = map[4] and vim.tbl_extend("force", opts, map[4]) or opts
-				vim.keymap.set(map[1], map[2], map[3], final_opts)
-			end
 		end,
 	},
 }
