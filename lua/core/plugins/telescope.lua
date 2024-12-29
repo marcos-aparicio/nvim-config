@@ -1,8 +1,9 @@
 return {
-	"nvim-telescope/telescope-live-grep-args.nvim",
-	"jvgrootveld/telescope-zoxide",
+	{ "nvim-telescope/telescope-live-grep-args.nvim" },
+	{ "jvgrootveld/telescope-zoxide" },
 	{
 		"nvim-telescope/telescope.nvim",
+		event = "VeryLazy",
 		branch = "master",
 		-- tag = "0.1.6",
 		dependencies = { "nvim-lua/plenary.nvim" },
@@ -14,7 +15,6 @@ return {
 			local builtin = require("telescope.builtin")
 
 			telescope.load_extension("live_grep_args")
-			telescope.load_extension("workspaces")
 			telescope.load_extension("bookmarks")
 			telescope.load_extension("zoxide")
 			telescope.setup({
