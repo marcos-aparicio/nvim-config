@@ -1,10 +1,12 @@
-local OBSIDIAN_PATH = vim.fn.expand("~") .. "/Vaults/**/**.md"
-local OBSIDIAN_LIST_PATH = vim.fn.expand("~") .. "/Vaults/**/*lists.md"
+local OBSIDIAN_ROOT_PATH = vim.fn.expand("~") .. "/Documents/Areas/Obsidian/"
+local OBSIDIAN_PATH = vim.fn.expand("~") .. "/Documents/Areas/Obsidian/**/**.md"
+local OBSIDIAN_LIST_PATH = vim.fn.expand("~") .. "/Documents/Areas/Obsidian/**/*lists.md"
 
 vim.keymap.set("n", "<leader>ow", ":ObsidianWorkspace<CR>", { noremap = true })
 vim.opt.conceallevel = 2
 -- TODO: haz mas fina esta webada
-local work_subvault = "/home/marcos/Vaults/zettelkasten/Operations/Work"
+
+local work_subvault = vim.fn.expand("~") .. "/Documents/Areas/Obsidian/zettelkasten/Work"
 
 local function createNoteWithDefaultTemplate()
 	local ZETTEL_TEMPLATE_FILENAME = "note-taking.md"
@@ -102,7 +104,7 @@ return {
 			workspaces = {
 				{
 					name = "zettelkasten",
-					path = "~/Vaults/zettelkasten",
+					path = OBSIDIAN_ROOT_PATH .. "/zettelkasten",
 					overrides = {
 						notes_subdir = "Zettels",
 						new_notes_location = "Zettels",
@@ -116,11 +118,11 @@ return {
 				-- Might not use those
 				{
 					name = "personal reference",
-					path = "~/Vaults/personal_reference",
+					path = OBSIDIAN_ROOT_PATH .. "/personal_reference",
 				},
 				{
 					name = "informatics reference",
-					path = "~/Vaults/informatics_reference",
+					path = OBSIDIAN_ROOT_PATH .. "/informatics_reference",
 				},
 			},
 			-- Optional, by default when you use `:ObsidianFollowLink` on a link to an external
