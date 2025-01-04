@@ -92,6 +92,7 @@ return {
 			"tpope/vim-dotenv",
 			"nvim-telescope/telescope.nvim",
 			"MunifTanjim/nui.nvim",
+			"nvim-treesitter/nvim-treesitter",
 			"kevinhwang91/promise-async",
 		},
 		cmd = { "Laravel" },
