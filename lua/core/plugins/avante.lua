@@ -2,8 +2,11 @@
 vim.opt.laststatus = 3
 return {
 	"yetone/avante.nvim",
-	cmd = "AvanteToggle",
-	-- event = "VeryLazy",
+	event = "VeryLazy",
+	keys = {
+		{ "<leader>at", "<cmd>AvanteToggle<cr>" },
+		{ "<leader>aa", "<cmd>AvanteAsk<cr>", mode = { "n", "v" } },
+	},
 	-- lazy = false,
 	version = false, -- set this if you want to always pull the latest change
 	opts = {
