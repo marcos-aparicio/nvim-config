@@ -9,6 +9,11 @@ return {
 				color = "#f1502f",
 				name = "Blade",
 			},
+			["adoc"] = {
+				icon = "",
+				color = "#ffffff",
+				name = "TOML",
+			},
 			["toml"] = {
 				icon = "T",
 				color = "#ffffff",
