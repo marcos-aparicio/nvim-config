@@ -14,13 +14,14 @@ return {
 			-- "rcarriga/nvim-notify",
 			"nvim-tree/nvim-web-devicons",
 		},
-		lazy = leet_arg ~= vim.fn.argv()[1],
+		-- lazy = leet_arg ~= vim.fn.argv()[1],
+		cmd = { "Leet" },
 		opts = {
 			-- configuration goes here
 			arg = leet_arg,
 			lang = "python",
 			hooks = {
-				LeetEnter = {
+				["enter"] = {
 					function()
 						vim.keymap.set("n", "<leader>ls", "<cmd>Leet submit<cr>", { noremap = true, silent = true })
 						vim.keymap.set("n", "<leader>lt", "<cmd>Leet test<cr>", { noremap = true, silent = true })
