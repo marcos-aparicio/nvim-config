@@ -63,6 +63,18 @@ return {
 		end,
 	},
 	{
+		"folke/snacks.nvim",
+		---@type snacks.Config
+		opts = {
+			bigfile = {
+				-- your bigfile configuration comes here
+				-- or leave it empty to use the default settings
+				-- refer to the configuration section below
+			},
+		},
+	},
+
+	{
 		"ggandor/leap.nvim",
 		main = "leap",
 		event = "VeryLazy",
@@ -74,7 +86,7 @@ return {
 	},
 	{
 		"github/copilot.vim",
-		event = "VeryLazy",
+		cmd = { "Copilot" },
 		init = function()
 			vim.g.copilot_filetypes =
 				{ markdown = false, vimwiki = false, xml = false, html = false, json = false, toggleterm = false }
