@@ -42,6 +42,7 @@ return {
 				{ "n", "<leader>z", telescope.extensions.zoxide.list },
 				{ "n", "<leader>gs", builtin.git_status },
 				{ "n", "<leader>gb", builtin.git_branches },
+				{ "n", "<leader>th", builtin.help_tags },
 				{ "n", "<leader>/", builtin.current_buffer_fuzzy_find },
 				{ "n", "<leader>ll", telescope.extensions.live_grep_args.live_grep_args },
 				{
