@@ -16,9 +16,11 @@ return {
 			},
 			{
 				"mxsdev/nvim-dap-vscode-js",
-				config = function()
+				main = "dap-vscode-js",
+				ft = { "javascript" },
+				opts = function()
 					---@diagnostic disable-next-line: missing-fields
-					require("dap-vscode-js").setup({
+					return {
 						-- Path of node executable. Defaults to $NODE_PATH, and then "node"
 						-- node_path = "node",
 
@@ -46,13 +48,121 @@ return {
 
 						-- Logging level for output to console. Set to false to disable console output.
 						-- log_console_level = vim.log.levels.ERROR,
-					})
+					}
+				end,
+				config = function()
+					local dap = require("dap")
+					dap.configurations.javascript = {
+						-- Debug single node js files
+						{
+							type = "pwa-node",
+							request = "launch",
+							name = "Launch file",
+							program = "${file}",
+							host = "localhost",
+							port = "${port}",
+							cwd = vim.fn.getcwd(),
+							sourceMaps = true,
+						},
+					}
+
+					--- Gets a path to a package in the Mason registry.
+					--- Prefer this to `get_package`, since the package might not always be
+					--- available yet and trigger errors.
+					---@param pkg string
+					---@param path? string
+					local function get_pkg_path(pkg, path)
+						pcall(require, "mason")
+						local root = vim.env.MASON or (vim.fn.stdpath("data") .. "/mason")
+						path = path or ""
+						local ret = root .. "/packages/" .. pkg .. "/" .. path
+						return ret
+					end
+					dap.adapters["pwa-node"] = {
+						type = "server",
+						host = "localhost",
+						port = "${port}",
+						executable = {
+							command = "node",
+							args = {
+								get_pkg_path("js-debug-adapter", "/js-debug/src/dapDebugServer.js"),
+								"${port}",
+							},
+						},
+					}
 				end,
 			},
 			{
 				"Joakker/lua-json5",
 				build = "./install.sh",
 			},
+		},
+		keys = {
+			{
+				"<leader>tb",
+				function()
+					require("dap").toggle_breakpoint()
+				end,
+				desc = "Toggle Breakpoint",
+			},
+			{
+				"<leader>rb",
+				function()
+					require("dap").run_to_cursor()
+				end,
+			},
+			{
+				"<F1>",
+				function()
+					require("dap").continue()
+				end,
+			},
+			{
+				"<F2>",
+				function()
+					require("dap").step_into()
+				end,
+			},
+			{
+				"<F3>",
+				function()
+					require("dap").step_over()
+				end,
+			},
+			{
+				"<F4>",
+				function()
+					require("dap").step_out()
+				end,
+			},
+			{
+				"<F5>",
+				function()
+					require("dap").step_back()
+				end,
+			},
+			{
+				"<F6>",
+				function()
+					require("dap").restart()
+				end,
+			},
+			{
+				"<F7>",
+				function()
+					require("dap").terminate()
+				end,
+			},
+
+			-- -- vim.keymap.set("n", "<space>tb", dap.toggle_breakpoint)
+			-- vim.keymap.set("n", "<space>rb", dap.run_to_cursor)
+			-- vim.keymap.set("n", "<F1>", dap.continue)
+			-- vim.keymap.set("n", "<F2>", dap.step_into)
+			-- vim.keymap.set("n", "<F3>", dap.step_over)
+			-- vim.keymap.set("n", "<F4>", dap.step_out)
+			-- vim.keymap.set("n", "<F5>", dap.step_back)
+			-- vim.keymap.set("n", "<F6>", dap.restart)
+			-- vim.keymap.set("n", "<F7>", dap.terminate)
 		},
 		config = function()
 			local dap = require("dap")
@@ -69,19 +179,6 @@ return {
 			--     args = { "dap", "-l", "127.0.0.1:${port}" },
 			--   },
 			-- }
-			dap.configurations.javascript = {
-				-- Debug single node js files
-				{
-					type = "pwa-node",
-					request = "launch",
-					name = "Launch file",
-					program = "${file}",
-					host = "localhost",
-					port = "${port}",
-					cwd = vim.fn.getcwd(),
-					sourceMaps = true,
-				},
-			}
 
 			local elixir_ls_debugger = vim.fn.exepath("elixir-ls-debugger")
 
@@ -103,48 +200,13 @@ return {
 					},
 				}
 			end
-			--- Gets a path to a package in the Mason registry.
-			--- Prefer this to `get_package`, since the package might not always be
-			--- available yet and trigger errors.
-			---@param pkg string
-			---@param path? string
-			local function get_pkg_path(pkg, path)
-				pcall(require, "mason")
-				local root = vim.env.MASON or (vim.fn.stdpath("data") .. "/mason")
-				path = path or ""
-				local ret = root .. "/packages/" .. pkg .. "/" .. path
-				return ret
-			end
-
-			require("dap").adapters["pwa-node"] = {
-				type = "server",
-				host = "localhost",
-				port = "${port}",
-				executable = {
-					command = "node",
-					args = {
-						get_pkg_path("js-debug-adapter", "/js-debug/src/dapDebugServer.js"),
-						"${port}",
-					},
-				},
-			}
 
 			require("nvim-dap-virtual-text").setup()
-			vim.keymap.set("n", "<space>tb", dap.toggle_breakpoint)
-			vim.keymap.set("n", "<space>rb", dap.run_to_cursor)
 
 			-- Eval var under cursor
 			vim.keymap.set("n", "<space>?", function()
 				require("dapui").eval(nil, { enter = true })
 			end)
-
-			vim.keymap.set("n", "<F1>", dap.continue)
-			vim.keymap.set("n", "<F2>", dap.step_into)
-			vim.keymap.set("n", "<F3>", dap.step_over)
-			vim.keymap.set("n", "<F4>", dap.step_out)
-			vim.keymap.set("n", "<F5>", dap.step_back)
-			vim.keymap.set("n", "<F6>", dap.restart)
-			vim.keymap.set("n", "<F7>", dap.terminate)
 
 			dap.listeners.before.attach.dapui_config = function()
 				ui.open()
