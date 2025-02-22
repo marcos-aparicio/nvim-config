@@ -13,6 +13,10 @@ local keymaps = {
 				vim.cmd("quit!")
 				return
 			end
+			if vim.bo.filetype == "command_runner" then
+				vim.cmd("q")
+				return
+			end
 			if vim.bo.buftype == "terminal" then
 				vim.cmd("bd!")
 				return
@@ -82,6 +86,8 @@ local keymaps = {
 	{ "t", "<C-S-j>", "<C-\\><C-N>:resize +2<CR>" },
 	{ "t", "<C-S-k>", "<C-\\><C-N>:resize -2<CR>" },
 	{ "t", "<C-S-l>", "<C-\\><C-N>:vertical resize +2<CR>" },
+	-- source current file
+	{ "n", "<leader>x", ":source %<CR>" },
 	-- resizing windows
 	{ "n", "<C-S-h>", ":vertical resize -2<CR>" },
 	{ "n", "<C-S-j>", ":resize -2<CR>" },
