@@ -65,7 +65,7 @@ local keymaps = {
 	{ "i", "kj", "<Esc>" },
 	{ "i", "<C-e>", "<C-o>$" },
 	{ "i", "<C-a>", "<C-o>^" },
-	{ "i", "<C-d>", "<C-o>o" },
+	-- { "i", "<C-d>", "<C-o>o" },
 	{ "i", "<C-v>", "<C-r>+" },
 	-- better replacing and handle of commands
 	{ "n", "<leader>.", "@:<CR>" },
@@ -74,6 +74,8 @@ local keymaps = {
 	{ "v", "<leader>s", ":s//g<Left><Left>" },
 	{ "n", "<TAB>", ">>" },
 	{ "n", "<S-TAB>", "<<" },
+	{ "i", "<TAB>", "<C-t>" },
+	{ "i", "<S-TAB>", "<C-d>" },
 	{ "v", "<TAB>", ">gv" },
 	{ "v", "<S-TAB>", "<gv" },
 	-- terminal mappings

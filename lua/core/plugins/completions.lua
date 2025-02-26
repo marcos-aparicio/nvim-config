@@ -19,15 +19,20 @@ return {
 				{ name = "path" },
 				{ name = "lazydev", group_index = 0 },
 			}
+
 			local has_words_before = function()
 				if not pcall(vim.api.nvim_win_get_cursor, 0) then
 					return false
 				end
-				local line, col = table.unpack(vim.api.nvim_win_get_cursor(0))
+				local success, line, col = pcall(function()
+					return table.unpack(vim.api.nvim_win_get_cursor(0))
+				end)
+				if not success then
+					return false
+				end
 				return col ~= 0
 					and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 			end
-
 			return {
 
 				mapping = {
