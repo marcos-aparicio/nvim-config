@@ -49,25 +49,25 @@ return {
 				indent = { enable = false, disable = { "yaml" } },
 				textobjects = {
 					select = {
-						enable = false,
+						enable = true,
 
 						-- Automatically jump forward to textobj, similar to targets.vim
 						lookahead = true,
 
 						keymaps = {
 							-- You can use the capture groups defined in textobjects.scm
-							["af"] = "@function.outer",
-							["if"] = "@function.inner",
+							["aF"] = "@function.outer",
+							["iF"] = "@function.inner",
 							["ac"] = "@class.outer",
 							-- You can optionally set descriptions to the mappings (used in the desc parameter of
 							-- nvim_buf_set_keymap) which plugins like which-key display
-							["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
+							-- ["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
 							-- You can also use captures from other query groups like `locals.scm`
-							["as"] = { query = "@scope", query_group = "locals", desc = "Select language scope" },
-							["aa"] = "@parameter.outer",
-							["ia"] = "@parameter.inner",
-							["av"] = "@assignment.outer",
-							["iv"] = "@assignment.inner",
+							-- ["as"] = { query = "@scope", query_group = "locals", desc = "Select language scope" },
+							-- ["aa"] = "@parameter.outer",
+							-- ["ia"] = "@parameter.inner",
+							-- ["av"] = "@assignment.outer",
+							-- ["iv"] = "@assignment.inner",
 						},
 						-- You can choose the select mode (default is charwise 'v')
 						--
