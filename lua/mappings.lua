@@ -113,7 +113,6 @@ for _, map in ipairs(keymaps) do
 	local final_opts = map[4] and vim.tbl_extend("force", opts, map[4]) or opts
 	vim.keymap.set(map[1], map[2], map[3], final_opts)
 end
-vim.keymap.set({ "n", "x", "o" }, "ms", "<Plug>(leap-backward-to)")
 
 local autocmd = vim.api.nvim_create_autocmd
 autocmd({ "FileType" }, {

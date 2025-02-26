@@ -1,9 +1,6 @@
 return {
 	"tpope/vim-abolish",
-	"tpope/vim-obsession",
 	"kkoomen/vim-doge",
-	"tpope/vim-surround",
-	"easymotion/vim-easymotion",
 	"tpope/vim-speeddating",
 	"tpope/vim-dispatch",
 	-- "Treesitter for rasi filetype"
@@ -72,17 +69,6 @@ return {
 				-- refer to the configuration section below
 			},
 		},
-	},
-
-	{
-		"ggandor/leap.nvim",
-		main = "leap",
-		event = "VeryLazy",
-		opts = function()
-			require("leap").add_default_mappings()
-			return {}
-		end,
-		dependencies = { "tpope/vim-repeat" },
 	},
 	{
 		"github/copilot.vim",
