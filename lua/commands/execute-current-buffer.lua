@@ -49,10 +49,15 @@ local function determineCommandForBuffer()
 		end
 		return usual_running("node")
 	elseif filetype == "php" then
-		if string.match(current_file, ".*tests/Browser/.*%.php$") then
-			return "vendor/bin/sail dusk %"
+		local git_root = vim.fn.systemlist("git rev-parse --show-toplevel")[1]
+
+		if git_root and git_root ~= "" then
+			current_file = vim.fn.systemlist("realpath --relative-to=" .. git_root .. " " .. current_file)[1]
 		end
-		return "vendor/bin/sail test %"
+		if string.match(current_file, ".*tests/Browser/.*%.php$") then
+			return "./vendor/bin/sail dusk " .. current_file
+		end
+		return "./vendor/bin/sail test " .. current_file
 	end
 	vim.notify("Not supported filetype", vim.log.levels.ERROR)
 end
