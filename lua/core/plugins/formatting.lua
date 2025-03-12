@@ -57,6 +57,7 @@ return {
 					graphql = { "prettierd" },
 					lua = { "stylua" },
 					php = { "pretty-php" },
+					go = { "gci" },
 				},
 				format_on_save = function()
 					return {
