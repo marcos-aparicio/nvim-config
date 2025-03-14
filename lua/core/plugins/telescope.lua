@@ -1,25 +1,28 @@
 return {
 	{ "nvim-telescope/telescope-live-grep-args.nvim", cmd = "Telescope live_grep_args" },
 	{ "jvgrootveld/telescope-zoxide", cmd = "Telescope zoxide" },
+	-- with lazy.nvim
 	{
-		"tomasky/bookmarks.nvim",
-		cmd = "Telescope bookmarks",
-		opts = function()
-			return {
-				save_file = vim.fn.stdpath("data") .. "/bookmarks",
-				sign_priority = 20, --set bookmark sign priority to cover other sign
-				on_attach = function()
-					local bm = require("bookmarks")
-					local map = vim.keymap.set
-					map("n", "mm", bm.bookmark_toggle, { noremap = true, silent = true })
-					map("n", "mi", bm.bookmark_ann, { noremap = true, silent = true })
-					map("n", "mc", bm.bookmark_clean, { noremap = true, silent = true })
-					map("n", "mn", bm.bookmark_next, { noremap = true, silent = true })
-					map("n", "mp", bm.bookmark_prev, { noremap = true, silent = true })
-					map("n", "ma", ":Telescope bookmarks list<CR>", { noremap = true, silent = true })
-				end,
-			}
-		end,
+		"LintaoAmons/bookmarks.nvim",
+		-- pin the plugin at specific version for stability
+		-- backup your bookmark sqlite db when there are breaking changes
+		-- tag = "v2.3.0",
+		dependencies = {
+			{ "kkharji/sqlite.lua" },
+			{ "nvim-telescope/telescope.nvim" },
+			{ "stevearc/dressing.nvim" }, -- optional: better UI
+		},
+		main = "bookmarks",
+		opts = {},
+		keys = {
+			{ "mm", ":BookmarksMark<CR>" },
+			{ "mn", ":BookmarksGotoNext<CR>" },
+			{ "ml", ":BookmarksLists<CR>" },
+			{ "mp", ":BookmarksGotoPrev<CR>" },
+			{ "ma", ":BookmarksGoto<CR>" },
+			{ "mt", ":BookmarksTree<CR>" },
+		},
+		event = { "BufReadPost", "BufWritePost", "BufNewFile" },
 	},
 	{
 		"nvim-telescope/telescope.nvim",
@@ -65,7 +68,7 @@ return {
 			end
 
 			telescope.load_extension("live_grep_args")
-			telescope.load_extension("bookmarks")
+			-- telescope.load_extension("bookmarks")
 			telescope.load_extension("zoxide")
 			return {
 				defaults = {
