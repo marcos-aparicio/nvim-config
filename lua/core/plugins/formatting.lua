@@ -60,6 +60,10 @@ return {
 					go = { "gci" },
 				},
 				format_on_save = function()
+					if vim.g.disable_autoformat or vim.b.disable_autoformat then
+						vim.notify("You have auto-formatting disabled!")
+						return false
+					end
 					return {
 						lsp_fallback = true,
 						async = false,
