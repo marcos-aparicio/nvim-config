@@ -17,6 +17,13 @@ autocmd({ "BufWritePost" }, {
 	end,
 })
 
+autocmd({ "BufRead" }, {
+	pattern = "*.razor",
+	desc = "Add correct filetype to razor files",
+	callback = function()
+		vim.bo.filetype = "razor"
+	end,
+})
 autocmd({ "BufNewFile", "BufRead" }, {
 	pattern = "*.md",
 	desc = "Conceal arrows in markdown files",
