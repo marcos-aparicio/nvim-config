@@ -6,6 +6,9 @@ return {
 		lightbulb = {
 			enable = false,
 		},
+		outline = {
+			layout = "float",
+		},
 	},
 	dependencies = {
 		"nvim-treesitter/nvim-treesitter", -- optional
