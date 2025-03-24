@@ -12,6 +12,7 @@ return {
 			"mason",
 			"oil",
 			"aerial",
+			"sagafinder",
 			"Avante",
 		},
 	},
