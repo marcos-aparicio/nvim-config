@@ -23,7 +23,12 @@ return {
 		},
 	},
 	{ "andrewradev/linediff.vim", cmd = "Linediff" },
-	{ "norcalli/nvim-colorizer.lua", main = "colorizer" },
+	{
+		"catgoose/nvim-colorizer.lua",
+		event = "BufReadPre",
+		main = "colorizer",
+		opts = {},
+	},
 	{
 		"lewis6991/gitsigns.nvim",
 		tag = "v0.6",
