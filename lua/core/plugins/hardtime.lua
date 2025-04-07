@@ -6,6 +6,7 @@ return {
 		disabled_filetypes = {
 			"qf",
 			"sagaoutline",
+			"minifiles",
 			"netrw",
 			"NvimTree",
 			"lazy",
@@ -13,6 +14,7 @@ return {
 			"oil",
 			"aerial",
 			"sagafinder",
+			"neo-tree",
 			"Avante",
 		},
 	},
