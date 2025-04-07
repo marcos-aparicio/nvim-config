@@ -1,23 +1,15 @@
-local keymaps = {
-	{ "n", "<S-Right>", ":BufferLineMoveNext<CR>" },
-	{ "n", "<S-Left>", ":BufferLineMovePrev<CR>" },
-	{ "n", "<S-l>", ":BufferLineCycleNext<CR>" },
-	{ "n", "<S-h>", ":BufferLineCyclePrev<CR>" },
-	{ "n", "<leader>p", ":BufferLineTogglePin<CR>" },
-	{ "n", "<leader>Q", ":BufferLineCloseOthers<CR>" },
-	{ "n", "<S-t>", ":BufferLinePick<CR>" },
-}
-
-for _, map in ipairs(keymaps) do
-	local opts = { noremap = true, silent = true }
-	-- Merge opts with map[4], if it exists
-	local final_opts = map[4] and vim.tbl_extend("force", opts, map[4]) or opts
-	vim.keymap.set(map[1], map[2], map[3], final_opts)
-end
-
 return {
 	"akinsho/bufferline.nvim",
 	version = "*",
+	keys = {
+		{ "<S-Right>", ":BufferLineMoveNext<CR>" },
+		{ "<S-Left>", ":BufferLineMovePrev<CR>" },
+		{ "<S-l>", ":BufferLineCycleNext<CR>" },
+		{ "<S-h>", ":BufferLineCyclePrev<CR>" },
+		{ "<leader>p", ":BufferLineTogglePin<CR>" },
+		{ "<leader>Q", ":BufferLineCloseOthers<CR>" },
+		{ "<S-t>", ":BufferLinePick<CR>" },
+	},
 	event = "VeryLazy",
 	dependencies = "nvim-tree/nvim-web-devicons",
 	opts = {
