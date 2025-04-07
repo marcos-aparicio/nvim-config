@@ -3,7 +3,7 @@ return {
 	lazy = false,
 	keys = {
 		{ "<leader>ga", ":G add<space>" },
-		{ "<leader>go", ":G open<space>" }, -- custom command of mine
+		{ "<leader>go", ":G open<CR>" }, -- custom command of mine
 		{ "<leader>gw", ":Gwrite<CR>" },
 		{ "<leader>gc", ":G commit<CR>" },
 		{ "<leader>gu", ":G reset %<CR>" },
