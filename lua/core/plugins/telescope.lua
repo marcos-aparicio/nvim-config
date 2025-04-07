@@ -1,5 +1,8 @@
 return {
-	{ "nvim-telescope/telescope-live-grep-args.nvim", cmd = "Telescope live_grep_args" },
+	{
+		"nvim-telescope/telescope-live-grep-args.nvim",
+		cmd = "Telescope live_grep_args",
+	},
 	{ "jvgrootveld/telescope-zoxide", cmd = "Telescope zoxide" },
 	-- with lazy.nvim
 	{
@@ -36,6 +39,7 @@ return {
 			local action_layout = require("telescope.actions.layout")
 			local action_state = require("telescope.actions.state")
 			local builtin = require("telescope.builtin")
+			local lga_actions = require("telescope-live-grep-args.actions")
 
 			local keymaps = {
 				{ "n", "<leader>f", builtin.find_files },
@@ -47,7 +51,23 @@ return {
 				{ "n", "<leader>gb", builtin.git_branches },
 				{ "n", "<leader>th", builtin.help_tags },
 				{ "n", "<leader>/", builtin.current_buffer_fuzzy_find },
-				{ "n", "<leader>ll", telescope.extensions.live_grep_args.live_grep_args },
+				{
+					"n",
+					"<leader>ll",
+					function()
+						telescope.extensions.live_grep_args.live_grep_args({
+							auto_quoting = true, -- enable/disable auto-quoting
+							mappings = {
+								i = {
+									["<C-k>"] = lga_actions.quote_prompt(),
+									["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
+									-- freeze the current list and start a fuzzy search in the frozen list
+									["<C-space>"] = lga_actions.to_fuzzy_refine,
+								},
+							},
+						})
+					end,
+				},
 				{
 					"n",
 					"<leader>rf",
@@ -69,7 +89,7 @@ return {
 
 			telescope.load_extension("live_grep_args")
 			-- telescope.load_extension("bookmarks")
-			telescope.load_extension("zoxide")
+			-- telescope.load_extension("zoxide")
 			return {
 				defaults = {
 					preview = {
