@@ -47,6 +47,7 @@ local keymaps = {
 	{ "n", "zj", "zt" },
 	{ "n", "zk", "zb" },
 	-- some navigation normal remappings
+	{ "n", "<leader>k", ":b#<CR>" },
 	{ { "n", "v" }, "j", "gj" },
 	{ { "n", "v" }, "k", "gk" },
 	{ "n", "<C-d>", "<C-d>zz" },
