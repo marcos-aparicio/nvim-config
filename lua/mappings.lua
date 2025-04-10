@@ -13,6 +13,10 @@ local keymaps = {
 				vim.cmd("quit!")
 				return
 			end
+			if vim.bo.filetype == "qf" then
+				vim.cmd("cclose")
+				return
+			end
 			if vim.bo.filetype == "command_runner" then
 				vim.cmd("q")
 				return
@@ -23,6 +27,7 @@ local keymaps = {
 			end
 			vim.cmd("bd")
 		end,
+		{ desc = "Custom closing of buffer" },
 	},
 	{ "n", "<leader>v", ":vs<CR>" },
 	{ "n", "<leader>h", ":sp<CR>" },
@@ -91,6 +96,11 @@ local keymaps = {
 	{ "t", "<C-S-l>", "<C-\\><C-N>:vertical resize +2<CR>" },
 	-- source current file
 	{ "n", "<leader>x", ":source %<CR>" },
+	-- quickfix mappings
+	{ "n", "<leader>co", ":copen<CR>" },
+	{ "n", "<leader>cq", ":cclose<CR>" },
+	{ "n", "<leader>cj", ":cnext<CR>" },
+	{ "n", "<leader>ck", ":cprev<CR>" },
 	-- resizing windows
 	{ "n", "<C-S-h>", ":vertical resize -2<CR>" },
 	{ "n", "<C-S-j>", ":resize -2<CR>" },
