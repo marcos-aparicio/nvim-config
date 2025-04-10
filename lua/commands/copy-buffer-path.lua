@@ -1,5 +1,4 @@
 local user_cmd = vim.api.nvim_create_user_command
-local HOME = os.getenv("HOME")
 
 -- Copies the current buffer's path to the clipboard with multiple options, it is a
 -- callback from the nvim user command function. It accepts a range so that when

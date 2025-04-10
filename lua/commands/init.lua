@@ -1,8 +1,8 @@
 require("commands.copy-buffer-path")
 require("commands.execute-current-buffer")
+require("commands.toggle-last-position-in-buffer")
 
 local user_cmd = vim.api.nvim_create_user_command
-local HOME = os.getenv("HOME")
 
 user_cmd("OpenAlacrittyReadonly", function()
 	local current_file = vim.fn.expand("%:p")
