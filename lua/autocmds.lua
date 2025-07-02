@@ -35,6 +35,14 @@ autocmd({ "BufNewFile", "BufRead" }, {
 
 autocmd({ "BufWritePre" }, {
 	pattern = "*",
+	desc = "Remove ^M (carriage returns) on write",
+	callback = function()
+    vim.cmd([[silent! %s/\r//ge]])
+	end,
+})
+
+autocmd({ "BufWritePre" }, {
+	pattern = "*",
 	desc = "Strip trailing whitespace before saving",
 	callback = function()
 		vim.fn.execute("%s/\\s\\+$//e")
