@@ -35,18 +35,6 @@ return {
 				-- directory in a tmux pane on the right
 			})
 
-			-- Here I define my custom keymaps in a centralized place
-			opts.custom_keymaps = {
-				open_tmux_pane = "<M-t>",
-				copy_to_clipboard = "<space>yy",
-				zip_and_copy = "<space>yz",
-				paste_from_clipboard = "<space>p",
-				copy_path = "<M-c>",
-				-- Don't use "i" as it conflicts wit insert mode
-				preview_image = "<space>i",
-				preview_image_popup = "<M-i>",
-			}
-
 			opts.windows = vim.tbl_deep_extend("force", opts.windows or {}, {
 				preview = true,
 				width_focus = 30,
