@@ -4,6 +4,14 @@ return {
 		cmd = "Telescope live_grep_args",
 	},
 	{ "jvgrootveld/telescope-zoxide", cmd = "Telescope zoxide" },
+  {
+    'polarmutex/git-worktree.nvim',
+    version = '^2',
+    dependencies = {
+      { "nvim-lua/plenary.nvim" },
+			{ "nvim-telescope/telescope.nvim" },
+    }
+  },
 	-- with lazy.nvim
 	{
 		"LintaoAmons/bookmarks.nvim",
@@ -45,6 +53,7 @@ return {
 				{ "n", "<leader>f", builtin.find_files },
 				{ "n", "<leader>b", builtin.buffers },
 				{ "n", "<leader>gfl", builtin.git_bcommits },
+				{ "n", "<leader>gt", ":Telescope git_worktree<CR>" },
 				{ "v", "<leader>ll", "y<ESC>:Telescope live_grep_args default_text=<c-r>0<CR>" },
 				{ "n", "<leader>z", telescope.extensions.zoxide.list },
 				{ "n", "<leader>gs", builtin.git_status },
@@ -88,8 +97,10 @@ return {
 			end
 
 			telescope.load_extension("live_grep_args")
+			-- telescope.load_extension("worktrees")
+      telescope.load_extension('git_worktree')
 			-- telescope.load_extension("bookmarks")
-			-- telescope.load_extension("zoxide")
+      -- telescope.load_extension("zoxide")
 			return {
 				defaults = {
 					preview = {
