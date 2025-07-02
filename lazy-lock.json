@@ -6,7 +6,6 @@
   "LuaSnip": { "branch": "master", "commit": "eda5be8f0ce9816278671f0b578cdbb8b762c701" },
   "alpha-nvim": { "branch": "main", "commit": "a35468cd72645dbd52c0624ceead5f301c566dff" },
   "avante.nvim": { "branch": "main", "commit": "9669e22ea95289e820cbe7e5294369ddb97ba0ed" },
-  "blade-nav.nvim": { "branch": "main", "commit": "56601aaf230698388ed687d1d9d468599d277ac2" },
   "bookmarks.nvim": { "branch": "main", "commit": "df3ff61bd1feb978a14e0591b53a126d5360a011" },
   "bufferline.nvim": { "branch": "main", "commit": "655133c3b4c3e5e05ec549b9f8cc2894ac6f51b3" },
   "cmp-buffer": { "branch": "main", "commit": "b74fab3656eea9de20a9b8116afa3cfc4ec09657" },

@@ -2,3 +2,4 @@ pack/
 plugin/
 .worktrees/
 .vim-bookmarks/
+lua/globals.lua

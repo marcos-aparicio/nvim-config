@@ -1,4 +1,5 @@
-local OBSIDIAN_ROOT_PATH = vim.fn.expand("~") .. "/Documents/Areas/Obsidian/"
+local globals = require("globals")
+local OBSIDIAN_ROOT_PATH = globals.obsidian_root
 local OBSIDIAN_PATH = vim.fn.expand("~") .. "/Documents/Areas/Obsidian/**/**.md"
 local OBSIDIAN_LIST_PATH = vim.fn.expand("~") .. "/Documents/Areas/Obsidian/**/*lists.md"
 
