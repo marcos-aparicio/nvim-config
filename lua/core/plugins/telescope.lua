@@ -12,29 +12,6 @@ return {
 			{ "nvim-telescope/telescope.nvim" },
     }
   },
-	-- with lazy.nvim
-	{
-		"LintaoAmons/bookmarks.nvim",
-		-- pin the plugin at specific version for stability
-		-- backup your bookmark sqlite db when there are breaking changes
-		-- tag = "v2.3.0",
-		dependencies = {
-			{ "kkharji/sqlite.lua" },
-			{ "nvim-telescope/telescope.nvim" },
-			{ "stevearc/dressing.nvim" }, -- optional: better UI
-		},
-		main = "bookmarks",
-		opts = {},
-		keys = {
-			{ "mm", ":BookmarksMark<CR>" },
-			{ "mn", ":BookmarksGotoNext<CR>" },
-			{ "ml", ":BookmarksLists<CR>" },
-			{ "mp", ":BookmarksGotoPrev<CR>" },
-			{ "ma", ":BookmarksGoto<CR>" },
-			{ "mt", ":BookmarksTree<CR>" },
-		},
-		event = { "BufReadPost", "BufWritePost", "BufNewFile" },
-	},
 	{
 		"nvim-telescope/telescope.nvim",
 		branch = "master",
