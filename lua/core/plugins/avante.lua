@@ -16,6 +16,7 @@ return {
       providers = {
         openai = {
           endpoint = "https://api.openai.com/v1",
+          api_key_name = "OPENAI_API_KEY",
           model = "gpt-4o-mini",
           timeout = 30000,         -- Timeout in milliseconds, increase this for reasoning models
           context_window = 128000, -- Number of tokens to send to the model for context

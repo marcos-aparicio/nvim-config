@@ -6,7 +6,7 @@ return {
     "nvim-telescope/telescope.nvim",
   },
   opts = {
-    api_key = "pass show personal/api_keys/openai",
+    api_key_cmd = "pass show personal/api_keys/openai",
     openai_params = {
       model = "gpt-4o-mini"
     },
