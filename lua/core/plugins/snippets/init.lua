@@ -9,6 +9,7 @@ return {
 			"ledger",
 			"sql",
 			"octo",
+			"css",
 			"python",
 			"markdown",
 			"php",
