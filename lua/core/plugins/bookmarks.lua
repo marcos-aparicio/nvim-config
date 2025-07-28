@@ -25,7 +25,6 @@ return {
       end
 
       local project_name = string.gsub(project_root, "^" .. os.getenv("HOME") .. "/", "")
-      print("the project name is " .. project_name)
       local Service = require("bookmarks.domain.service")
       local Repo = require("bookmarks.domain.repo")
       local bookmark_list = nil
