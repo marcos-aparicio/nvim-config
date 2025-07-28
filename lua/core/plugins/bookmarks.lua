@@ -24,10 +24,10 @@ return {
 				return
 			end
 
-			local project_name = string.gsub(project_root, "^" .. os.getenv("HOME") .. "/", "")
-			local Service = require("bookmarks.domain.service")
-			local Repo = require("bookmarks.domain.repo")
-			local bookmark_list = nil
+      local project_name = string.gsub(project_root, "^" .. os.getenv("HOME") .. "/", "")
+      local Service = require("bookmarks.domain.service")
+      local Repo = require("bookmarks.domain.repo")
+      local bookmark_list = nil
 
 			for _, bl in ipairs(Repo.find_lists()) do
 				if bl.name == project_name then
