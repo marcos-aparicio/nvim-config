@@ -9,6 +9,8 @@ return {
       "html",
       "ledger",
       "sql",
+      "json",
+      "css",
       "octo",
       "python",
       "markdown",
