@@ -4,36 +4,13 @@ return {
 		cmd = "Telescope live_grep_args",
 	},
 	{ "jvgrootveld/telescope-zoxide", cmd = "Telescope zoxide" },
-  {
-    'polarmutex/git-worktree.nvim',
-    version = '^2',
-    dependencies = {
-      { "nvim-lua/plenary.nvim" },
-			{ "nvim-telescope/telescope.nvim" },
-    }
-  },
-	-- with lazy.nvim
 	{
-		"LintaoAmons/bookmarks.nvim",
-		-- pin the plugin at specific version for stability
-		-- backup your bookmark sqlite db when there are breaking changes
-		-- tag = "v2.3.0",
+		"polarmutex/git-worktree.nvim",
+		version = "^2",
 		dependencies = {
-			{ "kkharji/sqlite.lua" },
+			{ "nvim-lua/plenary.nvim" },
 			{ "nvim-telescope/telescope.nvim" },
-			{ "stevearc/dressing.nvim" }, -- optional: better UI
 		},
-		main = "bookmarks",
-		opts = {},
-		keys = {
-			{ "mm", ":BookmarksMark<CR>" },
-			{ "mn", ":BookmarksGotoNext<CR>" },
-			{ "ml", ":BookmarksLists<CR>" },
-			{ "mp", ":BookmarksGotoPrev<CR>" },
-			{ "ma", ":BookmarksGoto<CR>" },
-			{ "mt", ":BookmarksTree<CR>" },
-		},
-		event = { "BufReadPost", "BufWritePost", "BufNewFile" },
 	},
 	{
 		"nvim-telescope/telescope.nvim",
@@ -54,10 +31,12 @@ return {
 				{ "n", "<leader>b", builtin.buffers },
 				{ "n", "<leader>gfl", builtin.git_bcommits },
 				{ "n", "<leader>gt", ":Telescope git_worktree<CR>" },
+				{ "n", "<leader>td", ":Telescope diagnostics<CR>" },
 				{ "v", "<leader>ll", "y<ESC>:Telescope live_grep_args default_text=<c-r>0<CR>" },
 				{ "n", "<leader>z", telescope.extensions.zoxide.list },
 				{ "n", "<leader>gs", builtin.git_status },
 				{ "n", "<leader>gb", builtin.git_branches },
+				{ "n", "<leader>tp", ":Telescope projects<CR>" },
 				{ "n", "<leader>th", builtin.help_tags },
 				{ "n", "<leader>/", builtin.current_buffer_fuzzy_find },
 				{
@@ -97,10 +76,11 @@ return {
 			end
 
 			telescope.load_extension("live_grep_args")
-			-- telescope.load_extension("worktrees")
-      telescope.load_extension('git_worktree')
+			telescope.load_extension("projects")
+			telescope.load_extension("git_worktree")
+
 			-- telescope.load_extension("bookmarks")
-      -- telescope.load_extension("zoxide")
+			-- telescope.load_extension("zoxide")
 			return {
 				defaults = {
 					preview = {
