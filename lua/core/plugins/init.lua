@@ -31,7 +31,6 @@ return {
 	},
 	{
 		"lewis6991/gitsigns.nvim",
-		tag = "v0.6",
 		event = { "BufReadPost", "BufWritePost", "BufNewFile" },
 		opts = {},
 	},
