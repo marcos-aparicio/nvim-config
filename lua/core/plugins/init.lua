@@ -1,6 +1,6 @@
 return {
 	"tpope/vim-abolish",
-	"kkoomen/vim-doge",
+	{ "kkoomen/vim-doge", build = ":call doge#install()" },
 	"tpope/vim-speeddating",
 	"tpope/vim-dispatch",
 	-- "Treesitter for rasi filetype"
@@ -77,20 +77,6 @@ return {
 				-- refer to the configuration section below
 			},
 		},
-	},
-	{
-		"github/copilot.vim",
-		cmd = { "Copilot" },
-		init = function()
-			vim.g.copilot_filetypes =
-				{ markdown = false, vimwiki = false, xml = false, html = false, json = false, toggleterm = false }
-			vim.cmd([[highlight CopilotSuggestion guifg=#555555 ctermfg=8]])
-			vim.keymap.set("i", "<C-;>", 'copilot#Accept("<CR>")', {
-				expr = true,
-				replace_keycodes = false,
-			})
-			vim.g.copilot_no_tab_map = true
-		end,
 	},
 	{
 		"adalessa/laravel.nvim",
