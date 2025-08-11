@@ -1,0 +1,100 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "name": "Personal Neovim Modular Config",
+  "version": "1.0.0",
+  "system_prompt": "You are an expert in Neovim configuration. This workspace is a modular, personal Neovim setup. Answer questions and provide suggestions based on the grouped context.",
+  "groups": [
+    {
+      "name": "Key Mappings",
+      "system_prompt": "This group contains all custom key mappings and related logic.",
+      "data": ["mappings_lua"]
+    },
+    {
+      "name": "Plugin Management",
+      "system_prompt": "This group contains all plugin configurations, organized by feature.",
+      "data": [
+        "plugins_telescope",
+        "plugins_treesitter",
+        "plugins_mini",
+        "plugins_completions",
+        "plugins_dap",
+        "plugins_obsidian",
+        "plugins_neotree",
+        "plugins_test",
+        "plugins_bufferline"
+      ]
+    },
+    {
+      "name": "Custom Commands",
+      "system_prompt": "This group contains custom user commands and their implementations.",
+      "data": ["commands_execute_current_buffer"]
+    },
+    {
+      "name": "Autocommands & Utilities",
+      "system_prompt": "This group contains custom autocommands and utility scripts.",
+      "data": ["datediff_lua"]
+    }
+  ],
+  "data": {
+    "mappings_lua": {
+      "type": "file",
+      "path": "lua/mappings.lua",
+      "description": "All custom key mappings and related logic."
+    },
+    "plugins_telescope": {
+      "type": "file",
+      "path": "lua/core/plugins/telescope.lua",
+      "description": "Telescope plugin configuration, including keymaps and extensions."
+    },
+    "plugins_treesitter": {
+      "type": "file",
+      "path": "lua/core/plugins/treesitter.lua",
+      "description": "Tree-sitter plugin configuration and related keymaps."
+    },
+    "plugins_mini": {
+      "type": "file",
+      "path": "lua/core/plugins/mini.lua",
+      "description": "Mini.nvim plugin suite configuration, including mini.files and custom mappings."
+    },
+    "plugins_completions": {
+      "type": "file",
+      "path": "lua/core/plugins/completions.lua",
+      "description": "Completion plugins configuration (nvim-cmp, sources, mappings)."
+    },
+    "plugins_dap": {
+      "type": "file",
+      "path": "lua/core/plugins/dap.lua",
+      "description": "Debug Adapter Protocol (DAP) plugin configuration and related keymaps."
+    },
+    "plugins_obsidian": {
+      "type": "file",
+      "path": "lua/core/plugins/obsidian-plugin.lua",
+      "description": "Obsidian.nvim and related plugins for note-taking and task management."
+    },
+    "plugins_neotree": {
+      "type": "file",
+      "path": "lua/core/plugins/neotree.lua",
+      "description": "Neo-tree file explorer plugin configuration."
+    },
+    "plugins_test": {
+      "type": "file",
+      "path": "lua/core/plugins/test.lua",
+      "description": "Neotest and related plugins for running and managing tests."
+    },
+    "plugins_bufferline": {
+      "type": "file",
+      "path": "lua/core/plugins/bufferline.lua",
+      "description": "Bufferline plugin configuration for buffer/tab management."
+    },
+    "commands_execute_current_buffer": {
+      "type": "file",
+      "path": "lua/commands/execute-current-buffer.lua",
+      "description": "Custom command to execute the current buffer based on filetype."
+    },
+    "datediff_lua": {
+      "type": "file",
+      "path": "lua/datediff.lua",
+      "description": "Utility script for calculating date differences and displaying them in markdown files."
+    }
+  }
+}
