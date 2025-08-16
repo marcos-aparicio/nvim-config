@@ -1,4 +1,4 @@
-local USE_CODECOMPANION = true -- Set to false to use CopilotChat
+local USE_CODECOMPANION = false -- Set to false to use CopilotChat
 
 if USE_CODECOMPANION then
 	return {
@@ -55,7 +55,7 @@ else
 			dependencies = {
 				{ "nvim-lua/plenary.nvim", branch = "master" },
 			},
-			keys = { { "<leader>ac", ":copilotchattoggle<cr>" } },
+			keys = { { "<leader>ac", ":CopilotChatToggle<cr>" } },
 			build = "make tiktoken",
 			opts = {},
 		},
