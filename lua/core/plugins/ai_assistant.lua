@@ -57,7 +57,13 @@ else
 			},
 			keys = { { "<leader>ac", ":CopilotChatToggle<cr>" } },
 			build = "make tiktoken",
-			opts = {},
+			opts = {
+				mappings = {
+					show_help = {
+						normal = "?",
+					},
+				},
+			},
 		},
 	}
 end
