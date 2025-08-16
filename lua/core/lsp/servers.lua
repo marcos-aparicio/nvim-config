@@ -14,6 +14,5 @@ return {
 	"tailwindcss",
 	"angularls",
 	"gopls",
-	"volar",
 	"marksman",
 }
