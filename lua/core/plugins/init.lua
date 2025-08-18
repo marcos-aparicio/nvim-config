@@ -31,7 +31,6 @@ return {
 	},
 	{
 		"lewis6991/gitsigns.nvim",
-		tag = "v0.6",
 		event = { "BufReadPost", "BufWritePost", "BufNewFile" },
 		opts = {},
 	},
@@ -75,6 +74,9 @@ return {
 				-- your bigfile configuration comes here
 				-- or leave it empty to use the default settings
 				-- refer to the configuration section below
+			},
+			picker = {
+				ui_select = true,
 			},
 		},
 	},
