@@ -18,6 +18,7 @@ return {
 			CursorColumn = { bg = "None" },
 			VertSplit = { bg = "None" },
 			LineNr = { fg = "#FFD580" },
+      TelescopePromptCounter = { fg = "#FFD580", bg = "None" },
 			LineNrAbove = { fg = "#606366" },
 			LineNrBelow = { fg = "#606366" },
 		},
