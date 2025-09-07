@@ -17,7 +17,7 @@ return {
 			"neovim/nvim-lspconfig",
 			"williamboman/mason.nvim",
 		},
-		event = { "BufReadPost", "BufWritePost", "BufNewFile" },
+		event = { "BufReadPre", "BufNewFile" },
 		opts = function()
 			require("core.lsp.mason")
 			require("core.lsp.handlers").setup()
