@@ -1,3 +1,5 @@
+vim.g.disable_autoformat = true
+vim.b.disable_autoformat = true
 vim.api.nvim_create_user_command("FormatDisable", function(args)
 	if args.bang then
 		-- FormatDisable! will disable formatting just for this buffer
@@ -19,9 +21,16 @@ end, {
 vim.api.nvim_create_user_command("ToggleFormatting", function()
 	vim.b.disable_autoformat = not vim.b.disable_autoformat
 	vim.g.disable_autoformat = not vim.g.disable_autoformat
+
+	if vim.g.disable_autoformat then
+		vim.notify("AutoFormat disabled")
+	else
+		vim.notify("AutoFormat enabled")
+	end
 end, {
 	desc = "Re-enable autoformat-on-save",
 })
+vim.keymap.set("n", "<leader>tf", ":ToggleFormatting<CR>")
 
 return {
 	{
