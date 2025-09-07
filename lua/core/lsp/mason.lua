@@ -19,6 +19,7 @@ end
 mason.setup()
 mason_lspconfig.setup({
 	ensure_installed = servers,
+  automatic_enable = false,
 	automatic_installation = true,
 })
 
