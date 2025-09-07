@@ -1,5 +1,5 @@
 return {
-	"tristone13th/lspmark.nvim",
+	"marcos-aparicio/lspmark.nvim",
 	keys = {
 		{ "mm", ":lua require('lspmark.bookmarks').toggle_bookmark({with_comment=true})<CR>" },
 		{ "ma", ":Telescope lspmark<CR>" },
@@ -14,7 +14,6 @@ return {
 		require("lspmark.bookmarks").load_bookmarks() -- so that it also loads on startup
 		vim.api.nvim_create_autocmd({ "DirChanged" }, {
 			callback = function()
-				vim.notify("i happen crack")
 				require("lspmark.bookmarks").load_bookmarks()
 			end,
 			pattern = { "*" },
