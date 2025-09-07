@@ -31,9 +31,8 @@ M.setup = function()
 
 	vim.diagnostic.config(config)
 
-	vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {})
-
-	vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {})
+	vim.lsp.handlers["textDocument/hover"] = vim.lsp.buf.hover
+	vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.buf.signature_help
 end
 
 local function lsp_keymaps(bufnr)
@@ -46,13 +45,13 @@ local function lsp_keymaps(bufnr)
 	vim.keymap.set("n", "<leader>gr", require("telescope.builtin").lsp_references, opts)
 	vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
 	vim.keymap.set("n", "[d", function()
-		vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
+		vim.diagnostic.jump({ severity = vim.diagnostic.severity.ERROR, count = -1, float = true })
 	end, {})
 	vim.keymap.set("n", "]d", function()
-		vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
+		vim.diagnostic.jump({ severity = vim.diagnostic.severity.ERROR, count = 1, float = true })
 	end, {})
-	-- vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-	vim.keymap.set("n", "gk", '<cmd>lua vim.diagnostic.open_float(0, { scope = "line", border = "rounded" })<CR>', opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+	vim.keymap.set("n", "gk", ':lua vim.diagnostic.open_float(0, { scope = "line", border = "rounded" })<CR>')
 end
 
 M.on_attach = function(client, bufnr)
