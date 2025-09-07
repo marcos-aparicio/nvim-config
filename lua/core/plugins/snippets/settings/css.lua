@@ -101,5 +101,6 @@ local scss_snippets = {
 	}),
 }
 
+ls.add_snippets("html", css_snippets)
 ls.add_snippets("css", css_snippets)
 ls.add_snippets("scss", scss_snippets)

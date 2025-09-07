@@ -1,18 +1,21 @@
 return {
 	"L3MON4D3/LuaSnip",
-	dependencies = { "hrsh7th/nvim-cmp", "rafamadriz/friendly-snippets", "saadparwaiz1/cmp_luasnip" },
-	event = { "BufReadPost", "BufWritePost", "BufNewFile" },
+	version = "2.*",
+	event = { "InsertEnter" },
 	opts = function()
 		local languages = {
 			"markdown",
 			"javascript",
+			"html",
 			"ledger",
 			"sql",
-			"octo",
+			"json",
 			"css",
+			"octo",
 			"python",
 			"markdown",
 			"php",
+			"misc",
 		}
 		require("luasnip.loaders.from_vscode").lazy_load()
 		for _, language in pairs(languages) do

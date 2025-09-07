@@ -1,6 +1,12 @@
 return {
 	"tpope/vim-abolish",
-	{ "kkoomen/vim-doge", build = ":call doge#install()" },
+	{
+		"kkoomen/vim-doge",
+		build = ":call doge#install()",
+		config = function()
+			vim.g.doge_mapping = "<leader>dd" -- Change this to your desired mapping
+		end,
+	},
 	"tpope/vim-speeddating",
 	"tpope/vim-dispatch",
 	-- "Treesitter for rasi filetype"
@@ -31,7 +37,6 @@ return {
 	},
 	{
 		"lewis6991/gitsigns.nvim",
-		tag = "v0.6",
 		event = { "BufReadPost", "BufWritePost", "BufNewFile" },
 		opts = {},
 	},
@@ -76,6 +81,9 @@ return {
 				-- or leave it empty to use the default settings
 				-- refer to the configuration section below
 			},
+			picker = {
+				ui_select = true,
+			},
 		},
 	},
 	{
@@ -109,5 +117,11 @@ return {
 				desc = " rip substitute",
 			},
 		},
+	},
+	{
+		"MagicDuck/grug-far.nvim",
+		config = function()
+			require("grug-far").setup()
+		end,
 	},
 }

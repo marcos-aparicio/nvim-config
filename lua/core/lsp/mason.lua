@@ -1,13 +1,4 @@
-local function safe_require(module)
-	local ok, result = pcall(require, module)
-	if ok then
-		return result
-	else
-		return nil
-	end
-end
-
-local servers = safe_require("core.lsp.servers")
+local servers = require("core.lsp.servers")
 	or {
 		"lua_ls",
 		"emmet_language_server",
@@ -16,40 +7,40 @@ local servers = safe_require("core.lsp.servers")
 		"volar",
 	}
 
-local mason = safe_require("mason")
-if not mason then
+local ok_mason, mason = pcall(require, "mason")
+if not ok_mason then
 	return
 end
-
-local mason_lspconfig = safe_require("mason-lspconfig")
-if not mason_lspconfig then
+local ok_lsp, mason_lspconfig = pcall(require, "mason-lspconfig")
+if not ok_lsp then
 	return
 end
 
 mason.setup()
 mason_lspconfig.setup({
 	ensure_installed = servers,
+  automatic_enable = false,
 	automatic_installation = true,
 })
 
-local lspconfig = safe_require("lspconfig")
-if not lspconfig then
+local ok_lspconfig, lspconfig = pcall(require, "lspconfig")
+if not ok_lspconfig then
 	return
 end
 
-local opts = {}
+local handlers = require("core.lsp.handlers")
+local default_opts = {
+	on_attach = handlers.on_attach,
+	capabilities = handlers.capabilities,
+}
 
-for _, server in pairs(servers) do
-	opts = {
-		on_attach = require("core.lsp.handlers").on_attach,
-		capabilities = require("core.lsp.handlers").capabilities,
-	}
+for _, server_name in pairs(servers) do
+	local server = vim.split(server_name, "@")[1]
+	local opts = vim.tbl_deep_extend("force", {}, default_opts)
 
-	server = vim.split(server, "@")[1]
-
-	local require_ok, conf_opts = pcall(require, "core.lsp.settings." .. server)
-	if require_ok then
-		opts = vim.tbl_deep_extend("force", conf_opts, opts)
+	local has_custom, custom_opts = pcall(require, "core.lsp.settings." .. server)
+	if has_custom then
+		opts = vim.tbl_deep_extend("force", opts, custom_opts)
 	end
 
 	lspconfig[server].setup(opts)
