@@ -17,10 +17,6 @@ return {
 			"neovim/nvim-lspconfig",
 			"williamboman/mason.nvim",
 		},
-	},
-	{
-		"hrsh7th/cmp-nvim-lsp",
-		dependencies = { "williamboman/mason-lspconfig.nvim" },
 		event = { "BufReadPost", "BufWritePost", "BufNewFile" },
 		opts = function()
 			require("core.lsp.mason")
