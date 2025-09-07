@@ -20,7 +20,7 @@
   "lazydev.nvim": { "branch": "main", "commit": "2367a6c0a01eb9edb0464731cc0fb61ed9ab9d2c" },
   "leetcode.nvim": { "branch": "master", "commit": "10f63d67201f6e988467485e6cf32d08176fcad2" },
   "linediff.vim": { "branch": "main", "commit": "ddae71ef5f94775d101c1c70032ebe8799f32745" },
-  "lspmark.nvim": { "branch": "main", "commit": "a0be3641fc25c10ff5c45e2c3208442e767629d5" },
+  "lspmark.nvim": { "branch": "main", "commit": "ad2cd038cd7a28293fce4c661a0a785201c374a4" },
   "lspsaga.nvim": { "branch": "main", "commit": "8efe00d6aed9db6449969f889170f1a7e43101a1" },
   "lua-json5": { "branch": "master", "commit": "d710c494586f369eba787902e665fa0bcb5705ba" },
   "lualine.nvim": { "branch": "master", "commit": "b8c23159c0161f4b89196f74ee3a6d02cdc3a955" },
