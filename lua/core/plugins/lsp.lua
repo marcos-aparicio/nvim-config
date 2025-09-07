@@ -19,6 +19,7 @@ return {
 		},
 		event = { "BufReadPre", "BufNewFile" },
 		opts = function()
+			-- where all the magic happens ⬇
 			require("core.lsp.mason")
 			require("core.lsp.handlers").setup()
 			return {}
