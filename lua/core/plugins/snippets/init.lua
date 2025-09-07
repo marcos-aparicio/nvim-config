@@ -15,6 +15,7 @@ return {
 			"python",
 			"markdown",
 			"php",
+			"misc",
 		}
 		require("luasnip.loaders.from_vscode").lazy_load()
 		for _, language in pairs(languages) do
