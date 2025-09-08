@@ -13,7 +13,25 @@ return {
 	},
 	keys = {
 		{ "<C-;>", "<Cmd>ToggleTerm<CR>", mode = { "t", "n" } },
-		{ "<leader>lg", "<Cmd>TermExec direction=float cmd=lazygit<CR>", mode = { "t", "n" } },
+		{
+			"<leader>lg",
+			function()
+				local Terminal = require("toggleterm.terminal").Terminal
+				local lazygit = Terminal:new({
+					cmd = "lazygit",
+					direction = "float",
+					close_on_exit = true,
+					float_opts = {
+						border = "rounded",
+						width = math.floor(vim.o.columns * 0.85),
+						height = math.floor(vim.o.lines * 0.85),
+					},
+				})
+				lazygit:open()
+			end,
+			mode = { "n", "t" },
+			desc = "Open lazygit in floating terminal",
+		},
 		{ "<leader>ld", "<Cmd>TermExec direction=float cmd=lazydocker<CR>", mode = { "t", "n" } },
 		-- Custom key for lf in a floating terminal
 		{

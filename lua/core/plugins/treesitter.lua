@@ -59,6 +59,8 @@ return {
 							["aF"] = "@function.outer",
 							["iF"] = "@function.inner",
 							["ac"] = "@class.outer",
+							["id"] = "@conditional.inner",
+							["ad"] = "@conditional.outer",
 							-- You can optionally set descriptions to the mappings (used in the desc parameter of
 							-- nvim_buf_set_keymap) which plugins like which-key display
 							-- ["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
@@ -102,6 +104,7 @@ return {
 						},
 						goto_next_end = {
 							["]M"] = "@function.outer",
+							["]I"] = "@conditional.outer",
 							["]["] = "@class.outer",
 							["]R"] = "@return.outer",
 						},

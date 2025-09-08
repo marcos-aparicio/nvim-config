@@ -1,6 +1,12 @@
 return {
 	"tpope/vim-abolish",
-	{ "kkoomen/vim-doge", build = ":call doge#install()" },
+	{
+		"kkoomen/vim-doge",
+		build = ":call doge#install()",
+		config = function()
+			vim.g.doge_mapping = "<leader>dd" -- Change this to your desired mapping
+		end,
+	},
 	"tpope/vim-speeddating",
 	"tpope/vim-dispatch",
 	-- "Treesitter for rasi filetype"
@@ -111,5 +117,11 @@ return {
 				desc = " rip substitute",
 			},
 		},
+	},
+	{
+		"MagicDuck/grug-far.nvim",
+		config = function()
+			require("grug-far").setup()
+		end,
 	},
 }
