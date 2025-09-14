@@ -19,8 +19,24 @@ return {
 			bullet = {
 				icons = { "• ", "‣ ", "∙ ", "◦ " }, -- Small and clean bullet icons
 			},
+			heading = {
+				sign = true,
+				-- position = 'inline',
+				-- width = 'block',
+				icons = { "󰲡 ", "󰲣 ", "󰲥 ", "󰲧 ", "󰲩 ", "󰲫 " },
+				custom = {
+					todo_pattern = {
+						pattern = "^## To Do$",
+						icon = "󰲣    ",
+					},
+					notes_pattern = {
+						pattern = "^## Notes$",
+						icon = "󰲣  📝 ",
+					},
+				},
+			},
 		},
-		config = function()
+		init = function()
 			vim.api.nvim_create_autocmd("FileType", {
 				pattern = "markdown",
 				callback = function()
@@ -87,6 +103,23 @@ return {
 						pick_tag_and_search,
 						{ buffer = true, desc = "Pick tag and search" }
 					)
+
+					local function jump_to_header(header_text, keymap, desc)
+						vim.keymap.set("n", keymap, function()
+							local current_pos = vim.fn.getpos(".")
+							vim.cmd("normal! gg") -- Go to top
+							local found = vim.fn.search("^## " .. header_text, "W")
+							if found > 0 then
+								vim.cmd("normal! j") -- Move one line down
+							else
+								vim.fn.setpos(".", current_pos) -- Return to original position
+								vim.notify('Header "## ' .. header_text .. '" not found', vim.log.levels.WARN)
+							end
+						end, { desc = desc })
+					end
+
+					jump_to_header("To Do", "<leader>mt", "Jump to To Do section")
+					jump_to_header("Notes", "<leader>mn", "Jump to Notes section")
 				end,
 			})
 		end,
