@@ -40,6 +40,9 @@ return {
 					"fallback",
 				},
 				["<S-Tab>"] = { "snippet_backward", "fallback" },
+        ["<S-k>"] = { "scroll_documentation_up", "fallback" },
+        ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
+        ["<S-j>"] = { "scroll_documentation_down", "fallback" },
 			},
 			appearance = {
 				nerd_font_variant = "mono",
@@ -86,3 +89,4 @@ return {
   },
 	opts_extend = { "sources.default" },
 }
+
