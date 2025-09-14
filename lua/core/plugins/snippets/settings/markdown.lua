@@ -4,9 +4,13 @@ if not ls then
 	return
 end
 
+local function clipboard()
+  return vim.fn.getreg("+")
+end
 local s = ls.snippet
 local t = ls.text_node
 local i = ls.insert_node
+local f = ls.function_node
 
 --- Retrieves the current date in a formatted string.
 ---
@@ -53,6 +57,28 @@ local markdown_mappings = {
 		i(4),
 	}),
 	s("hoy", { t(get_current_date(true)) }),
+  s({
+    trig = "codex",
+    name = "Generic code block",
+    desc = "Insert a code block with dynamic language",
+  }, {
+    t("```"),
+    i(1, "bash"), -- Language input
+    t({ "", "","" }),
+    i(2, "# code here"),
+    t({ "","", "```", "" }),
+  }),
+  s({
+          trig = "linkex",
+          name = "Paste clipboard as EXT .md link",
+          desc = "Paste clipboard as EXT .md link",
+        }, {
+          t("["),
+          i(1),
+          t("]("),
+          f(clipboard, {}),
+          t(')'),
+  })
 }
 
 -- ls.add_snippets("vimwiki", markdown_mappings)
