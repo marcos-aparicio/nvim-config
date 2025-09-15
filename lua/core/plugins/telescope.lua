@@ -35,6 +35,7 @@ return {
 				{ "v", "<leader>ll", "y<ESC>:Telescope live_grep_args default_text=<c-r>0<CR>" },
 				{ "n", "<leader>z", telescope.extensions.zoxide.list },
 				{ "n", "<leader>gs", builtin.git_status },
+				{ "n", "<leader>tl", ":Telescope lsp_document_symbols<CR>" },
 				{ "n", "<leader>gb", builtin.git_branches },
 				{ "n", "<leader>tp", ":Telescope projects<CR>" },
 				{ "n", "<leader>th", builtin.help_tags },

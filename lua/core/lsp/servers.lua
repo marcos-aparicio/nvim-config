@@ -2,6 +2,7 @@ return {
 	"lua_ls",
 	"csharp_ls",
 	"html",
+  "jsonls",
 	-- "ts_ls",
 	"emmet_language_server",
 	"pyright",

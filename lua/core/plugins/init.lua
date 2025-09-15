@@ -119,6 +119,13 @@ return {
 		},
 	},
 	{
+    "wakatime/vim-wakatime",
+    lazy = false,
+    opts = {
+      api_key_vault_cmd = "pass show wakatime_api_key",
+    }
+  },
+	{
 		"MagicDuck/grug-far.nvim",
 		config = function()
 			require("grug-far").setup()
