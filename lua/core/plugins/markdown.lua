@@ -40,7 +40,12 @@ return {
 			vim.api.nvim_create_autocmd("FileType", {
 				pattern = "markdown",
 				callback = function()
-					local function pick_tag_and_search()
+          local function filter_non_task_tags(tag)
+            return not vim.startswith(tag, "_")
+          end
+
+
+					local function pick_tag_and_search(tag_filter_fn)
 						local telescope = require("telescope.builtin")
 						local pickers = require("telescope.pickers")
 						local finders = require("telescope.finders")
@@ -59,14 +64,17 @@ return {
 								end
 
 								local tags = {}
-								for _, symbol in ipairs(result) do
-									if symbol.name then
-										local tag = symbol.name:match("Tag:%s*(.+)")
-										if tag then
-											tags[tag] = true
-										end
-									end
-								end
+                for _, symbol in ipairs(result) do
+                  if not symbol.name then
+                    goto continue
+                  end
+                  local tag = symbol.name:match("Tag:%s*(.+)")
+                  if not tag or (tag_filter_fn and not tag_filter_fn(tag)) then
+                    goto continue
+                  end
+                  tags[tag] = true
+                  ::continue::
+                end
 
 								local tag_list = vim.tbl_keys(tags)
 								if #tag_list == 0 then
@@ -100,9 +108,23 @@ return {
 					vim.keymap.set(
 						"n",
 						"<leader>kt",
-						pick_tag_and_search,
+            function()
+              pick_tag_and_search(filter_non_task_tags)
+            end,
 						{ buffer = true, desc = "Pick tag and search" }
 					)
+
+					vim.keymap.set(
+						"n",
+						"<leader>ka",
+            function()
+              pick_tag_and_search(function (tag)
+                return vim.startswith(tag, "_")
+              end)
+            end,
+						{ buffer = true, desc = "Pick tag and search" }
+					)
+
 
 					local function jump_to_header(header_text, keymap, desc)
 						vim.keymap.set("n", keymap, function()
