@@ -3,7 +3,7 @@ return {
 	{
 		"kkoomen/vim-doge",
 		build = ":call doge#install()",
-		config = function()
+		init = function()
 			vim.g.doge_mapping = "<leader>dd" -- Change this to your desired mapping
 		end,
 	},
