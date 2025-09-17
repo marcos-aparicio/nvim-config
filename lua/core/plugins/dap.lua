@@ -1,3 +1,23 @@
+-- Set up icons.
+local icons = {
+    Stopped = { '', 'DiagnosticWarn', 'DapStoppedLine' },
+    Breakpoint = '',
+    BreakpointCondition = '',
+    BreakpointRejected = { '', 'DiagnosticError' },
+    LogPoint = '',
+}
+
+for name, sign in pairs(icons) do
+    sign = type(sign) == 'table' and sign or { sign }
+    vim.fn.sign_define('Dap' .. name, {
+        -- stylua: ignore
+        text = sign[1] --[[@as string]] .. ' ',
+        texthl = sign[2] or 'DiagnosticInfo',
+        linehl = sign[3],
+        numhl = sign[3],
+    })
+end
+
 return {
 	{ "mxsdev/nvim-dap-vscode-js", dependencies = { "mfussenegger/nvim-dap" } },
 	{
@@ -6,6 +26,7 @@ return {
 			"leoluz/nvim-dap-go",
 			"rcarriga/nvim-dap-ui",
 			"theHamsta/nvim-dap-virtual-text",
+      "jbyuki/one-small-step-for-vimkind",
 			"nvim-neotest/nvim-nio",
 			"williamboman/mason.nvim",
 			{
@@ -153,6 +174,12 @@ return {
 					require("dap").terminate()
 				end,
 			},
+      {
+        "<leader>dl",
+        function()
+          require"osv".launch({port = 8086})
+        end
+      }
 
 			-- -- vim.keymap.set("n", "<space>tb", dap.toggle_breakpoint)
 			-- vim.keymap.set("n", "<space>rb", dap.run_to_cursor)
@@ -200,6 +227,18 @@ return {
 					},
 				}
 			end
+      dap.configurations.lua = {
+        {
+          type = 'nlua',
+          request = 'attach',
+          name = "Attach to running Neovim instance",
+        }
+      }
+
+      dap.adapters.nlua = function(callback, config)
+        callback({ type = 'server', host = config.host or "127.0.0.1", port = config.port or 8086 })
+      end
+
 
 			require("nvim-dap-virtual-text").setup()
 
