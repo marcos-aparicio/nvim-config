@@ -127,6 +127,10 @@ return {
   },
 	{
 		"MagicDuck/grug-far.nvim",
+    keys = {
+      {"<leader>ln", ":GrugFar<CR>"},
+      {"<leader>lb", ":lua require('grug-far').open({ prefills = { paths = vim.fn.expand(\"%\") } })<CR>" },
+    },
 		config = function()
 			require("grug-far").setup()
 		end,
