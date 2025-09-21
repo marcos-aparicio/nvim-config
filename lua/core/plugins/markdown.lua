@@ -35,6 +35,11 @@ return {
 					},
 				},
 			},
+      checkbox={
+        custom = {
+            todo = { raw = '[-]', rendered = '󰥔 ', highlight = 'RenderMarkdownTodoCurrent', scope_highlight = nil },
+        },
+      }
 		},
 		init = function()
 			vim.api.nvim_create_autocmd("FileType", {
@@ -45,7 +50,7 @@ return {
           end
 
 
-					local function pick_tag_and_search(tag_filter_fn)
+					local function pick_tag_and_search(tag_filter_fn, picker_title)
 						local telescope = require("telescope.builtin")
 						local pickers = require("telescope.pickers")
 						local finders = require("telescope.finders")
@@ -84,7 +89,7 @@ return {
 
 								pickers
 									.new({}, {
-										prompt_title = "Select Tag",
+										prompt_title = picker_title and picker_title or "Select Tag",
 										finder = finders.new_table({
 											results = tag_list,
 										}),
@@ -120,7 +125,7 @@ return {
             function()
               pick_tag_and_search(function (tag)
                 return vim.startswith(tag, "_")
-              end)
+              end, "Select Task Tag:")
             end,
 						{ buffer = true, desc = "Pick tag and search" }
 					)
