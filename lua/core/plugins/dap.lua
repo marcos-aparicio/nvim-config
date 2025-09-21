@@ -172,7 +172,8 @@ return {
 				"<F7>",
 				function()
 					require("dap").terminate()
-				end,
+					require("dapui").close()
+          end,
 			},
       {
         "<leader>dl",
