@@ -73,7 +73,7 @@ return {
 						vim.notify("You have auto-formatting disabled!")
 						return false
 					end
-					return {
+            return {
 						lsp_fallback = true,
 						async = false,
 						timeout_ms = 1000,
