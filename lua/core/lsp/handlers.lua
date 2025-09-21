@@ -1,4 +1,5 @@
 local M = {}
+local navic = require("nvim-navic")
 
 M.setup = function()
 	local signs = {
@@ -55,6 +56,9 @@ local function lsp_keymaps(bufnr)
 end
 
 M.on_attach = function(client, bufnr)
+  if client.server_capabilities.documentSymbolProvider then
+      navic.attach(client, bufnr)
+  end
 	lsp_keymaps(bufnr)
 end
 
