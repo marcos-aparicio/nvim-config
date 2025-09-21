@@ -6,6 +6,7 @@ local keymaps = {
   { "n", "<leader>lp", ":Lazy profile<CR>" },
   --
   { "n", "<leader>w",  ":w<CR>" },
+
   {
     "n",
     "<leader>q",
@@ -351,3 +352,28 @@ vim.keymap.set("n", "zi", function()
   vim.cmd("normal! za")
   vim.cmd("normal! zz") -- center the cursor line on screen
 end, { desc = "[P]Fold the heading cursor currently on" })
+
+
+
+vim.keymap.set("v", "<leader>qf", function()
+  local start_pos = vim.fn.getpos("'<")
+  local end_pos = vim.fn.getpos("'>")
+  local lines = vim.fn.getline(start_pos[2], end_pos[2])
+  if type(lines) == "string" then
+    lines = { lines }
+  end
+  local qf_entries = {}
+  for i, text in ipairs(lines) do
+
+    local fields = vim.split(text, ":", { plain = true })
+    -- local lnum = start_pos[2] + i - 1
+    table.insert(qf_entries, {
+      filename = fields[1],
+      lnum = tonumber(fields[2]),
+      col = tonumber(fields[3]),
+      text = fields[4],
+    })
+  end
+  vim.fn.setqflist(qf_entries, 'r')
+  vim.cmd("copen")
+end, { desc = "Add visual selection lines to quickfix list" })

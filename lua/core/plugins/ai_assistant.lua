@@ -64,6 +64,11 @@ else
 						normal = "?",
 					},
 				},
+        prompts ={
+          Quickfix = {
+            system_prompt = "The user will provide you with some context and instructions and you should respond in an output format that can be interpreted by a quickfix file in the following format per line: <filename>:<column>:<line>:<text> "
+          }
+        }
 			},
 		},
 	}
