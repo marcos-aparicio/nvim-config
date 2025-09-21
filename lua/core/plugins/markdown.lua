@@ -280,6 +280,16 @@ return {
 			vim.keymap.set("n", "<localleader>d", "<cmd>AutolistToggleCheckbox<cr><CR>")
 			vim.keymap.set("n", "<C-r>", "<cmd>AutolistRecalculate<cr>")
 
+      vim.keymap.set("n", "<leader>mo", function()
+        local url = vim.fn.expand("<cfile>")
+        if url and url:match("^https?://") then
+          local open_cmd = vim.g.is_wsl == 1 and { "powershell.exe", "Start-Process" } or { "xdg-open" }
+          vim.fn.jobstart(vim.list_extend(open_cmd, { url }), { detach = true })
+        else
+          vim.notify("No valid URL under cursor", vim.log.levels.WARN)
+        end
+      end, { buffer = true, desc = "Open markdown link in browser" })
+
 			-- cycle list types with dot-repeat
 			vim.keymap.set("n", "<leader>cn", require("autolist").cycle_next_dr, { expr = true })
 			-- vim.keymap.set("n", "<leader>cp", require("autolist").cycle_prev_dr, { expr = true })
