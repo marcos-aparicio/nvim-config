@@ -42,7 +42,7 @@ return {
 
 			vim.cmd("hi @function.blade guifg=#ff61e3")
 
-			vim.keymap.set({ "n", "x", "o" }, "<leader>tc", ":TSContextToggle<CR>")
+			vim.keymap.set({ "n", "x", "o" }, "<leader>tx", ":TSContextToggle<CR>")
 			return {
 				ensure_installed = { "lua" },
 				auto_install = true,
