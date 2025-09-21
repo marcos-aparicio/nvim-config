@@ -59,14 +59,15 @@ local markdown_mappings = {
 	}),
 	s("hoy", { t(get_current_date(true)) }),
   s({
-    trig = "codex",
+    trig = "codex:(%w+)",
+    regTrig = true,
     name = "Generic code block",
-    desc = "Insert a code block with dynamic language",
+    desc = "Insert a code block with dynamic language from trigger",
   }, {
     t("```"),
-    i(1, "bash"), -- Language input
+    f(function(_, snip) return snip.captures[1] or "" end),
     t({ "", "","" }),
-    i(2, "# code here"),
+    i(1, "# code here"),
     t({ "","", "```", "" }),
   }),
   s({

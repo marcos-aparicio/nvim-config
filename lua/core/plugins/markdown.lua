@@ -145,6 +145,104 @@ return {
 						end, { desc = desc })
 					end
 
+          -- all credit to linkarzu's dotfiles! thsi section is definitely not ma code
+          -- https://github.com/linkarzu/dotfiles-latest/blob/main/neovim/neobean/lua/config/keymaps.lua
+          vim.keymap.set("n", "<leader>md", function()
+            -- Get the current cursor position
+            local cursor_pos = vim.api.nvim_win_get_cursor(0)
+            local current_buffer = vim.api.nvim_get_current_buf()
+            local start_row = cursor_pos[1] - 1
+            local col = cursor_pos[2]
+            -- Get the current line
+            local line = vim.api.nvim_buf_get_lines(current_buffer, start_row, start_row + 1, false)[1]
+            -- Check if the line already starts with a bullet point
+            if line:match("^%s*%-") then
+              -- Remove the bullet point from the start of the line
+              line = vim.trim(line:gsub("^%s*%-", ""))
+              vim.api.nvim_buf_set_lines(current_buffer, start_row, start_row + 1, false, { line })
+              return
+            end
+            -- Search for newline to the left of the cursor position
+            local left_text = line:sub(1, col)
+            local bullet_start = left_text:reverse():find("\n")
+            if bullet_start then
+              bullet_start = col - bullet_start
+            end
+            -- Search for newline to the right of the cursor position and in following lines
+            local right_text = line:sub(col + 1)
+            local bullet_end = right_text:find("\n")
+            local end_row = start_row
+            while not bullet_end and end_row < vim.api.nvim_buf_line_count(current_buffer) - 1 do
+              end_row = end_row + 1
+              local next_line = vim.api.nvim_buf_get_lines(current_buffer, end_row, end_row + 1, false)[1]
+              if next_line == "" then
+                break
+              end
+              right_text = right_text .. "\n" .. next_line
+              bullet_end = right_text:find("\n")
+            end
+            if bullet_end then
+              bullet_end = col + bullet_end
+            end
+            -- Extract lines
+            local text_lines = vim.api.nvim_buf_get_lines(current_buffer, start_row, end_row + 1, false)
+            local text = table.concat(text_lines, "\n")
+            -- Add bullet point at the start of the text
+            local new_text = "- " .. text
+            local new_lines = vim.split(new_text, "\n")
+            -- Set new lines in buffer
+            vim.api.nvim_buf_set_lines(current_buffer, start_row, end_row + 1, false, new_lines)
+          end, { desc = "[P]Toggle bullet point (dash)" })
+
+
+          vim.keymap.set("n", "<leader>ml", function()
+            -- Get the current cursor position
+            local cursor_pos = vim.api.nvim_win_get_cursor(0)
+            local current_buffer = vim.api.nvim_get_current_buf()
+            local start_row = cursor_pos[1] - 1
+            local col = cursor_pos[2]
+            -- Get the current line
+            local line = vim.api.nvim_buf_get_lines(current_buffer, start_row, start_row + 1, false)[1]
+            -- Check if the line already starts with a todo point
+            if line:match("^%s*%- %s[.]") then
+              -- Remove the bullet point from the start of the line
+              line = vim.trim(line:gsub("^%s*%-%s[.]", ""))
+              vim.api.nvim_buf_set_lines(current_buffer, start_row, start_row + 1, false, { line })
+              return
+            end
+            -- Search for newline to the left of the cursor position
+            local left_text = line:sub(1, col)
+            local bullet_start = left_text:reverse():find("\n")
+            if bullet_start then
+              bullet_start = col - bullet_start
+            end
+            -- Search for newline to the right of the cursor position and in following lines
+            local right_text = line:sub(col + 1)
+            local bullet_end = right_text:find("\n")
+            local end_row = start_row
+            while not bullet_end and end_row < vim.api.nvim_buf_line_count(current_buffer) - 1 do
+              end_row = end_row + 1
+              local next_line = vim.api.nvim_buf_get_lines(current_buffer, end_row, end_row + 1, false)[1]
+              if next_line == "" then
+                break
+              end
+              right_text = right_text .. "\n" .. next_line
+              bullet_end = right_text:find("\n")
+            end
+            if bullet_end then
+              bullet_end = col + bullet_end
+            end
+            -- Extract lines
+            local text_lines = vim.api.nvim_buf_get_lines(current_buffer, start_row, end_row + 1, false)
+            local text = table.concat(text_lines, "\n")
+            -- Add bullet point at the start of the text
+            local new_text = "- [ ] " .. text
+            local new_lines = vim.split(new_text, "\n")
+            -- Set new lines in buffer
+            vim.api.nvim_buf_set_lines(current_buffer, start_row, end_row + 1, false, new_lines)
+          end, { desc = "[P]Toggle todo(dash)" })
+
+
 					jump_to_header("To Do", "<leader>mt", "Jump to To Do section")
 					jump_to_header("Notes", "<leader>mn", "Jump to Notes section")
 				end,
