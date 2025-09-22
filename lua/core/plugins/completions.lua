@@ -67,7 +67,11 @@ return {
 			},
 			sources = {
 				default = { "lsp", "path", "snippets", "buffer", "emoji"  },
+        per_filetype = {
+          sql = { "dadbod" }
+        },
         providers = {
+          dadbod = { module = "vim_dadbod_completion.blink" },
           snippets = {
             name = "snippets",
             enabled = true,
