@@ -91,7 +91,14 @@ return {
         },
       },
       image = {
-        enabled = true,
+        enabled = function(bufnr)
+          local ft = vim.bo[bufnr].filetype
+          -- disable for HTML
+          if ft == "html" then
+            return false
+          end
+          return true
+        end,
         doc = {
           -- only used if `opts.inline` is disabled
           float = true,
@@ -169,6 +176,26 @@ return {
     config = function()
       require("grug-far").setup()
     end,
+  },
+  {
+    "potamides/pantran.nvim",
+    cmd = { "Pantran" },
+    keys = {
+      {
+        "<leader>tr",
+        function()
+          require("pantran").motion_translate()
+        end,
+        mode = {"n","x"}
+      },
+      {
+        "<leader>trr",
+        function()
+          return require("pantran").motion_translate() .. "_"
+        end
+      },
+    }
+
   },
   {
     "HakonHarnes/img-clip.nvim",
