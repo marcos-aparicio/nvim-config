@@ -56,19 +56,31 @@ else
 				{ "nvim-lua/plenary.nvim", branch = "master" },
 			},
 			cmd = { "CopilotChatToggle", "CopilotChat" },
-			keys = { { "<leader>ac", ":CopilotChatToggle<cr>" } },
+			keys = {
+				{ "<leader>ac", ":CopilotChatToggle<cr>" },
+				{ "<leader>a.", ":CopilotChatSave ", mode = "n", ft = "copilot-chat" },
+				{
+					"<leader>a,",
+          ":CopilotChatLoad ",
+          ft = "copilot-chat",
+					{ desc = "Open CopilotChat History Picker" },
+				},
+			},
 			build = "make tiktoken",
 			opts = {
 				mappings = {
 					show_help = {
 						normal = "?",
 					},
+					reset = {
+						normal = "grs",
+					},
 				},
-        prompts ={
-          Quickfix = {
-            system_prompt = "The user will provide you with some context and instructions and you should respond in an output format that can be interpreted by a quickfix file in the following format per line: <filename>:<column>:<line>:<text> "
-          }
-        }
+				prompts = {
+					Quickfix = {
+						system_prompt = "The user will provide you with some context and instructions and you should respond in an output format that can be interpreted by a quickfix file in the following format per line: <filename>:<column>:<line>:<text> ",
+					},
+				},
 			},
 		},
 	}

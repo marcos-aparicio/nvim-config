@@ -9,6 +9,7 @@ local s, t = ls.snippet, ls.text_node
 local copilot_chat_snippets = {
 	s(">bfvs", { t("> #buffers:visible") }),
 	s(">bfall", { t("> #buffers:listed") }),
+	s("son4", { t("$claude-sonnet-4") }),
 }
 
 ls.add_snippets("copilot-chat", copilot_chat_snippets)
