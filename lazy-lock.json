@@ -92,5 +92,6 @@
   "vim-tmux-navigator": { "branch": "master", "commit": "c45243dc1f32ac6bcf6068e5300f3b2b237e576a" },
   "vim-wakatime": { "branch": "master", "commit": "d7973b157a632d1edeff01818f18d67e584eeaff" },
   "vimtex": { "branch": "master", "commit": "2e1bbabeb2c34bb17d7bc8cfdf8f95b16dd0db0c" },
-  "vscode-js-debug": { "branch": "main", "commit": "3a4bd769a3195ba95b591910b0e32fbed231c722" }
+  "vscode-js-debug": { "branch": "main", "commit": "3a4bd769a3195ba95b591910b0e32fbed231c722" },
+  "which-key.nvim": { "branch": "main", "commit": "904308e6885bbb7b60714c80ab3daf0c071c1492" }
 }
