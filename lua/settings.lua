@@ -44,5 +44,11 @@ else
   vim.opt.foldtext = "v:lua.require'utils'.foldtext()"
 end
 
+local function is_wsl()
+  local version = vim.fn.readfile("/proc/version")[1] or ""
+  return version:match("Microsoft") or version:match("WSL")
+end
+vim.g.is_wsl = is_wsl() and 1 or 0
+
 -- Fix markdown indentation settings
 vim.g.markdown_recommended_style = 0

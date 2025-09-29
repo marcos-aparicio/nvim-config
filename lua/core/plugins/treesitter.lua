@@ -1,6 +1,16 @@
 return {
 	{ "HiPhish/rainbow-delimiters.nvim", event = { "BufReadPost", "BufWritePost", "BufNewFile" } },
 	{ "nvim-treesitter/nvim-treesitter-textobjects", event = { "BufReadPost", "BufWritePost", "BufNewFile" } },
+  {
+      "SmiteshP/nvim-navic",
+      dependencies = "neovim/nvim-lspconfig",
+      opts ={
+       -- separator = " ",
+       --  highlight = true,
+       --  depth_limit = 5,
+       --  lazy_update_context = true,
+      }
+  },
 	{
 		"nvim-treesitter/nvim-treesitter-context",
 		opts = { enable = false },
@@ -32,7 +42,7 @@ return {
 
 			vim.cmd("hi @function.blade guifg=#ff61e3")
 
-			vim.keymap.set({ "n", "x", "o" }, "<leader>tc", ":TSContextToggle<CR>")
+			vim.keymap.set({ "n", "x", "o" }, "<leader>tx", ":TSContextToggle<CR>")
 			return {
 				ensure_installed = { "lua" },
 				auto_install = true,
@@ -56,6 +66,8 @@ return {
 
 						keymaps = {
 							-- You can use the capture groups defined in textobjects.scm
+							["ah"] = "@markup.heading",
+							["ih"] = "@markup.heading",
 							["aF"] = "@function.outer",
 							["iF"] = "@function.inner",
 							["ac"] = "@class.outer",
@@ -101,6 +113,7 @@ return {
 							["]m"] = "@function.outer",
 							["]]"] = "@class.outer",
 							["]r"] = "@return.outer",
+							["]h"] = "@markup.heading",
 						},
 						goto_next_end = {
 							["]M"] = "@function.outer",
@@ -111,6 +124,7 @@ return {
 						goto_previous_start = {
 							["[m"] = "@function.outer",
 							["[["] = "@class.outer",
+							["[h"] = "@markup.heading",
 						},
 						goto_previous_end = {
 							["[M"] = "@function.outer",

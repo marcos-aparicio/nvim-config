@@ -3,7 +3,7 @@ return {
 	{
 		"kkoomen/vim-doge",
 		build = ":call doge#install()",
-		config = function()
+		init = function()
 			vim.g.doge_mapping = "<leader>dd" -- Change this to your desired mapping
 		end,
 	},
@@ -84,6 +84,33 @@ return {
 			picker = {
 				ui_select = true,
 			},
+			styles = {
+				snacks_image = {
+					relative = "editor",
+					col = -1,
+				},
+			},
+			image = {
+				enabled = true,
+				doc = {
+					-- only used if `opts.inline` is disabled
+					float = true,
+					-- Sets the size of the image
+					max_width = 60,
+					max_height = 30,
+					-- max_width = 60,
+					-- max_height = 30,
+					-- Apparently, all the images that you preview in neovim are converted
+					-- to .png and they're cached, original image remains the same, but
+					-- the preview you see is a png converted version of that image
+					--
+					-- Where are the cached images stored?
+					-- This path is found in the docs
+					-- :lua print(vim.fn.stdpath("cache") .. "/snacks/image")
+					-- For me returns `~/.cache/neobean/snacks/image`
+					-- Go 1 dir above and check `sudo du -sh ./* | sort -hr | head -n 5`
+				},
+			},
 		},
 	},
 	{
@@ -119,16 +146,50 @@ return {
 		},
 	},
 	{
-    "wakatime/vim-wakatime",
-    lazy = false,
-    opts = {
-      api_key_vault_cmd = "pass show wakatime_api_key",
-    }
-  },
+		"wakatime/vim-wakatime",
+		lazy = false,
+		opts = {
+			api_key_vault_cmd = "pass show wakatime_api_key",
+		},
+	},
 	{
 		"MagicDuck/grug-far.nvim",
+		keys = {
+			{ "<leader>ln", ":GrugFar<CR>" },
+			{ "<leader>lb", ":lua require('grug-far').open({ prefills = { paths = vim.fn.expand(\"%\") } })<CR>" },
+		},
 		config = function()
 			require("grug-far").setup()
 		end,
 	},
+	{
+		"HakonHarnes/img-clip.nvim",
+		event = "VeryLazy",
+		opts = {
+			-- add options here
+			-- or leave it empty to use the default settings
+		},
+		keys = {
+			-- suggested keymap
+			{ "<leader>ip", "<cmd>PasteImage<cr>", desc = "Paste image from system clipboard" },
+		},
+	},
+  {
+    "folke/which-key.nvim",
+    event = "VeryLazy",
+    opts = {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+    },
+    keys = {
+      {
+        "<leader>?",
+        function()
+          require("which-key").show({ global = false })
+        end,
+        desc = "Buffer Local Keymaps (which-key)",
+      },
+    },
+  }
 }
