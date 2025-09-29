@@ -32,6 +32,48 @@ return {
 			mode = { "n", "t" },
 			desc = "Open lazygit in floating terminal",
 		},
+		{
+			"<leader>tr",
+			function()
+      if not _G.translate_shell_term then
+        local Terminal = require("toggleterm.terminal").Terminal
+        _G.translate_shell_term = Terminal:new({
+          cmd = "trans -I",
+          direction = "float",
+          close_on_exit = true,
+          float_opts = {
+            border = "rounded",
+            width = math.floor(vim.o.columns * 0.55),
+            height = math.floor(vim.o.lines * 0.55),
+          },
+        })
+      end
+      _G.translate_shell_term:toggle()
+			end,
+			mode = { "n", "t" },
+			desc = "Open translate-shell in floating terminal",
+		},
+    {
+      "<leader>=",
+      function()
+        if not _G.qalc_term then
+          local Terminal = require("toggleterm.terminal").Terminal
+          _G.qalc_term = Terminal:new({
+            cmd = "qalc",
+            direction = "float",
+            close_on_exit = true,
+            float_opts = {
+              border = "rounded",
+              width = math.floor(vim.o.columns * 0.55),
+              height = math.floor(vim.o.lines * 0.35),
+            },
+          })
+        end
+        _G.qalc_term:toggle()
+      end,
+      mode = { "n", "t" },
+      desc = "Toggle qalc in floating terminal",
+    },
 		{ "<leader>ld", "<Cmd>TermExec direction=float cmd=lazydocker<CR>", mode = { "t", "n" } },
 		-- Custom key for lf in a floating terminal
 		{
