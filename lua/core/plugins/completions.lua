@@ -28,17 +28,17 @@ return {
 					"snippet_forward",
 					"fallback",
 				},
-				["<Tab>"] = {
-					function(cmp)
-						if cmp.snippet_active() then
-							return cmp.accept()
-						else
-							return cmp.select_and_accept()
-						end
-					end,
-					"snippet_forward",
-					"fallback",
-				},
+				-- ["<Tab>"] = {
+				-- 	function(cmp)
+				-- 		if cmp.snippet_active() then
+				-- 			return cmp.accept()
+				-- 		else
+				-- 			return cmp.select_and_accept()
+				-- 		end
+				-- 	end,
+				-- 	"snippet_forward",
+				-- 	"fallback",
+				-- },
 				["<S-Tab>"] = { "snippet_backward", "fallback" },
         ["<S-k>"] = { "scroll_documentation_up", "fallback" },
         ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
@@ -66,7 +66,7 @@ return {
 				preset = "luasnip",
 			},
 			sources = {
-				default = { "lsp", "path", "snippets", "buffer", "emoji"  },
+				default = { "snippets", "path", "lsp", "buffer", "emoji"  },
         per_filetype = {
           sql = { "dadbod" }
         },
