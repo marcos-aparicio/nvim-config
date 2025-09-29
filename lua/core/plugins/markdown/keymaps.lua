@@ -105,6 +105,10 @@ function M.setup_buffer_keymaps()
 		telescope.get_tag_telescope_finder("finished-project", true)
 	end, { buffer = true, desc = "Search for 'finished-project' tag" })
 
+	vim.keymap.set("n", "<leader>mn", function()
+		telescope.get_tag_telescope_finder("next-project", true)
+	end, { buffer = true, desc = "Search for 'next-project' tag" })
+
 	-- Tag search keymaps
 	vim.keymap.set("n", "<leader>kt", telescope.pick_tag_and_search, { buffer = true, desc = "Pick tag and search" })
 
