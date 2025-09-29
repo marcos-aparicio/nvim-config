@@ -20,20 +20,102 @@ function M.toggle_task_state()
     return
   end
 
-  -- Find the start of the bullet point
-  while start_line > 0 do
-    local line_text = lines[start_line + 1]
-    if line_text == "" or line_text:match("^%s*%-") then
-      break
+  -- Helper function to find heading using Treesitter
+  local function find_heading_by_treesitter(heading_text)
+    local parser = vim.treesitter.get_parser(buf, 'markdown')
+    if not parser then
+      return nil
     end
-    start_line = start_line - 1
+
+    local tree = parser:parse()[1]
+    local root = tree:root()
+
+    -- Query for ATX level 2 headings
+    local query = vim.treesitter.query.parse('markdown', [[
+      (atx_heading
+        (atx_h2_marker)
+        (inline) @content
+      ) @heading
+    ]])
+
+    for id, node in query:iter_captures(root, buf, 0, -1) do
+      local name = query.captures[id]
+      if name == "content" then
+        local text = vim.treesitter.get_node_text(node, buf)
+        if text:match(heading_text:gsub("##%s*", "")) then
+          local parent = node:parent()
+          if parent then
+            local start_row, _, _, _ = parent:range()
+            return start_row
+          end
+        end
+      end
+    end
+    return nil
   end
 
-  if lines[start_line + 1] == "" and start_line < (total_lines - 1) then
-    start_line = start_line + 1
+  -- Find the start of the bullet point using Treesitter
+  local function find_task_chunk()
+    local parser = vim.treesitter.get_parser(buf, 'markdown')
+    if not parser then
+      -- Fallback to original logic if Treesitter is not available
+      local chunk_start = start_line
+      while chunk_start > 0 do
+        local line_text = lines[chunk_start + 1]
+        if line_text == "" or line_text:match("^%s*%-") then
+          break
+        end
+        chunk_start = chunk_start - 1
+      end
+
+      if lines[chunk_start + 1] == "" and chunk_start < (total_lines - 1) then
+        chunk_start = chunk_start + 1
+      end
+
+      return chunk_start
+    end
+
+    local tree = parser:parse()[1]
+    local root = tree:root()
+
+    -- Query for list items
+    local query = vim.treesitter.query.parse('markdown', [[
+      (list_item
+        (task_list_marker_checked)
+      ) @task_item
+      (list_item
+        (task_list_marker_unchecked)
+      ) @task_item
+    ]])
+
+    for id, node in query:iter_captures(root, buf, 0, -1) do
+      local start_row, _, end_row, _ = node:range()
+      -- Fix: match only if cursor is on the first line of the list item
+      if start_line == start_row then
+        return start_row
+      end
+    end
+
+    -- Fallback to original logic
+    local chunk_start = start_line
+    while chunk_start > 0 do
+      local line_text = lines[chunk_start + 1]
+      if line_text == "" or line_text:match("^%s*%-") then
+        break
+      end
+      chunk_start = chunk_start - 1
+    end
+
+    if lines[chunk_start + 1] == "" and chunk_start < (total_lines - 1) then
+      chunk_start = chunk_start + 1
+    end
+
+    return chunk_start
   end
 
-  local bullet_line = lines[start_line + 1]
+  local chunk_start = find_task_chunk()
+  local bullet_line = lines[chunk_start + 1]
+
   if not bullet_line:match("^%s*%- %[[x %-%]]") then
     print("Not a task bullet: no action taken.")
     vim.cmd("loadview")
@@ -41,8 +123,7 @@ function M.toggle_task_state()
   end
 
   -- Find the end of the chunk
-  local chunk_start = start_line
-  local chunk_end = start_line
+  local chunk_end = chunk_start
   while chunk_end + 1 < total_lines do
     local next_line = lines[chunk_end + 2]
     if next_line == "" or next_line:match("^%s*%-") then
@@ -121,20 +202,16 @@ function M.toggle_task_state()
       chunk[i] = chunk[i]:gsub("%s+`untoggled`", "")
     end
 
-    -- Move chunk to completed section
+    -- Move chunk to completed section using Treesitter
     for i = chunk_end, chunk_start, -1 do
       table.remove(lines, i + 1)
     end
 
-    local heading_index = nil
-    for i, line in ipairs(lines) do
-      if line:match("^" .. tasks_heading) then
-        heading_index = i
-        break
-      end
-    end
+    local heading_index = find_heading_by_treesitter(tasks_heading)
 
     if heading_index then
+      -- Convert to 1-based indexing for table operations
+      heading_index = heading_index + 1
       for _, cLine in ipairs(chunk) do
         table.insert(lines, heading_index + 1, cLine)
         heading_index = heading_index + 1
