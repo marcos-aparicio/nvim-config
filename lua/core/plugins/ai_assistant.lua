@@ -148,6 +148,41 @@ else
 						system_prompt = "The user will provide you with some context and instructions and you should respond in an output format that can be interpreted by a quickfix file in the following format per line: <filename>:<column>:<line>:<text> ",
 					},
 				},
+        functions ={
+          dir_tree = {
+            description = "Returns a tree view of the given directory path",
+            uri = "tree://{path}",
+            schema = {
+              type = 'object',
+              required = { 'path' },
+              properties = {
+                path = {
+                  type = 'string',
+                  description = "Directory path to display as a tree",
+                },
+              },
+            },
+            resolve = function(input)
+              local max_level = 4 -- set your desired depth
+              local handle = io.popen('tree -L ' .. max_level .. ' "' .. input.path .. '"')
+              local result = ""
+              if handle then
+                result = handle:read("*a")
+                handle:close()
+              else
+                result = "Error: Unable to open directory or run 'tree' command."
+              end
+              return {
+                {
+                  uri = 'tree://' .. input.path,
+                  mimetype = 'text/plain',
+                  data = result,
+                }
+              }
+            end
+          }
+        }
+
 			},
 		},
 	}
