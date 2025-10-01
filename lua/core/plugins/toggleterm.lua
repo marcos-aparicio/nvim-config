@@ -81,7 +81,15 @@ return {
 			function()
 				local Terminal = require("toggleterm.terminal").Terminal
 				local sel = vim.fn.tempname()
-				local cmd = ("bash -lc %q"):format("lf -selection-path " .. vim.fn.shellescape(sel))
+        local cmd
+        if vim.fn.executable("yazi") == 1 then
+          cmd = ("yazi --chooser-file %s"):format(sel)
+        elseif vim.fn.executable("lf") == 1 then
+          cmd = ("lf -selection-path %s"):format(sel)
+        else
+          vim.notify("Neither yazi nor lf is installed!", vim.log.levels.ERROR)
+          return
+        end
 
 				local term = Terminal:new({
 					cmd = cmd,
