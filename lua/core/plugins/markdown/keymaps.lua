@@ -109,6 +109,10 @@ function M.setup_buffer_keymaps()
 		telescope.get_tag_telescope_finder("next-project", true)
 	end, { buffer = true, desc = "Search for 'next-project' tag" })
 
+	vim.keymap.set("n", "<leader>md", function()
+		telescope.get_tag_telescope_finder("defered-project", true)
+	end, { buffer = true, desc = "Search for 'defered-project' tag" })
+
 	-- Tag search keymaps
 	vim.keymap.set("n", "<leader>kt", telescope.pick_tag_and_search, { buffer = true, desc = "Pick tag and search" })
 
@@ -123,7 +127,7 @@ function M.setup_buffer_keymaps()
   end, { buffer = true, desc = "Search tasks with tag _next" })
 
 	-- Text formatting keymaps
-	vim.keymap.set("n", "<leader>md", toggle_bullet_point, { buffer = true, desc = "Toggle bullet point (dash)" })
+	vim.keymap.set("n", "<leader>mb", toggle_bullet_point, { buffer = true, desc = "Toggle bullet point (dash)" })
 	vim.keymap.set("n", "<leader>ml", toggle_todo_checkbox, { buffer = true, desc = "Toggle todo (dash)" })
 
 	-- Navigation keymaps
