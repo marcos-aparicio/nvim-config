@@ -10,6 +10,7 @@ return {
 	"grammarly",
 	"eslint",
 	"phpactor",
+  "quick_lint_js",
 	"bashls",
 	-- "cssls",
 	"clangd",

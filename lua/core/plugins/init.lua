@@ -76,7 +76,7 @@ return {
       bigfile = {
         notify = true,            -- show notification when big file detected
         size = 1.5 * 1024 * 1024, -- 1.5MB
-        line_length = 1000,       -- average line length (useful for minified files)
+        line_length = 500,       -- average line length (useful for minified files)
         -- your bigfile configuration comes here
         -- or leave it empty to use the default settings
         -- refer to the configuration section below
@@ -176,26 +176,6 @@ return {
     config = function()
       require("grug-far").setup()
     end,
-  },
-  {
-    "potamides/pantran.nvim",
-    cmd = { "Pantran" },
-    keys = {
-      {
-        "<leader>tr",
-        function()
-          require("pantran").motion_translate()
-        end,
-        mode = {"n","x"}
-      },
-      {
-        "<leader>trr",
-        function()
-          return require("pantran").motion_translate() .. "_"
-        end
-      },
-    }
-
   },
   {
     "HakonHarnes/img-clip.nvim",

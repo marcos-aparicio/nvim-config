@@ -164,7 +164,9 @@ else
             },
             resolve = function(input)
               local max_level = 4 -- set your desired depth
-              local handle = io.popen('tree -L ' .. max_level .. ' "' .. input.path .. '"')
+
+              local command = string.format('tree -L %d --prune -I "node_modules" "%s"', max_level, input.path)
+              local handle = io.popen(command)
               local result = ""
               if handle then
                 result = handle:read("*a")

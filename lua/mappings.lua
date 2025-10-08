@@ -76,8 +76,6 @@ local keymaps = {
   -- { "i", "<C-d>", "<C-o>o" },
   { "i",          "<C-v>",      "<C-r>+" },
   -- better replacing and handle of commands
-  { "n",          "<leader>.",  "@:<CR>" },
-  { "n",          "<leader>S",  ":%s//gI<Left><Left><Left>" },
   { "n",          "<leader>s",  ":s//gI<Left><Left><Left>" },
   { "v",          "<leader>s",  ":s//g<Left><Left>" },
   { "n",          "<TAB>",      ">>" },
@@ -116,6 +114,32 @@ local keymaps = {
       vim.cmd(":%y+")
       print("Buffer copied to clipboard")
     end,
+  },
+  {
+    "v",
+    "<leader>bb",
+    function()
+    vim.cmd('normal! "sy')
+    -- Open or switch to a scratch buffer
+    vim.cmd('enew')  -- creates a new empty buffer
+    -- vim.bo.buftype = 'nofile'
+    -- vim.bo.bufhidden = 'hide'
+    -- vim.bo.swapfile = false
+    vim.bo.buftype = ''
+    vim.bo.bufhidden = ''
+    vim.bo.swapfile = true
+    -- Paste the yanked text
+    vim.cmd('normal! "sp')
+    vim.notify("hello world")
+    end
+  },
+  {
+    "n",
+    "<leader>|",
+    function()
+      vim.api.nvim_feedkeys("q:", "n", false)
+      vim.api.nvim_feedkeys("i%! ", "n", false)
+    end
   },
 }
 

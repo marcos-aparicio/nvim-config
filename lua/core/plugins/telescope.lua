@@ -25,6 +25,9 @@ return {
 			local action_state = require("telescope.actions.state")
 			local builtin = require("telescope.builtin")
 			local lga_actions = require("telescope-live-grep-args.actions")
+      local previewers = require('telescope.previewers')
+      local Job = require('plenary.job')
+      local Path = require('plenary.path')
 
 			local keymaps = {
 				{ "n", "<leader>f", builtin.find_files },
@@ -85,6 +88,8 @@ return {
 			return {
 				defaults = {
 					preview = {
+            filesize_limit = 0.9999,
+            timeout = 250,
 						-- source: https://github.com/nvim-telescope/telescope.nvim/issues/623#issuecomment-921978316
 						filesize_hook = function(filepath, bufnr, opts)
 							local max_bytes = 10000
