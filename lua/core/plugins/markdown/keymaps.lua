@@ -1,5 +1,53 @@
 local M = {}
 
+
+-- Helper to find project root by locating .obsidian directory
+local function find_obsidian_root(start_path)
+  local Path = require("plenary.path")
+  local path = Path:new(start_path or vim.fn.expand("%:p"))
+  while tostring(path) ~= tostring(path:parent()) do
+    if Path:new(path, ".obsidian"):is_dir() then
+      return tostring(path)
+    end
+    path = path:parent()
+  end
+  return nil
+end
+
+-- Helper to open diary note for a given date string (YYYY-MM-DD)
+local function open_diary_note_for_date(date_str)
+  local plenary_ok, _ = pcall(require, "plenary.path")
+  if not plenary_ok then
+    vim.notify("plenary.nvim is required for diary keymap", vim.log.levels.ERROR)
+    return
+  end
+  local root = find_obsidian_root()
+  if not root then
+    vim.notify("Could not find .obsidian directory in parent folders", vim.log.levels.ERROR)
+    return
+  end
+  local diary_dir = root .. "/diary"
+  if vim.fn.isdirectory(diary_dir) == 0 then
+    vim.fn.mkdir(diary_dir, "p")
+  end
+  local diary_file = diary_dir .. "/" .. date_str .. ".md"
+  if vim.fn.filereadable(diary_file) == 0 then
+    local diary_content = {
+      "# " .. date_str .. " Diary",
+      "",
+      "## Notes",
+      "",
+      ".",
+      "",
+      "## Todo",
+      "",
+      "."
+    }
+    vim.fn.writefile(diary_content, diary_file)
+  end
+  vim.cmd("edit " .. diary_file)
+end
+
 -- Credit to linkarzu's dotfiles for bullet point functions
 local function toggle_bullet_point()
 	local cursor_pos = vim.api.nvim_win_get_cursor(0)
@@ -144,6 +192,32 @@ function M.setup_buffer_keymaps()
 		task_mgmt.toggle_task_state,
 		{ buffer = true, desc = "Toggle task state (blank → progress → done → blank)" }
 	)
+
+	-- Diary note keymaps
+	vim.keymap.set("n", "<leader>dh", function()
+    local today = os.date("%Y-%m-%d", os.time())
+    open_diary_note_for_date(today)
+	end, { buffer = true, desc = "Open today's diary note" })
+
+	vim.keymap.set("n", "<leader>da", function()
+    local yesterday = os.date("%Y-%m-%d", os.time()-24*60*60)
+    open_diary_note_for_date(yesterday)
+	end, { buffer = true, desc = "Open yesterday's diary note" })
+
+	vim.keymap.set("n", "<leader>dm", function()
+    local tomorrow = os.date("%Y-%m-%d", os.time()+24*60*60)
+    open_diary_note_for_date(tomorrow)
+	end, { buffer = true, desc = "Open tomorrow's diary note" })
+
+	vim.keymap.set("n", "<leader>dc", function()
+		vim.ui.input({ prompt = "Enter date (YYYY-MM-DD): " }, function(input)
+			if input and input:match("^%d%d%d%d%-%d%d%-%d%d$") then
+				open_diary_note_for_date(input)
+			else
+				vim.notify("Invalid date format. Use YYYY-MM-DD.", vim.log.levels.ERROR)
+			end
+		end)
+	end, { buffer = true, desc = "Open diary note for custom date" })
 
 	-- Task search keymaps
 	vim.keymap.set(
