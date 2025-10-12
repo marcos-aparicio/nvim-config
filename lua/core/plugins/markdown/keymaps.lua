@@ -238,6 +238,17 @@ function M.setup_buffer_keymaps()
 		telescope.search_incomplete_tasks,
 		{ buffer = true, desc = "Search for incomplete tasks" }
 	)
+
+  -- Spell language selection
+  vim.keymap.set("n", "<leader>msl", function()
+    local current = vim.opt.spelllang:get()[1] or ""
+    vim.ui.input({ prompt = "Set spelllang (comma-separated): ", default = current }, function(input)
+      if input and input ~= "" then
+        vim.opt.spelllang = input
+        vim.notify("Set spelllang to: " .. input, vim.log.levels.INFO)
+      end
+    end)
+  end, { buffer = true, desc = "Set/change spell languages" })
 end
 
 return M
