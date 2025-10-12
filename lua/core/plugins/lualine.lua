@@ -1,3 +1,7 @@
+local function get_spell_status()
+  return vim.bo.spelllang
+end
+
 local colors = {
 	color1 = nil,
 	color2 = "#242b38",
@@ -68,7 +72,17 @@ return {
 					navic_opts = nil, -- lua table with same format as setup's option. All options except "lsp" options take effect when set here.
 				},
 			},
-			lualine_x = {},
+      lualine_x = {
+        {
+          get_spell_status,
+          cond = function()
+            return vim.bo.filetype == "markdown"
+          end,
+          separator = { left = "", right = "" },
+          padding = 1,
+        }
+      },
+      -- lualine_x = { spelllang_component },
 			lualine_y = { "filetype", "progress" },
 			lualine_z = {
 				{ "location", separator = { right = "" }, left_padding = 2 },
@@ -78,7 +92,6 @@ return {
 			lualine_a = { "filename" },
 			lualine_b = { "branch" },
 			lualine_c = {},
-			lualine_x = {},
 			lualine_y = {},
 			lualine_z = { "location" },
 		},
