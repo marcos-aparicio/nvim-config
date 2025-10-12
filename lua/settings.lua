@@ -50,5 +50,10 @@ local function is_wsl()
 end
 vim.g.is_wsl = is_wsl() and 1 or 0
 
--- Fix markdown indentation settings
-vim.g.markdown_recommended_style = 0
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "markdown", "gitcommit" },
+  callback = function()
+    vim.opt_local.spell = true
+    vim.opt_local.spelllang = { "en_us" }
+  end,
+})
