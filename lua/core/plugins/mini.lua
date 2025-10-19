@@ -1,11 +1,10 @@
 -- mini.files config extracted from https://github.com/linkarzu/dotfiles-latest/blob/main/neovim/neobean/lua/plugins/mini-files.lua Thank you for sharing!
 return {
-	{ "echasnovski/mini.jump2d", opts = {} },
-	{ "echasnovski/mini.ai", opts = {} },
-	{ "echasnovski/mini.surround", opts = {} },
-	{ "echasnovski/mini.operators", opts = {} },
+	{ "nvim-mini/mini.ai", opts = {} },
+	{ "nvim-mini/mini.surround", opts = {} },
+	{ "nvim-mini/mini.operators", opts = {} },
 	{
-		"echasnovski/mini.files",
+		"nvim-mini/mini.files",
 		opts = function(_, opts)
 			-- I didn't like the default mappings, so I modified them
 			-- Module mappings created only inside explorer.
