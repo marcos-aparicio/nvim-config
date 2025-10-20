@@ -35,11 +35,11 @@ return {
     main = "colorizer",
     opts = {},
   },
-  {
-    "lewis6991/gitsigns.nvim",
-    event = { "BufReadPost", "BufWritePost", "BufNewFile" },
-    opts = {},
-  },
+  -- {
+  --   "lewis6991/gitsigns.nvim",
+  --   event = { "BufReadPost", "BufWritePost", "BufNewFile" },
+  --   opts = {},
+  -- },
   { "Pocco81/HighStr.nvim",  main = "high-str",       opts = {} },
   {
     "ziontee113/color-picker.nvim",
