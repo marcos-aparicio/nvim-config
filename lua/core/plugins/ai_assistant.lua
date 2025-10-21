@@ -159,6 +159,7 @@ else
                 path = {
                   type = 'string',
                   description = "Directory path to display as a tree",
+                  default = vim.fn.getcwd(), -- Add this line
                 },
               },
             },
