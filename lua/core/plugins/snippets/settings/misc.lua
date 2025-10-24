@@ -12,6 +12,7 @@ local copilot_chat_snippets = {
 	s("son4", { t("$claude-sonnet-4") }),
 	s("arb", { t("#dir_tree") }),
 	s(",obs", { t("@obsidian") }),
+  s(",daisy",{ t("#url:https://daisyui.com/llms.txt")})
 }
 
 ls.add_snippets("copilot-chat", copilot_chat_snippets)
