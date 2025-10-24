@@ -76,8 +76,8 @@ local keymaps = {
   -- { "i", "<C-d>", "<C-o>o" },
   { "i",          "<C-v>",      "<C-r>+" },
   -- better replacing and handle of commands
-  -- { "n",          "<leader>s",  ":s//gI<Left><Left><Left>" },
-  -- { "v",          "<leader>s",  ":s//g<Left><Left>" },
+  { "n",          "<leader>s",  ":s//gI<Left><Left><Left>" },
+  { "v",          "<leader>s",  ":s//g<Left><Left>" },
   { "n",          "<TAB>",      ">>" },
   { "n",          "<S-TAB>",    "<<" },
   { "i",          "<TAB>",      "<C-t>" },
