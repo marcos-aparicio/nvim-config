@@ -42,6 +42,7 @@ return {
 				{ "n", "<leader>gb", builtin.git_branches },
 				{ "n", "<leader>tp", ":Telescope projects<CR>" },
 				{ "n", "<leader>th", builtin.help_tags },
+				{ "n", "<leader>tk", ":Telescope keymaps<CR>" },
 				{ "n", "<leader>/", builtin.current_buffer_fuzzy_find },
 				{
 					"n",
