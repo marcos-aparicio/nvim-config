@@ -29,6 +29,11 @@ return {
     },
   },
   { "andrewradev/linediff.vim", cmd = "Linediff" },
+  { "lukas-reineke/virt-column.nvim", opts = {
+    char ={ ".","." },
+    virtcolumn = "80,100",
+    highlight = {"@comment","@comment"}
+  } },
   {
     "catgoose/nvim-colorizer.lua",
     event = "BufReadPre",
