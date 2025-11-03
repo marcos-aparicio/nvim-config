@@ -23,9 +23,17 @@ mason_lspconfig.setup({
 	automatic_installation = true,
 })
 
-local ok_lspconfig, lspconfig = pcall(require, "lspconfig")
-if not ok_lspconfig then
-	return
+local lspconfig
+if vim.lsp and vim.lsp.config and vim.lsp.config.setup then
+  lspconfig = vim.lsp.config
+else
+  local ok, plugin = pcall(require, "lspconfig")
+  if ok and plugin then
+    lspconfig = plugin
+  else
+    vim.notify("No valid lspconfig found", vim.log.levels.ERROR)
+    return
+  end
 end
 
 local handlers = require("core.lsp.handlers")
