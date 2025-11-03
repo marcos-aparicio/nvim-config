@@ -17,7 +17,7 @@ local copilot_chat_snippets = {}
 
 -- Add all snippets for each trigger
 local trigger_snippets = {
-  { "bfvs",  "#buffers:visible" },
+  { "bfvs",  "#buffer:active" },
   { "bfall", "#buffers:listed" },
   { "son4",  "$claude-sonnet-4" },
   { "arb",   "#dir_tree" },
@@ -36,7 +36,11 @@ end
 
 local static_snippets = {
   s(",gitcom", {
-    t({"#gitdiff:static","/Commit"}),
+    t({
+      "#gitdiff:static",
+      "/Commit",
+      "Please use the @git_git_commit tool for creating a commit based on the output that you create"
+    }),
   }),
 }
 
