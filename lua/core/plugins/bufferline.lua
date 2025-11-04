@@ -6,7 +6,7 @@ return {
 		{ "<S-Left>", ":BufferLineMovePrev<CR>" },
 		{ "<S-l>", ":BufferLineCycleNext<CR>" },
 		{ "<S-h>", ":BufferLineCyclePrev<CR>" },
-		{ "<leader>p", ":BufferLineTogglePin<CR>" },
+		-- { "<leader>p", ":BufferLineTogglePin<CR>" },
 		{ "<leader>Q", ":BufferLineCloseOthers<CR>" },
 		{ "<S-t>", ":BufferLinePick<CR>" },
 	},

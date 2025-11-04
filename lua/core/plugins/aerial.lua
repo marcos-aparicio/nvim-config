@@ -14,6 +14,7 @@ return {
         statuscolumn = " ",
       },
     },
+    filter_kind = false,
     guides = {
       mid_item   = "├╴",
       last_item  = "└╴",
