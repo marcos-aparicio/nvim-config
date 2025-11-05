@@ -2,8 +2,33 @@ return {
 	"marcos-aparicio/lspmark.nvim",
 	keys = {
 		{ "mm", ":lua require('lspmark.bookmarks').toggle_bookmark({with_comment=true})<CR>" },
-		{ "ma", ":Telescope lspmark current_file_only=true<CR>" },
-		{ "mA", ":Telescope lspmark<CR>" },
+		{
+			"ma",
+			function()
+				require("telescope").extensions.lspmark.lspmark({
+					current_file_only = true,
+					theme = "ivy",
+					layout_config = {
+						width = 0.9,
+						preview_width = 0.4,
+						height = 0.9, -- optional, set as needed
+					},
+				})
+			end,
+		},
+		{
+			"mA",
+			function()
+				require("telescope").extensions.lspmark.lspmark({
+					theme = "ivy",
+					layout_config = {
+						width = 0.9,
+						preview_width = 0.4,
+						height = 0.9, -- optional, set as needed
+					},
+				})
+			end,
+		},
 		{ "md", ":lua require('lspmark.bookmarks').delete_line()<CR>" },
 		{ "mp", ":lua require('lspmark.bookmarks').paste_text()<CR>" },
 		{ "mi", ":lua require('lspmark.bookmarks').modify_comment()<CR>" },
