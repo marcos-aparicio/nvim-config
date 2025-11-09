@@ -47,16 +47,6 @@ local markdown_mappings = {
 	s("h2", { t("## ") }),
 	s("h1", { t("# ") }),
 	s("link", { t("["), i(1, "Titulo a mostrar"), t("]("), i(2, "Link pe"), t(")") }),
-	s("bugreport", {
-		t({ "### What is the issue description?", "" }),
-		i(1),
-		t({ "", "", "### What steps triggered the issue?", "" }),
-		i(2),
-		t({ "", "", "### What is the expected behaviour?", "" }),
-		i(3),
-		t({ "", "", "### What is the actual behaviour?", "" }),
-		i(4),
-	}),
 	s("hoy", { t(get_current_date(true)) }),
   s({
     trig = "codex:(%w+)",

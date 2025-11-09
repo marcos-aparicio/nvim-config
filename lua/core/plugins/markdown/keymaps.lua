@@ -1,5 +1,6 @@
 local M = {}
 
+local bookmarks_repo = os.getenv("HOME") .. "/Documents/Areas/Obsidian/bookmarks"
 
 -- Helper to find project root by locating .obsidian directory
 local function find_obsidian_root(start_path)
@@ -26,6 +27,12 @@ local function open_diary_note_for_date(date_str)
     vim.notify("Could not find .obsidian directory in parent folders", vim.log.levels.ERROR)
     return
   end
+
+  if root == bookmarks_repo then
+    vim.notify("You are in bookmarks repo!", vim.log.levels.ERROR)
+    return
+  end
+
   local diary_dir = root .. "/diary"
   if vim.fn.isdirectory(diary_dir) == 0 then
     vim.fn.mkdir(diary_dir, "p")
@@ -47,6 +54,77 @@ local function open_diary_note_for_date(date_str)
   end
   vim.cmd("edit " .. diary_file)
 end
+
+local function open_bookmark_url()
+  local buf_path = vim.api.nvim_buf_get_name(0)
+  if not buf_path:find(bookmarks_repo, 1, true) then
+    vim.notify("Not in bookmarks repo", vim.log.levels.WARN)
+    return
+  end
+  local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+  for i, line in ipairs(lines) do
+    if line:match("^#### URL") and lines[i+1] then
+      local url = vim.trim(lines[i+1])
+      if url ~= "" and url ~= "." and url:match("^https?://") then
+        local open_cmd = vim.g.is_wsl == 1 and { "powershell.exe", "Start-Process" } or { "xdg-open" }
+        vim.fn.jobstart(vim.list_extend(open_cmd, { url }), { detach = true })
+        return
+      end
+    end
+  end
+  vim.notify("No valid URL found in bookmark", vim.log.levels.WARN)
+end
+
+local function open_random_bookmark_note()
+  local plenary_ok, Path = pcall(require, "plenary.path")
+  if not plenary_ok then
+    vim.notify("plenary.nvim is required for bookmark keymap", vim.log.levels.ERROR)
+    return
+  end
+  local root = find_obsidian_root()
+  if not root then
+    vim.notify("Could not find .obsidian directory in parent folders", vim.log.levels.ERROR)
+    return
+  end
+
+  if root ~= bookmarks_repo then
+    vim.notify("This is not the bookmars repo!", vim.log.levels.ERROR)
+    return
+  end
+
+  local function random_string(len)
+    local chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+    local s = ''
+    for i = 1, len do
+      local idx = math.random(1, #chars)
+      s = s .. chars:sub(idx, idx)
+    end
+    return s
+  end
+  math.randomseed(os.time())
+  local filename
+  repeat
+    filename = random_string(10) .. ".md"
+  until vim.fn.filereadable(root .. "/" .. filename) == 0
+  local bookmark_file = root .. "/" .. filename
+local template = {
+  "# Title: ",
+  "",
+  "#### URL",
+  ".",
+  "",
+  "#### Description",
+  ".",
+  "",
+  "#### Tags",
+  "."
+}
+  vim.fn.writefile(template, bookmark_file)
+  vim.cmd("edit " .. bookmark_file)
+  vim.api.nvim_win_set_cursor(0, {1, 10}) -- set the cursor after Title:
+  vim.cmd("startinsert")
+end
+
 
 -- Credit to linkarzu's dotfiles for bullet point functions
 local function toggle_bullet_point()
@@ -249,6 +327,11 @@ function M.setup_buffer_keymaps()
       end
     end)
   end, { buffer = true, desc = "Set/change spell languages" })
+
+  -- bookmark mappings
+  vim.keymap.set("n", "<leader>mbm", open_random_bookmark_note, { buffer = true, desc = "Open random bookmark note" })
+  vim.keymap.set("n", "<leader>mo", open_markdown_link, { buffer = true, desc = "Open markdown link in browser" })
+  vim.keymap.set("n", "<leader>mbu", open_bookmark_url, { buffer = true, desc = "Open bookmark URL" })
 end
 
 return M
