@@ -55,6 +55,57 @@ local function open_diary_note_for_date(date_str)
   vim.cmd("edit " .. diary_file)
 end
 
+local function open_weekly_note_for_date(date_str)
+  local plenary_ok, _ = pcall(require, "plenary.path")
+  if not plenary_ok then
+    vim.notify("plenary.nvim is required for weekly note keymap", vim.log.levels.ERROR)
+    return
+  end
+  local root = find_obsidian_root()
+  if not root then
+    vim.notify("Could not find .obsidian directory in parent folders", vim.log.levels.ERROR)
+    return
+  end
+
+  if root == bookmarks_repo then
+    vim.notify("You are in bookmarks repo!", vim.log.levels.ERROR)
+    return
+  end
+
+  local function iso_week(date)
+    local year, month, day = date:match("(%d+)%-(%d+)%-(%d+)")
+    year, month, day = tonumber(year), tonumber(month), tonumber(day)
+    local t = os.time{year=year, month=month, day=day}
+    local dow = tonumber(os.date("%u", t))
+    local thursday = t + (4 - dow) * 24 * 60 * 60
+    local week = tonumber(os.date("%V", thursday))
+    local week_year = tonumber(os.date("%G", thursday))
+    return string.format("%d-W%d", week_year, week)
+  end
+
+  local week_str = iso_week(date_str)
+  local diary_dir = root .. "/diary"
+  if vim.fn.isdirectory(diary_dir) == 0 then
+    vim.fn.mkdir(diary_dir, "p")
+  end
+  local weekly_file = diary_dir .. "/" .. week_str .. ".md"
+  if vim.fn.filereadable(weekly_file) == 0 then
+    local weekly_content = {
+      "# " .. week_str .. " Weekly",
+      "",
+      "## Goals",
+      "",
+      ".",
+      "",
+      "## Review",
+      "",
+      "."
+    }
+    vim.fn.writefile(weekly_content, weekly_file)
+  end
+  vim.cmd("edit " .. weekly_file)
+end
+
 local function open_bookmark_url()
   local buf_path = vim.api.nvim_buf_get_name(0)
   if not buf_path:find(bookmarks_repo, 1, true) then
@@ -332,6 +383,22 @@ function M.setup_buffer_keymaps()
   vim.keymap.set("n", "<leader>mbm", open_random_bookmark_note, { buffer = true, desc = "Open random bookmark note" })
   vim.keymap.set("n", "<leader>mo", open_markdown_link, { buffer = true, desc = "Open markdown link in browser" })
   vim.keymap.set("n", "<leader>mbu", open_bookmark_url, { buffer = true, desc = "Open bookmark URL" })
+
+  -- Weekly note keymaps
+  vim.keymap.set("n", "<leader>msh", function()
+    local today = os.date("%Y-%m-%d", os.time())
+    open_weekly_note_for_date(today)
+  end, { buffer = true, desc = "Open this week's note" })
+
+  vim.keymap.set("n", "<leader>msa", function()
+    local last_week = os.date("%Y-%m-%d", os.time() - 7*24*60*60)
+    open_weekly_note_for_date(last_week)
+  end, { buffer = true, desc = "Open last week's note" })
+
+  vim.keymap.set("n", "<leader>msm", function()
+    local next_week = os.date("%Y-%m-%d", os.time() + 7*24*60*60)
+    open_weekly_note_for_date(next_week)
+  end, { buffer = true, desc = "Open next week's note" })
 end
 
 return M
