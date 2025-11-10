@@ -265,6 +265,20 @@ local function open_markdown_link()
 	end
 end
 
+local function open_selected_markdown_link()
+  local start_pos = vim.fn.getpos("'<")
+  local end_pos = vim.fn.getpos("'>")
+  local lines = vim.api.nvim_buf_get_lines(0, start_pos[2]-1, end_pos[2], false)
+  local text = table.concat(lines, "\n")
+  text = vim.trim(text)
+  if text and text:match("^https?://") then
+    local open_cmd = vim.g.is_wsl == 1 and { "powershell.exe", "Start-Process" } or { "xdg-open" }
+    vim.fn.jobstart(vim.list_extend(open_cmd, { text }), { detach = true })
+  else
+    vim.notify("No valid URL in selection", vim.log.levels.WARN)
+  end
+end
+
 function M.setup_buffer_keymaps()
 	local telescope = require("core.plugins.markdown.telescope")
 	local task_mgmt = require("core.plugins.markdown.task-management")
@@ -313,6 +327,7 @@ function M.setup_buffer_keymaps()
 
 	-- Link handling
 	vim.keymap.set("n", "<leader>mo", open_markdown_link, { buffer = true, desc = "Open markdown link in browser" })
+  vim.keymap.set("v", "<leader>mo", open_selected_markdown_link, { buffer = true, desc = "Open selected markdown link in browser" })
 
 	-- Task management
 	vim.keymap.set(
