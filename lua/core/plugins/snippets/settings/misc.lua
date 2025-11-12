@@ -18,7 +18,7 @@ local copilot_chat_snippets = {}
 -- Add all snippets for each trigger
 local trigger_snippets = {
   { "bfvs",  "#buffer:active" },
-  { "bfall", "#buffers:listed" },
+  { "bfall", "#buffer:listed" },
   { "son4",  "$claude-sonnet-4" },
   { "arb",   "#dir_tree" },
   { "obs",   "@obsidian" },
