@@ -19,7 +19,7 @@ return {
 		"DBUIAddConnection",
 		"DBUIFindBuffer",
 	},
-	opts = function()
+	config = function()
 		vim.keymap.set("n", "<C-b>", ":DBUIToggle<CR>")
 		vim.keymap.set("n", "<C-n>", ":DBUIToggle<CR>")
 		vim.api.nvim_create_autocmd("FileType", {
@@ -51,6 +51,5 @@ return {
 				end, { noremap = true, buffer = buff })
 			end,
 		})
-		return {}
 	end,
 }
