@@ -33,7 +33,7 @@ return {
 			desc = "Open lazygit in floating terminal",
 		},
 		{
-			"<leader>tr",
+			"<leader><leader>tr",
 			function()
       if not _G.translate_shell_term then
         local Terminal = require("toggleterm.terminal").Terminal
