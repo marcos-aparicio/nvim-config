@@ -4,178 +4,252 @@ local bookmarks_repo = os.getenv("HOME") .. "/Documents/Areas/Obsidian/bookmarks
 
 -- Helper to find project root by locating .obsidian directory
 local function find_obsidian_root(start_path)
-  local Path = require("plenary.path")
-  local path = Path:new(start_path or vim.fn.expand("%:p"))
-  while tostring(path) ~= tostring(path:parent()) do
-    if Path:new(path, ".obsidian"):is_dir() then
-      return tostring(path)
-    end
-    path = path:parent()
-  end
-  return nil
+	local Path = require("plenary.path")
+	local path = Path:new(start_path or vim.fn.expand("%:p"))
+	while tostring(path) ~= tostring(path:parent()) do
+		if Path:new(path, ".obsidian"):is_dir() then
+			return tostring(path)
+		end
+		path = path:parent()
+	end
+	return nil
 end
 
 -- Helper to open diary note for a given date string (YYYY-MM-DD)
 local function open_diary_note_for_date(date_str)
-  local plenary_ok, _ = pcall(require, "plenary.path")
-  if not plenary_ok then
-    vim.notify("plenary.nvim is required for diary keymap", vim.log.levels.ERROR)
-    return
-  end
-  local root = find_obsidian_root()
-  if not root then
-    vim.notify("Could not find .obsidian directory in parent folders", vim.log.levels.ERROR)
-    return
-  end
+	local plenary_ok, _ = pcall(require, "plenary.path")
+	if not plenary_ok then
+		vim.notify("plenary.nvim is required for diary keymap", vim.log.levels.ERROR)
+		return
+	end
+	local root = find_obsidian_root()
+	if not root then
+		vim.notify("Could not find .obsidian directory in parent folders", vim.log.levels.ERROR)
+		return
+	end
 
-  if root == bookmarks_repo then
-    vim.notify("You are in bookmarks repo!", vim.log.levels.ERROR)
-    return
-  end
+	if root == bookmarks_repo then
+		vim.notify("You are in bookmarks repo!", vim.log.levels.ERROR)
+		return
+	end
 
-  local diary_dir = root .. "/diary"
-  if vim.fn.isdirectory(diary_dir) == 0 then
-    vim.fn.mkdir(diary_dir, "p")
-  end
-  local diary_file = diary_dir .. "/" .. date_str .. ".md"
-  if vim.fn.filereadable(diary_file) == 0 then
-    local diary_content = {
-      "# " .. date_str .. " Diary",
-      "",
-      "## Notes",
-      "",
-      ".",
-      "",
-      "## Todo",
-      "",
-      "."
-    }
-    vim.fn.writefile(diary_content, diary_file)
-  end
-  vim.cmd("edit " .. diary_file)
+	local diary_dir = root .. "/diary"
+	if vim.fn.isdirectory(diary_dir) == 0 then
+		vim.fn.mkdir(diary_dir, "p")
+	end
+	local diary_file = diary_dir .. "/" .. date_str .. ".md"
+	if vim.fn.filereadable(diary_file) == 0 then
+		local diary_content = {
+			"# " .. date_str .. " Diary",
+			"",
+			"## Notes",
+			"",
+			".",
+			"",
+			"## Todo",
+			"",
+			".",
+		}
+		vim.fn.writefile(diary_content, diary_file)
+	end
+	vim.cmd("edit " .. diary_file)
 end
 
 local function open_weekly_note_for_date(date_str)
-  local plenary_ok, _ = pcall(require, "plenary.path")
-  if not plenary_ok then
-    vim.notify("plenary.nvim is required for weekly note keymap", vim.log.levels.ERROR)
-    return
-  end
-  local root = find_obsidian_root()
-  if not root then
-    vim.notify("Could not find .obsidian directory in parent folders", vim.log.levels.ERROR)
-    return
-  end
+	local plenary_ok, _ = pcall(require, "plenary.path")
+	if not plenary_ok then
+		vim.notify("plenary.nvim is required for weekly note keymap", vim.log.levels.ERROR)
+		return
+	end
+	local root = find_obsidian_root()
+	if not root then
+		vim.notify("Could not find .obsidian directory in parent folders", vim.log.levels.ERROR)
+		return
+	end
 
-  if root == bookmarks_repo then
-    vim.notify("You are in bookmarks repo!", vim.log.levels.ERROR)
-    return
-  end
+	if root == bookmarks_repo then
+		vim.notify("You are in bookmarks repo!", vim.log.levels.ERROR)
+		return
+	end
 
-  local function iso_week(date)
-    local year, month, day = date:match("(%d+)%-(%d+)%-(%d+)")
-    year, month, day = tonumber(year), tonumber(month), tonumber(day)
-    local t = os.time{year=year, month=month, day=day}
-    local dow = tonumber(os.date("%u", t))
-    local thursday = t + (4 - dow) * 24 * 60 * 60
-    local week = tonumber(os.date("%V", thursday))
-    local week_year = tonumber(os.date("%G", thursday))
-    return string.format("%d-W%d", week_year, week)
-  end
+	local function iso_week(date)
+		local year, month, day = date:match("(%d+)%-(%d+)%-(%d+)")
+		year, month, day = tonumber(year), tonumber(month), tonumber(day)
+		local t = os.time({ year = year, month = month, day = day })
+		local dow = tonumber(os.date("%u", t))
+		local thursday = t + (4 - dow) * 24 * 60 * 60
+		local week = tonumber(os.date("%V", thursday))
+		local week_year = tonumber(os.date("%G", thursday))
+		return string.format("%d-W%d", week_year, week)
+	end
 
-  local week_str = iso_week(date_str)
-  local diary_dir = root .. "/diary"
-  if vim.fn.isdirectory(diary_dir) == 0 then
-    vim.fn.mkdir(diary_dir, "p")
-  end
-  local weekly_file = diary_dir .. "/" .. week_str .. ".md"
-  if vim.fn.filereadable(weekly_file) == 0 then
-    local weekly_content = {
-      "# " .. week_str .. " Weekly",
-      "",
-      "## Goals",
-      "",
-      ".",
-      "",
-      "## Review",
-      "",
-      "."
-    }
-    vim.fn.writefile(weekly_content, weekly_file)
-  end
-  vim.cmd("edit " .. weekly_file)
+	local week_str = iso_week(date_str)
+	local diary_dir = root .. "/diary"
+	if vim.fn.isdirectory(diary_dir) == 0 then
+		vim.fn.mkdir(diary_dir, "p")
+	end
+	local weekly_file = diary_dir .. "/" .. week_str .. ".md"
+	if vim.fn.filereadable(weekly_file) == 0 then
+		local weekly_content = {
+			"# " .. week_str .. " Weekly",
+			"",
+			"## Goals",
+			"",
+			".",
+			"",
+			"## Review",
+			"",
+			".",
+		}
+		vim.fn.writefile(weekly_content, weekly_file)
+	end
+	vim.cmd("edit " .. weekly_file)
+end
+
+local function create_task_with_tags()
+	local telescope = require("core.plugins.markdown.telescope")
+	local pickers = require("telescope.pickers")
+	local finders = require("telescope.finders")
+	local conf = require("telescope.config").values
+	local actions = require("telescope.actions")
+	local action_state = require("telescope.actions.state")
+
+	-- Get all task tags
+	local task_tags = telescope.get_all_task_tags()
+
+	if not task_tags or #task_tags == 0 then
+		vim.notify("No task tags found", vim.log.levels.WARN)
+		return
+	end
+
+	pickers.new({}, {
+		prompt_title = "Select Task Tags (Tab/C-x to select, Enter to confirm)",
+		finder = finders.new_table({
+			results = task_tags,
+			entry_maker = function(entry)
+				return {
+					value = entry,
+					display = entry,
+					ordinal = entry,
+				}
+			end,
+		}),
+		sorter = conf.generic_sorter({}),
+		attach_mappings = function(prompt_bufnr, map)
+			-- Multi-select mappings for both insert and normal mode
+			map("i", "<Tab>", actions.toggle_selection)
+			map("n", "<Tab>", actions.toggle_selection)
+			map("i", "<C-x>", actions.toggle_selection)
+			map("n", "<C-x>", actions.toggle_selection)
+
+			-- Confirm selection for both insert and normal mode
+			actions.select_default:replace(function()
+				local picker = action_state.get_current_picker(prompt_bufnr)
+				local multi = picker:get_multi_selection()
+				local tags = {}
+
+				if #multi == 0 then
+					local selection = action_state.get_selected_entry()
+					if selection then
+						table.insert(tags, "#" .. selection.value)
+					end
+				else
+					for _, entry in ipairs(multi) do
+						table.insert(tags, "#" .. entry.value)
+					end
+				end
+
+				actions.close(prompt_bufnr)
+
+				local tag_string = ""
+				if #tags > 0 then
+					tag_string = " " .. table.concat(tags, " ")
+				end
+
+				local task_line = "- [ ]" .. tag_string .. "  "
+				local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+				local current_line = vim.api.nvim_get_current_line()
+				local new_line = current_line:sub(1, col) .. task_line .. current_line:sub(col + 1)
+				vim.api.nvim_set_current_line(new_line)
+				vim.api.nvim_win_set_cursor(0, {row, col + #task_line + 1})
+				vim.schedule(function()
+					vim.cmd("startinsert")
+				end)
+			end)
+			return true
+		end,
+	}):find()
 end
 
 local function open_bookmark_url()
-  local buf_path = vim.api.nvim_buf_get_name(0)
-  if not buf_path:find(bookmarks_repo, 1, true) then
-    vim.notify("Not in bookmarks repo", vim.log.levels.WARN)
-    return
-  end
-  local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
-  for i, line in ipairs(lines) do
-    if line:match("^#### URL") and lines[i+1] then
-      local url = vim.trim(lines[i+1])
-      if url ~= "" and url ~= "." and url:match("^https?://") then
-        local open_cmd = vim.g.is_wsl == 1 and { "powershell.exe", "Start-Process" } or { "xdg-open" }
-        vim.fn.jobstart(vim.list_extend(open_cmd, { url }), { detach = true })
-        return
-      end
-    end
-  end
-  vim.notify("No valid URL found in bookmark", vim.log.levels.WARN)
+	local buf_path = vim.api.nvim_buf_get_name(0)
+	if not buf_path:find(bookmarks_repo, 1, true) then
+		vim.notify("Not in bookmarks repo", vim.log.levels.WARN)
+		return
+	end
+	local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+	for i, line in ipairs(lines) do
+		if line:match("^#### URL") and lines[i + 1] then
+			local url = vim.trim(lines[i + 1])
+			if url ~= "" and url ~= "." and url:match("^https?://") then
+				local open_cmd = vim.g.is_wsl == 1 and { "powershell.exe", "Start-Process" } or { "xdg-open" }
+				vim.fn.jobstart(vim.list_extend(open_cmd, { url }), { detach = true })
+				return
+			end
+		end
+	end
+	vim.notify("No valid URL found in bookmark", vim.log.levels.WARN)
 end
 
 local function open_random_bookmark_note()
-  local plenary_ok, Path = pcall(require, "plenary.path")
-  if not plenary_ok then
-    vim.notify("plenary.nvim is required for bookmark keymap", vim.log.levels.ERROR)
-    return
-  end
-  local root = find_obsidian_root()
-  if not root then
-    vim.notify("Could not find .obsidian directory in parent folders", vim.log.levels.ERROR)
-    return
-  end
+	local plenary_ok, Path = pcall(require, "plenary.path")
+	if not plenary_ok then
+		vim.notify("plenary.nvim is required for bookmark keymap", vim.log.levels.ERROR)
+		return
+	end
+	local root = find_obsidian_root()
+	if not root then
+		vim.notify("Could not find .obsidian directory in parent folders", vim.log.levels.ERROR)
+		return
+	end
 
-  if root ~= bookmarks_repo then
-    vim.notify("This is not the bookmars repo!", vim.log.levels.ERROR)
-    return
-  end
+	if root ~= bookmarks_repo then
+		vim.notify("This is not the bookmars repo!", vim.log.levels.ERROR)
+		return
+	end
 
-  local function random_string(len)
-    local chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
-    local s = ''
-    for i = 1, len do
-      local idx = math.random(1, #chars)
-      s = s .. chars:sub(idx, idx)
-    end
-    return s
-  end
-  math.randomseed(os.time())
-  local filename
-  repeat
-    filename = random_string(10) .. ".md"
-  until vim.fn.filereadable(root .. "/" .. filename) == 0
-  local bookmark_file = root .. "/" .. filename
-local template = {
-  "# Title: ",
-  "",
-  "#### URL",
-  ".",
-  "",
-  "#### Description",
-  ".",
-  "",
-  "#### Tags",
-  "."
-}
-  vim.fn.writefile(template, bookmark_file)
-  vim.cmd("edit " .. bookmark_file)
-  vim.api.nvim_win_set_cursor(0, {1, 10}) -- set the cursor after Title:
-  vim.cmd("startinsert")
+	local function random_string(len)
+		local chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+		local s = ""
+		for i = 1, len do
+			local idx = math.random(1, #chars)
+			s = s .. chars:sub(idx, idx)
+		end
+		return s
+	end
+	math.randomseed(os.time())
+	local filename
+	repeat
+		filename = random_string(10) .. ".md"
+	until vim.fn.filereadable(root .. "/" .. filename) == 0
+	local bookmark_file = root .. "/" .. filename
+	local template = {
+		"# Title: ",
+		"",
+		"#### URL",
+		".",
+		"",
+		"#### Description",
+		".",
+		"",
+		"#### Tags",
+		".",
+	}
+	vim.fn.writefile(template, bookmark_file)
+	vim.cmd("edit " .. bookmark_file)
+	vim.api.nvim_win_set_cursor(0, { 1, 10 }) -- set the cursor after Title:
+	vim.cmd("startinsert")
 end
-
 
 -- Credit to linkarzu's dotfiles for bullet point functions
 local function toggle_bullet_point()
@@ -314,8 +388,8 @@ function M.setup_buffer_keymaps()
 		{ buffer = true, desc = "Pick task tag and search" }
 	)
 	vim.keymap.set("n", "<leader>tn", function()
-    telescope.search_tasks_with_tag("_next")
-  end, { buffer = true, desc = "Search tasks with tag _next" })
+		telescope.search_tasks_with_tag("_next")
+	end, { buffer = true, desc = "Search tasks with tag _next" })
 
 	-- Text formatting keymaps
 	vim.keymap.set("n", "<leader>mb", toggle_bullet_point, { buffer = true, desc = "Toggle bullet point (dash)" })
@@ -339,18 +413,18 @@ function M.setup_buffer_keymaps()
 
 	-- Diary note keymaps
 	vim.keymap.set("n", "<leader>dh", function()
-    local today = os.date("%Y-%m-%d", os.time())
-    open_diary_note_for_date(today)
+		local today = os.date("%Y-%m-%d", os.time())
+		open_diary_note_for_date(today)
 	end, { buffer = true, desc = "Open today's diary note" })
 
 	vim.keymap.set("n", "<leader>da", function()
-    local yesterday = os.date("%Y-%m-%d", os.time()-24*60*60)
-    open_diary_note_for_date(yesterday)
+		local yesterday = os.date("%Y-%m-%d", os.time() - 24 * 60 * 60)
+		open_diary_note_for_date(yesterday)
 	end, { buffer = true, desc = "Open yesterday's diary note" })
 
 	vim.keymap.set("n", "<leader>dm", function()
-    local tomorrow = os.date("%Y-%m-%d", os.time()+24*60*60)
-    open_diary_note_for_date(tomorrow)
+		local tomorrow = os.date("%Y-%m-%d", os.time() + 24 * 60 * 60)
+		open_diary_note_for_date(tomorrow)
 	end, { buffer = true, desc = "Open tomorrow's diary note" })
 
 	vim.keymap.set("n", "<leader>dc", function()
@@ -383,37 +457,41 @@ function M.setup_buffer_keymaps()
 		{ buffer = true, desc = "Search for incomplete tasks" }
 	)
 
-  -- Spell language selection
-  vim.keymap.set("n", "<leader>msl", function()
-    local current = vim.opt.spelllang:get()[1] or ""
-    vim.ui.input({ prompt = "Set spelllang (comma-separated): ", default = current }, function(input)
-      if input and input ~= "" then
-        vim.opt.spelllang = input
-        vim.notify("Set spelllang to: " .. input, vim.log.levels.INFO)
-      end
-    end)
-  end, { buffer = true, desc = "Set/change spell languages" })
+	-- Create task with tags
+	vim.keymap.set("n", "<leader>aa", create_task_with_tags, { buffer = true, desc = "Create task with selected tags" })
+	vim.keymap.set("i", "<C-t>", create_task_with_tags, { buffer = true, desc = "Create task with selected tags" })
 
-  -- bookmark mappings
-  vim.keymap.set("n", "<leader>mbm", open_random_bookmark_note, { buffer = true, desc = "Open random bookmark note" })
-  vim.keymap.set("n", "<leader>mo", open_markdown_link, { buffer = true, desc = "Open markdown link in browser" })
-  vim.keymap.set("n", "<leader>mbu", open_bookmark_url, { buffer = true, desc = "Open bookmark URL" })
+	-- Spell language selection
+	vim.keymap.set("n", "<leader>msl", function()
+		local current = vim.opt.spelllang:get()[1] or ""
+		vim.ui.input({ prompt = "Set spelllang (comma-separated): ", default = current }, function(input)
+			if input and input ~= "" then
+				vim.opt.spelllang = input
+				vim.notify("Set spelllang to: " .. input, vim.log.levels.INFO)
+			end
+		end)
+	end, { buffer = true, desc = "Set/change spell languages" })
 
-  -- Weekly note keymaps
-  vim.keymap.set("n", "<leader>msh", function()
-    local today = os.date("%Y-%m-%d", os.time())
-    open_weekly_note_for_date(today)
-  end, { buffer = true, desc = "Open this week's note" })
+	-- bookmark mappings
+	vim.keymap.set("n", "<leader>mbm", open_random_bookmark_note, { buffer = true, desc = "Open random bookmark note" })
+	vim.keymap.set("n", "<leader>mo", open_markdown_link, { buffer = true, desc = "Open markdown link in browser" })
+	vim.keymap.set("n", "<leader>mbu", open_bookmark_url, { buffer = true, desc = "Open bookmark URL" })
 
-  vim.keymap.set("n", "<leader>msa", function()
-    local last_week = os.date("%Y-%m-%d", os.time() - 7*24*60*60)
-    open_weekly_note_for_date(last_week)
-  end, { buffer = true, desc = "Open last week's note" })
+	-- Weekly note keymaps
+	vim.keymap.set("n", "<leader>msh", function()
+		local today = os.date("%Y-%m-%d", os.time())
+		open_weekly_note_for_date(today)
+	end, { buffer = true, desc = "Open this week's note" })
 
-  vim.keymap.set("n", "<leader>msm", function()
-    local next_week = os.date("%Y-%m-%d", os.time() + 7*24*60*60)
-    open_weekly_note_for_date(next_week)
-  end, { buffer = true, desc = "Open next week's note" })
+	vim.keymap.set("n", "<leader>msa", function()
+		local last_week = os.date("%Y-%m-%d", os.time() - 7 * 24 * 60 * 60)
+		open_weekly_note_for_date(last_week)
+	end, { buffer = true, desc = "Open last week's note" })
+
+	vim.keymap.set("n", "<leader>msm", function()
+		local next_week = os.date("%Y-%m-%d", os.time() + 7 * 24 * 60 * 60)
+		open_weekly_note_for_date(next_week)
+	end, { buffer = true, desc = "Open next week's note" })
 end
 
 return M

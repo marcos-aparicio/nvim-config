@@ -1,5 +1,6 @@
 local M = {}
 
+
 local function get_h1_from_file(filename)
   -- Get buffer number, create if doesn't exist
   local bufnr = vim.fn.bufnr(filename)
@@ -280,4 +281,36 @@ function M.search_incomplete_tasks()
   }))
 end
 
+
+function M.get_all_task_tags()
+  local tags = {}
+  local done = false
+
+  vim.lsp.buf_request(0, "workspace/symbol", { query = "Tag:" }, function(err, result)
+    if err or not result then
+      done = true
+      return
+    end
+    for _, symbol in ipairs(result) do
+      if symbol.name then
+        local tag = symbol.name:match("Tag:%s*(.+)")
+        if tag and vim.startswith(tag, "_") then
+          tags[tag] = true
+        end
+      end
+    end
+    done = true
+  end)
+
+  -- Wait for LSP response (synchronously, up to 500ms)
+  local timeout = 500
+  local interval = 10
+  local waited = 0
+  while not done and waited < timeout do
+    vim.wait(interval)
+    waited = waited + interval
+  end
+
+  return vim.tbl_keys(tags)
+end
 return M
