@@ -122,63 +122,174 @@ local function create_task_with_tags()
 		return
 	end
 
-	pickers.new({}, {
-		prompt_title = "Select Task Tags (Tab/C-x to select, Enter to confirm)",
-		finder = finders.new_table({
-			results = task_tags,
-			entry_maker = function(entry)
-				return {
-					value = entry,
-					display = entry,
-					ordinal = entry,
-				}
-			end,
-		}),
-		sorter = conf.generic_sorter({}),
-		attach_mappings = function(prompt_bufnr, map)
-			-- Multi-select mappings for both insert and normal mode
-			map("i", "<Tab>", actions.toggle_selection)
-			map("n", "<Tab>", actions.toggle_selection)
-			map("i", "<C-x>", actions.toggle_selection)
-			map("n", "<C-x>", actions.toggle_selection)
+	pickers
+		.new({}, {
+			prompt_title = "Select Task Tags (Tab/C-x to select, Enter to confirm)",
+			finder = finders.new_table({
+				results = task_tags,
+				entry_maker = function(entry)
+					return {
+						value = entry,
+						display = entry,
+						ordinal = entry,
+					}
+				end,
+			}),
+			sorter = conf.generic_sorter({}),
+			attach_mappings = function(prompt_bufnr, map)
+				-- Multi-select mappings for both insert and normal mode
+				map("i", "<Tab>", actions.toggle_selection)
+				map("n", "<Tab>", actions.toggle_selection)
+				map("i", "<C-x>", actions.toggle_selection)
+				map("n", "<C-x>", actions.toggle_selection)
 
-			-- Confirm selection for both insert and normal mode
-			actions.select_default:replace(function()
-				local picker = action_state.get_current_picker(prompt_bufnr)
-				local multi = picker:get_multi_selection()
-				local tags = {}
+				-- Confirm selection for both insert and normal mode
+				actions.select_default:replace(function()
+					local picker = action_state.get_current_picker(prompt_bufnr)
+					local multi = picker:get_multi_selection()
+					local tags = {}
 
-				if #multi == 0 then
-					local selection = action_state.get_selected_entry()
-					if selection then
-						table.insert(tags, "#" .. selection.value)
+					if #multi == 0 then
+						local selection = action_state.get_selected_entry()
+						if selection then
+							table.insert(tags, "#" .. selection.value)
+						end
+					else
+						for _, entry in ipairs(multi) do
+							table.insert(tags, "#" .. entry.value)
+						end
 					end
-				else
-					for _, entry in ipairs(multi) do
-						table.insert(tags, "#" .. entry.value)
+
+					actions.close(prompt_bufnr)
+
+					local tag_string = ""
+					if #tags > 0 then
+						tag_string = " " .. table.concat(tags, " ")
 					end
-				end
 
-				actions.close(prompt_bufnr)
-
-				local tag_string = ""
-				if #tags > 0 then
-					tag_string = " " .. table.concat(tags, " ")
-				end
-
-				local task_line = "- [ ]" .. tag_string .. "  "
-				local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-				local current_line = vim.api.nvim_get_current_line()
-				local new_line = current_line:sub(1, col) .. task_line .. current_line:sub(col + 1)
-				vim.api.nvim_set_current_line(new_line)
-				vim.api.nvim_win_set_cursor(0, {row, col + #task_line + 1})
-				vim.schedule(function()
-					vim.cmd("startinsert")
+					local task_line = "- [ ]" .. tag_string .. "  "
+					local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+					local current_line = vim.api.nvim_get_current_line()
+					local new_line = current_line:sub(1, col) .. task_line .. current_line:sub(col + 1)
+					vim.api.nvim_set_current_line(new_line)
+					vim.api.nvim_win_set_cursor(0, { row, col + #task_line + 1 })
+					vim.schedule(function()
+						vim.cmd("startinsert")
+					end)
 				end)
-			end)
-			return true
-		end,
-	}):find()
+				return true
+			end,
+		})
+		:find()
+end
+
+local function modify_task_tags()
+	local telescope = require("core.plugins.markdown.telescope")
+	local pickers = require("telescope.pickers")
+	local finders = require("telescope.finders")
+	local conf = require("telescope.config").values
+	local actions = require("telescope.actions")
+	local action_state = require("telescope.actions.state")
+
+	-- Get current line and check if it's a task
+	local current_line = vim.api.nvim_get_current_line()
+	local task_pattern = "^%s*%- %[[ x%-]%]"
+
+	if not current_line:match(task_pattern) then
+		vim.notify("Cursor is not on a task line", vim.log.levels.WARN)
+		return
+	end
+
+	-- Extract existing tags from the current line
+	local existing_tags = {}
+	for tag in current_line:gmatch("#([%w%-_/]+)") do
+		if vim.startswith(tag, "_") then
+			existing_tags[tag] = true
+		end
+	end
+
+	-- Get all available task tags
+	local task_tags = telescope.get_all_task_tags()
+
+	if not task_tags or #task_tags == 0 then
+		vim.notify("No task tags found", vim.log.levels.WARN)
+		return
+	end
+
+	-- Remove the leading underscore for display
+	local display_tags = {}
+	for _, tag in ipairs(task_tags) do
+		table.insert(display_tags, tag:sub(2)) -- Remove the leading "_"
+	end
+
+	pickers
+		.new({}, {
+			prompt_title = "Modify Task Tags (Tab/C-x to toggle, Enter to confirm)",
+			finder = finders.new_table({
+				results = display_tags,
+				entry_maker = function(entry)
+					return {
+						value = entry,
+						display = entry,
+						ordinal = entry,
+					}
+				end,
+			}),
+			sorter = conf.generic_sorter({}),
+			attach_mappings = function(prompt_bufnr, map)
+				local MultiSelect = require("telescope.pickers.multi")
+				local picker = action_state.get_current_picker(prompt_bufnr)
+				local multi = MultiSelect:new()
+				for i = 1, #picker.finder.results do
+					local entry = picker.finder.results[i].value
+					if existing_tags["_" .. entry] then
+						multi:add(picker.finder.results[i])
+					end
+				end
+				picker:refresh(picker.finder, { multi = multi })
+
+				-- Multi-select mappings for both insert and normal mode
+				map("i", "<Tab>", actions.toggle_selection)
+				map("n", "<Tab>", actions.toggle_selection)
+				map("i", "<C-x>", actions.toggle_selection)
+				map("n", "<C-x>", actions.toggle_selection)
+
+				-- Confirm selection for both insert and normal mode
+				actions.select_default:replace(function()
+					local picker = action_state.get_current_picker(prompt_bufnr)
+					local multi = picker:get_multi_selection()
+					local selected_tags = {}
+
+					-- Get selected tags
+					for _, entry in ipairs(multi) do
+						selected_tags["_" .. entry.value] = true
+					end
+
+					actions.close(prompt_bufnr)
+
+					-- Parse the current line to separate task part from tags
+					local task_part = current_line:gsub("%s*#[%w%-_]*", "")
+					task_part = vim.trim(task_part)
+
+					-- Build new tag string
+					local new_tags = {}
+					for tag in pairs(selected_tags) do
+						table.insert(new_tags, "#" .. tag)
+					end
+
+					-- Construct the new line
+					local new_line = task_part
+					if #new_tags > 0 then
+						new_line = new_line .. " " .. table.concat(new_tags, " ")
+					end
+
+					-- Replace the current line
+					vim.api.nvim_set_current_line(new_line)
+				end)
+				return true
+			end,
+		})
+		:find()
 end
 
 local function open_bookmark_url()
@@ -340,17 +451,17 @@ local function open_markdown_link()
 end
 
 local function open_selected_markdown_link()
-  local start_pos = vim.fn.getpos("'<")
-  local end_pos = vim.fn.getpos("'>")
-  local lines = vim.api.nvim_buf_get_lines(0, start_pos[2]-1, end_pos[2], false)
-  local text = table.concat(lines, "\n")
-  text = vim.trim(text)
-  if text and text:match("^https?://") then
-    local open_cmd = vim.g.is_wsl == 1 and { "powershell.exe", "Start-Process" } or { "xdg-open" }
-    vim.fn.jobstart(vim.list_extend(open_cmd, { text }), { detach = true })
-  else
-    vim.notify("No valid URL in selection", vim.log.levels.WARN)
-  end
+	local start_pos = vim.fn.getpos("'<")
+	local end_pos = vim.fn.getpos("'>")
+	local lines = vim.api.nvim_buf_get_lines(0, start_pos[2] - 1, end_pos[2], false)
+	local text = table.concat(lines, "\n")
+	text = vim.trim(text)
+	if text and text:match("^https?://") then
+		local open_cmd = vim.g.is_wsl == 1 and { "powershell.exe", "Start-Process" } or { "xdg-open" }
+		vim.fn.jobstart(vim.list_extend(open_cmd, { text }), { detach = true })
+	else
+		vim.notify("No valid URL in selection", vim.log.levels.WARN)
+	end
 end
 
 function M.setup_buffer_keymaps()
@@ -401,7 +512,12 @@ function M.setup_buffer_keymaps()
 
 	-- Link handling
 	vim.keymap.set("n", "<leader>mo", open_markdown_link, { buffer = true, desc = "Open markdown link in browser" })
-  vim.keymap.set("v", "<leader>mo", open_selected_markdown_link, { buffer = true, desc = "Open selected markdown link in browser" })
+	vim.keymap.set(
+		"v",
+		"<leader>mo",
+		open_selected_markdown_link,
+		{ buffer = true, desc = "Open selected markdown link in browser" }
+	)
 
 	-- Task management
 	vim.keymap.set(
@@ -459,7 +575,9 @@ function M.setup_buffer_keymaps()
 
 	-- Create task with tags
 	vim.keymap.set("n", "<leader>aa", create_task_with_tags, { buffer = true, desc = "Create task with selected tags" })
+	vim.keymap.set("n", "<leader>ae", modify_task_tags, { buffer = true, desc = "Modify tags on current task" })
 	vim.keymap.set("i", "<C-t>", create_task_with_tags, { buffer = true, desc = "Create task with selected tags" })
+	vim.keymap.set("i", "<C-g>", modify_task_tags, { buffer = true, desc = "Modify tags on current task" })
 
 	-- Spell language selection
 	vim.keymap.set("n", "<leader>msl", function()
