@@ -32,6 +32,48 @@ return {
 			mode = { "n", "t" },
 			desc = "Open lazygit in floating terminal",
 		},
+		{
+			"<leader><leader>tr",
+			function()
+      if not _G.translate_shell_term then
+        local Terminal = require("toggleterm.terminal").Terminal
+        _G.translate_shell_term = Terminal:new({
+          cmd = "trans -I",
+          direction = "float",
+          close_on_exit = true,
+          float_opts = {
+            border = "rounded",
+            width = math.floor(vim.o.columns * 0.55),
+            height = math.floor(vim.o.lines * 0.55),
+          },
+        })
+      end
+      _G.translate_shell_term:toggle()
+			end,
+			mode = { "n", "t" },
+			desc = "Open translate-shell in floating terminal",
+		},
+    {
+      "<leader>=",
+      function()
+        if not _G.qalc_term then
+          local Terminal = require("toggleterm.terminal").Terminal
+          _G.qalc_term = Terminal:new({
+            cmd = "qalc",
+            direction = "float",
+            close_on_exit = true,
+            float_opts = {
+              border = "rounded",
+              width = math.floor(vim.o.columns * 0.55),
+              height = math.floor(vim.o.lines * 0.35),
+            },
+          })
+        end
+        _G.qalc_term:toggle()
+      end,
+      mode = { "n", "t" },
+      desc = "Toggle qalc in floating terminal",
+    },
 		{ "<leader>ld", "<Cmd>TermExec direction=float cmd=lazydocker<CR>", mode = { "t", "n" } },
 		-- Custom key for lf in a floating terminal
 		{
@@ -39,7 +81,15 @@ return {
 			function()
 				local Terminal = require("toggleterm.terminal").Terminal
 				local sel = vim.fn.tempname()
-				local cmd = ("bash -lc %q"):format("lf -selection-path " .. vim.fn.shellescape(sel))
+        local cmd
+        if vim.fn.executable("yazi") == 1 then
+          cmd = ("yazi --chooser-file %s"):format(sel)
+        elseif vim.fn.executable("lf") == 1 then
+          cmd = ("lf -selection-path %s"):format(sel)
+        else
+          vim.notify("Neither yazi nor lf is installed!", vim.log.levels.ERROR)
+          return
+        end
 
 				local term = Terminal:new({
 					cmd = cmd,

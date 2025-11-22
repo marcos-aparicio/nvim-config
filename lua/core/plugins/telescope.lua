@@ -25,6 +25,9 @@ return {
 			local action_state = require("telescope.actions.state")
 			local builtin = require("telescope.builtin")
 			local lga_actions = require("telescope-live-grep-args.actions")
+			local previewers = require("telescope.previewers")
+			local Job = require("plenary.job")
+			local Path = require("plenary.path")
 
 			local keymaps = {
 				{ "n", "<leader>f", builtin.find_files },
@@ -35,9 +38,11 @@ return {
 				{ "v", "<leader>ll", "y<ESC>:Telescope live_grep_args default_text=<c-r>0<CR>" },
 				{ "n", "<leader>z", telescope.extensions.zoxide.list },
 				{ "n", "<leader>gs", builtin.git_status },
+				{ "n", "<leader>tl", ":Telescope lsp_document_symbols<CR>" },
 				{ "n", "<leader>gb", builtin.git_branches },
 				{ "n", "<leader>tp", ":Telescope projects<CR>" },
 				{ "n", "<leader>th", builtin.help_tags },
+				{ "n", "<leader>tk", ":Telescope keymaps<CR>" },
 				{ "n", "<leader>/", builtin.current_buffer_fuzzy_find },
 				{
 					"n",
@@ -84,6 +89,8 @@ return {
 			return {
 				defaults = {
 					preview = {
+						filesize_limit = 0.9999,
+						timeout = 250,
 						-- source: https://github.com/nvim-telescope/telescope.nvim/issues/623#issuecomment-921978316
 						filesize_hook = function(filepath, bufnr, opts)
 							local max_bytes = 10000
@@ -91,12 +98,14 @@ return {
 							require("telescope.previewers.utils").job_maker(cmd, bufnr, opts)
 						end,
 					},
-					theme = "ivy",
+
 					layout_config = {
-						width = 0.9,
-						preview_width = 0.6,
-						height = 0.9,
-						prompt_position = "top",
+						horizontal = {
+							width = 0.9,
+							preview_width = 0.6,
+							height = 0.9,
+							prompt_position = "top",
+						},
 					},
 
 					wrap_results = true,

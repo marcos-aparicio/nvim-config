@@ -5,7 +5,6 @@ vim.opt.hlsearch = false
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
-
 vim.bo.softtabstop = 2
 
 vim.o.clipboard = "unnamed,unnamedplus"
@@ -34,3 +33,30 @@ vim.api.nvim_set_var("terminal_ansi_codes", { ["F15"] = "\27[1;5I", ["F16"] = "\
 
 vim.g.loaded_netwr = 1
 vim.g.loaded_netrwPlugin = 1
+
+if vim.fn.has("nvim-0.10") == 1 then
+  vim.opt.smoothscroll = true
+  vim.opt.foldexpr = "v:lua.require'utils'.foldexpr()"
+  vim.opt.foldmethod = "expr"
+  vim.opt.foldtext = ""
+else
+  vim.opt.foldmethod = "indent"
+  vim.opt.foldtext = "v:lua.require'utils'.foldtext()"
+end
+
+local function is_wsl()
+  local version = vim.fn.readfile("/proc/version")[1] or ""
+  return version:match("Microsoft") or version:match("WSL")
+end
+vim.g.is_wsl = is_wsl() and 1 or 0
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "markdown", "gitcommit" },
+  callback = function()
+    vim.opt_local.spell = true
+    vim.opt_local.spelllang = { "en_us", "es" }
+  end,
+})
+
+    -- vim.opt_local.spell = true
+    -- vim.opt_local.spelllang = { "en_us", "es" }

@@ -1,0 +1,57 @@
+local list_patterns = {
+  unordered = "[-+*]", -- - + *
+  digit = "%d+[.)]", -- 1. 2. 3.
+  ascii = "%a[.)]", -- a) b) c)
+  roman = "%u*[.)]", -- I. II. III.
+  latex_item = "\\item",
+}
+
+return {
+  "MeanderingProgrammer/render-markdown.nvim",
+  dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-mini/mini.icons" },
+  ---@module 'render-markdown'
+  ---@type render.md.UserConfig
+  opts = {
+    -- Customize bullet icons
+    bullet = {
+      icons = { "• ", "‣ ", "∙ ", "◦ " }, -- Small and clean bullet icons
+    },
+    heading = {
+      sign = true,
+      icons = { "󰲡 ", "󰲣 ", "󰲥 ", "󰲧 ", "󰲩 ", "󰲫 " },
+      custom = {
+        todo_pattern = {
+          pattern = "^## To Do$",
+          icon = "󰲣    ",
+        },
+        notes_pattern = {
+          pattern = "^## Notes$",
+          icon = "󰲣  📝 ",
+        },
+      },
+    },
+    document = {
+      enabled = true,
+      render_modes = false,
+      conceal = {
+        char_patterns = {
+          "=%s*date%(.-%) %- date%(%d%d%d%d%-%d%d%-%d%d%)",
+        },
+      },
+    },
+    checkbox = {
+      custom = {
+        todo = {
+          raw = '[-]',
+          rendered = '󰥔 ',
+          highlight = 'RenderMarkdownTodoCurrent',
+          scope_highlight = nil
+        },
+      },
+    }
+  },
+  init = function()
+    require("core.plugins.markdown.autocmds").setup()
+  end,
+  config = true,
+}

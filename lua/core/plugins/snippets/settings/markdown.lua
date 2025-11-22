@@ -4,9 +4,14 @@ if not ls then
 	return
 end
 
+local function clipboard()
+  return vim.fn.getreg("+")
+end
 local s = ls.snippet
 local t = ls.text_node
 local i = ls.insert_node
+local f = ls.function_node
+local c = ls.choice_node
 
 --- Retrieves the current date in a formatted string.
 ---
@@ -42,17 +47,57 @@ local markdown_mappings = {
 	s("h2", { t("## ") }),
 	s("h1", { t("# ") }),
 	s("link", { t("["), i(1, "Titulo a mostrar"), t("]("), i(2, "Link pe"), t(")") }),
-	s("bugreport", {
-		t({ "### What is the issue description?", "" }),
-		i(1),
-		t({ "", "", "### What steps triggered the issue?", "" }),
-		i(2),
-		t({ "", "", "### What is the expected behaviour?", "" }),
-		i(3),
-		t({ "", "", "### What is the actual behaviour?", "" }),
-		i(4),
-	}),
 	s("hoy", { t(get_current_date(true)) }),
+  s({
+    trig = "codex:(%w+)",
+    regTrig = true,
+    name = "Generic code block",
+    desc = "Insert a code block with dynamic language from trigger",
+  }, {
+    t("```"),
+    f(function(_, snip) return snip.captures[1] or "" end),
+    t({ "", "","" }),
+    i(1, "# code here"),
+    t({ "","", "```", "" }),
+  }),
+  s({
+      trig = "linkex",
+      name = "Paste clipboard as EXT .md link",
+      desc = "Paste clipboard as EXT .md link",
+    }, {
+      t("["),
+      i(1),
+      t("]("),
+      f(clipboard, {}),
+      t(')'),
+  }),
+  s({
+      trig = "callout",
+      name = "Create a callout",
+      desc = "Create a callout as per render-markdown.nvim",
+    }, {
+      t({">[!"}),
+      c(1, {
+        t("NOTE"),
+        t("TIP"),
+        t("IMPORTANT"),
+        t("WARNING"),
+        t("CAUTION"),
+        t("INFO"),
+        t("ABSTRACT"),
+        t("TODO"),
+        t("SUCCESS"),
+        t("QUESTION"),
+        t("FAILURE"),
+        t("DANGER"),
+        t("BUG"),
+        t("EXAMPLE"),
+        t("QUOTE"),
+      }),
+      t({"]",">","> "}),
+      i(2),
+      t({"",">"}),
+  })
 }
 
 -- ls.add_snippets("vimwiki", markdown_mappings)

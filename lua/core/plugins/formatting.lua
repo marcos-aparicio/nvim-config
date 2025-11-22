@@ -3,7 +3,7 @@ vim.b.disable_autoformat = true
 vim.api.nvim_create_user_command("FormatDisable", function(args)
 	if args.bang then
 		-- FormatDisable! will disable formatting just for this buffer
-		vim.b.disable_autoformat = true
+		vim.b.disable_autoformat = false
 	else
 		vim.g.disable_autoformat = true
 	end
@@ -73,7 +73,7 @@ return {
 						vim.notify("You have auto-formatting disabled!")
 						return false
 					end
-					return {
+            return {
 						lsp_fallback = true,
 						async = false,
 						timeout_ms = 1000,

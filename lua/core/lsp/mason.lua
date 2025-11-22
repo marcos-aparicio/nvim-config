@@ -23,11 +23,6 @@ mason_lspconfig.setup({
 	automatic_installation = true,
 })
 
-local ok_lspconfig, lspconfig = pcall(require, "lspconfig")
-if not ok_lspconfig then
-	return
-end
-
 local handlers = require("core.lsp.handlers")
 local default_opts = {
 	on_attach = handlers.on_attach,
@@ -43,5 +38,6 @@ for _, server_name in pairs(servers) do
 		opts = vim.tbl_deep_extend("force", opts, custom_opts)
 	end
 
-	lspconfig[server].setup(opts)
+  vim.lsp.config(server, opts)
+  vim.lsp.enable(server)
 end
