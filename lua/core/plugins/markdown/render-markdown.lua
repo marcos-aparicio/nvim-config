@@ -47,6 +47,12 @@ return {
           highlight = 'RenderMarkdownTodoCurrent',
           scope_highlight = nil
         },
+        not_gonna_do = {
+          raw = '[c]',
+          rendered = '󰅖 ', -- choose an appropriate icon
+          highlight = 'RenderMarkdownTodoCancelled',
+          scope_highlight = nil
+        }
       },
     }
   },
