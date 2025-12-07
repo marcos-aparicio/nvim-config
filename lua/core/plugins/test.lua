@@ -1,7 +1,8 @@
 return {
   {
     "nvim-neotest/neotest",
-    ft = { "python", "py", "typescript", "ts", "javascript", "js" },
+    ft = { "python", "py", "typescript", "ts", "javascript", "js", "go" },
+    lazy = false,
     dependencies = {
       "nvim-lua/plenary.nvim",
       "antoinemadec/FixCursorHold.nvim",
@@ -9,6 +10,13 @@ return {
       "nvim-neotest/neotest-python",
       "marilari88/neotest-vitest",
       "nvim-neotest/nvim-nio",
+      {
+        "fredrikaverpil/neotest-golang",
+        version = "*",                                                          -- Optional, but recommended; track releases
+        build = function()
+          vim.system({ "go", "install", "gotest.tools/gotestsum@latest" }):wait() -- Optional, but recommended
+        end,
+      },
     },
     opts = function()
       local neotest = require("neotest")
@@ -33,6 +41,7 @@ return {
       end)
 
       return {
+        level = vim.log.levels.DEBUG,
         adapters = {
           require("neotest-python")({
             dap = { justMyCode = false },
@@ -50,7 +59,8 @@ return {
                   file_path:match("%.test%.jsx$") or
                   file_path:match("%.test%.tsx$")
             end,
-          })
+          }),
+          require("neotest-golang")
         },
       }
     end,
