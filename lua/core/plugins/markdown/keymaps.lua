@@ -15,7 +15,6 @@ local function find_obsidian_root(start_path)
 	return nil
 end
 
--- Helper to open diary note for a given date string (YYYY-MM-DD)
 local function open_diary_note_for_date(date_str)
 	local plenary_ok, _ = pcall(require, "plenary.path")
 	if not plenary_ok then
@@ -33,23 +32,37 @@ local function open_diary_note_for_date(date_str)
 		return
 	end
 
+	local templates_path = root .. "/templates"
+	local diary_template = templates_path .. "/diary.md"
 	local diary_dir = root .. "/diary"
+
 	if vim.fn.isdirectory(diary_dir) == 0 then
 		vim.fn.mkdir(diary_dir, "p")
 	end
+
 	local diary_file = diary_dir .. "/" .. date_str .. ".md"
 	if vim.fn.filereadable(diary_file) == 0 then
-		local diary_content = {
-			"# " .. date_str .. " Diary",
-			"",
-			"## Notes",
-			"",
-			".",
-			"",
-			"## Todo",
-			"",
-			".",
-		}
+		local diary_content
+		if vim.fn.filereadable(diary_template) == 1 then
+			-- Read template and replace placeholders
+			diary_content = vim.fn.readfile(diary_template)
+			for i, line in ipairs(diary_content) do
+				diary_content[i] = line:gsub("{{date:YYYY%-MM%-DD}}", date_str)
+			end
+		else
+			-- Fallback to hardcoded content
+			diary_content = {
+				"# " .. date_str .. " Diary",
+				"",
+				"## Notes",
+				"",
+				".",
+				"",
+				"## Todo",
+				"",
+				".",
+			}
+		end
 		vim.fn.writefile(diary_content, diary_file)
 	end
 	vim.cmd("edit " .. diary_file)
@@ -73,8 +86,14 @@ local function open_weekly_note_for_date(date_str)
 	end
 
 	local function iso_week(date)
-		local year, month, day = date:match("(%d+)%-(%d+)%-(%d+)")
-		year, month, day = tonumber(year), tonumber(month), tonumber(day)
+		local year_str, month_str, day_str = date:match("(%d+)%-(%d+)%-(%d+)")
+		if not year_str or not month_str or not day_str then
+			return nil
+		end
+		local year, month, day = tonumber(year_str), tonumber(month_str), tonumber(day_str)
+		if not year or not month or not day then
+			return nil
+		end
 		local t = os.time({ year = year, month = month, day = day })
 		local dow = tonumber(os.date("%u", t))
 		local thursday = t + (4 - dow) * 24 * 60 * 60
@@ -84,23 +103,42 @@ local function open_weekly_note_for_date(date_str)
 	end
 
 	local week_str = iso_week(date_str)
+	if not week_str then
+		vim.notify("Invalid date format", vim.log.levels.ERROR)
+		return
+	end
+
+	local templates_path = root .. "/templates"
+	local weekly_template = templates_path .. "/weekly.md"
 	local diary_dir = root .. "/diary"
+
 	if vim.fn.isdirectory(diary_dir) == 0 then
 		vim.fn.mkdir(diary_dir, "p")
 	end
+
 	local weekly_file = diary_dir .. "/" .. week_str .. ".md"
 	if vim.fn.filereadable(weekly_file) == 0 then
-		local weekly_content = {
-			"# " .. week_str .. " Weekly",
-			"",
-			"## Goals",
-			"",
-			".",
-			"",
-			"## Review",
-			"",
-			".",
-		}
+		local weekly_content
+		if vim.fn.filereadable(weekly_template) == 1 then
+			-- Read template and replace placeholders
+			weekly_content = vim.fn.readfile(weekly_template)
+			for i, line in ipairs(weekly_content) do
+				weekly_content[i] = line:gsub("{{date:gggg%-[W]ww}}", week_str)
+			end
+		else
+			-- Fallback to hardcoded content
+			weekly_content = {
+				"# " .. week_str .. " Weekly",
+				"",
+				"## Goals",
+				"",
+				".",
+				"",
+				"## Review",
+				"",
+				".",
+			}
+		end
 		vim.fn.writefile(weekly_content, weekly_file)
 	end
 	vim.cmd("edit " .. weekly_file)
