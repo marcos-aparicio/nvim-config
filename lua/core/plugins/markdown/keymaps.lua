@@ -5,7 +5,8 @@ local bookmarks_repo = os.getenv("HOME") .. "/Documents/Areas/Obsidian/bookmarks
 -- Helper to find project root by locating .obsidian directory
 local function find_obsidian_root(start_path)
 	local Path = require("plenary.path")
-	local path = Path:new(start_path or vim.fn.expand("%:p"))
+	local buf_path = vim.fn.expand("%:p")
+	local path = Path:new(start_path or (buf_path ~= "" and buf_path or vim.fn.getcwd()))
 	while tostring(path) ~= tostring(path:parent()) do
 		if Path:new(path, ".obsidian"):is_dir() then
 			return tostring(path)
