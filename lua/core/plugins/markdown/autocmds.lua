@@ -1,11 +1,23 @@
+local globals = require "globals"
 local M = {}
 
 function M.setup()
   vim.api.nvim_create_autocmd("FileType", {
-    pattern = "markdown",
-    callback = function()
+    callback = function(args)
+      local ft = vim.bo[args.buf].filetype
+      local path = vim.api.nvim_buf_get_name(args.buf)
+      -- Negation: return if not markdown and not in the special path
+      if not (
+            ft == "markdown" or vim.startswith(path, globals.notes_workspaces_dir)
+            or (path == "" and vim.startswith(vim.fn.getcwd(), globals.notes_workspaces_dir))
+          ) then
+        return
+      end
+      -- if ft ~= "markdown" then
+      --   return
+      -- end
       local keymaps = require("core.plugins.markdown.keymaps")
-      local commands =  require("core.plugins.markdown.cmds")
+      local commands = require("core.plugins.markdown.cmds")
       keymaps.setup_buffer_keymaps()
       commands.setup_buffer_commands()
     end,
