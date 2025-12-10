@@ -6,7 +6,7 @@ function M.setup()
     callback = function(args)
       local ft = vim.bo[args.buf].filetype
       local path = vim.api.nvim_buf_get_name(args.buf)
-      if not (
+      if not path or  not (
             ft == "markdown" or vim.startswith(path, globals.notes_workspaces_dir)
             or (path == "" and vim.startswith(vim.fn.getcwd(), globals.notes_workspaces_dir))
           ) then
