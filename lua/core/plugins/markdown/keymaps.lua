@@ -299,9 +299,15 @@ local function modify_task_tags()
 					local multi = picker:get_multi_selection()
 					local selected_tags = {}
 
-					-- Get selected tags
+					-- Add all toggled tags
 					for _, entry in ipairs(multi) do
 						selected_tags["_" .. entry.value] = true
+					end
+
+					-- Always add the currently highlighted tag
+					local selection = action_state.get_selected_entry()
+					if selection then
+						selected_tags["_" .. selection.value] = true
 					end
 
 					actions.close(prompt_bufnr)
@@ -615,7 +621,7 @@ function M.setup_buffer_keymaps()
 	-- Create task with tags
 	vim.keymap.set("n", "<leader>aa", create_task_with_tags, { buffer = true, desc = "Create task with selected tags" })
 	vim.keymap.set("n", "<leader>ae", modify_task_tags, { buffer = true, desc = "Modify tags on current task" })
-	vim.keymap.set("i", "<C-t>", create_task_with_tags, { buffer = true, desc = "Create task with selected tags" })
+	vim.keymap.set("i", "<C-y>", create_task_with_tags, { buffer = true, desc = "Create task with selected tags" })
 	vim.keymap.set("i", "<C-g>", modify_task_tags, { buffer = true, desc = "Modify tags on current task" })
 
 	-- Spell language selection
