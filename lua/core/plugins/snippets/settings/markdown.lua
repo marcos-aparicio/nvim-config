@@ -97,7 +97,17 @@ local markdown_mappings = {
       t({"]",">","> "}),
       i(2),
       t({"",">"}),
-  })
+  }),
+  s({
+    trig = "log",
+    name = "hourly log",
+    desc = "Insert current time with a bullet point for stuff",
+  }, {
+    f(function()
+      return os.date("%H:%M")
+    end, {}),
+    t({ "", "- " }),
+  }),
 }
 
 -- ls.add_snippets("vimwiki", markdown_mappings)
