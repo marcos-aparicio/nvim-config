@@ -1,19 +1,21 @@
 local list_patterns = {
   unordered = "[-+*]", -- - + *
-  digit = "%d+[.)]", -- 1. 2. 3.
-  ascii = "%a[.)]", -- a) b) c)
-  roman = "%u*[.)]", -- I. II. III.
+  digit = "%d+[.)]",   -- 1. 2. 3.
+  ascii = "%a[.)]",    -- a) b) c)
+  roman = "%u*[.)]",   -- I. II. III.
   latex_item = "\\item",
 }
 
 return {
   "MeanderingProgrammer/render-markdown.nvim",
   dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-mini/mini.icons" },
+  tag = "v8.10.0",
   ---@module 'render-markdown'
   ---@type render.md.UserConfig
   opts = {
     -- Customize bullet icons
     bullet = {
+      enabled = false,
       icons = { "• ", "‣ ", "∙ ", "◦ " }, -- Small and clean bullet icons
     },
     heading = {
@@ -44,7 +46,7 @@ return {
         todo = {
           raw = '[-]',
           rendered = '󰥔 ',
-          highlight = 'RenderMarkdownTodoCurrent',
+          highlight = 'RenderMarkdownTodo',
           scope_highlight = nil
         },
         not_gonna_do = {
@@ -52,7 +54,13 @@ return {
           rendered = '󰅖 ', -- choose an appropriate icon
           highlight = 'RenderMarkdownTodoCancelled',
           scope_highlight = nil
-        }
+        },
+        waiting = {
+          raw = '[w]',
+          rendered = '⏳',
+          highlight = 'RenderMarkdownTodoCancelled',
+          scope_highlight = nil
+        },
       },
     }
   },
