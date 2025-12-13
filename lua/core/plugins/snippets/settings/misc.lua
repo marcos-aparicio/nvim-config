@@ -42,6 +42,13 @@ local static_snippets = {
       "Please use the @git_git_commit tool for creating a commit based on the output that you create"
     }),
   }),
+  s(",gitsus",{
+    t({
+      "#gitdiff:staged",
+      "Write commit message for the change with commitizen convention. I want this commit message to only include a title. Keep the title under 50 characters",
+      "Please use the @git_git_commit tool for creating a commit based on the output that you create"
+    })
+  })
 }
 
 local combined_snippets = vim.tbl_extend("force", copilot_chat_snippets, static_snippets)
