@@ -35,6 +35,7 @@ return {
 		{ "<leader>opl", ":Octo pr list<CR>" },
 		{ "<leader>ope", ":Octo pr edit<space>" },
 		{ "<leader>opr", ":Octo pr reload<CR>" },
+		{ "<leader>opc", ":Octo pr create<CR>" },
 		{ "<leader>or", ":Octo review<space>" },
 		{ "<leader>oc", ":Octo comment<space>" },
 		{ "<leader>ois", ":Octo issue list" },
