@@ -124,7 +124,7 @@ local function open_weekly_note_for_date(date_str)
 			-- Read template and replace placeholders
 			weekly_content = vim.fn.readfile(weekly_template)
 			for i, line in ipairs(weekly_content) do
-				weekly_content[i] = line:gsub("{{date:gggg%-[W]ww}}", week_str)
+        weekly_content[i] = line:gsub("{{date:YYYY%-%[W%]WW}}", week_str)
 			end
 		else
 			-- Fallback to hardcoded content
