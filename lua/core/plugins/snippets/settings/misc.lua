@@ -51,6 +51,6 @@ local static_snippets = {
   })
 }
 
-local combined_snippets = vim.tbl_extend("force", copilot_chat_snippets, static_snippets)
+local combined_snippets = vim.list_extend(copilot_chat_snippets, static_snippets)
 
 ls.add_snippets("copilot-chat", combined_snippets)
