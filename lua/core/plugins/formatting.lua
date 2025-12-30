@@ -59,6 +59,7 @@ return {
 					typescriptreact = { "prettierd" },
 					svelte = { "prettierd" },
 					css = { "prettierd" },
+					scss = { "prettierd", "prettier" },
 					html = { "prettier" },
 					json = { "prettierd" },
 					yaml = { "prettierd" },
