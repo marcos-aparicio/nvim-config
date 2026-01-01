@@ -9,7 +9,7 @@ local s, t, f = ls.snippet, ls.text_node, ls.function_node
 local function create_smart_snippets(trigger, text)
   return {
     s(trigger, { t(text) }),
-    s("," .. trigger, { t("> " .. text) })
+    s(trigger .. ",", { t("> " .. text) })
   }
 end
 
