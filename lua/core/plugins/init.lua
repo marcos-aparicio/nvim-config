@@ -50,8 +50,8 @@ return {
     "ziontee113/color-picker.nvim",
     cmd = { "PickColor", "PickColorInsert" },
     keys = {
-      { "<leader>co", "<Cmd>PickColor<CR>",       mode = { "n" } },
-      { "<C-c>",      "<Cmd>PickColorInsert<CR>", mode = { "i" } },
+      { "<leader><leader>co", "<Cmd>PickColor<CR>",       mode = { "n" }, desc = "Open color picker" },
+      { "<C-c>",              "<Cmd>PickColorInsert<CR>", mode = { "i" } },
     },
     main = "color-picker",
     opts = {},
