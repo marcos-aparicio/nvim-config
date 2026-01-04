@@ -4,7 +4,7 @@ return {
   dependencies = {
     "moyiz/blink-emoji.nvim",
     "Kaiser-Yang/blink-cmp-dictionary",
-    "L3MON4D3/LuaSnip"
+    "L3MON4D3/LuaSnip",
   },
   -- use a release tag to download pre-built binaries
   version = "1.*",
@@ -52,9 +52,9 @@ return {
       documentation = { auto_show = true },
       menu = {
         winblend = 0,
-        winhighlight = 'Normal:BlinkCmpMenu,FloatBorder:BlinkCmpMenuBorder,CursorLine:BlinkCmpMenuSelection,Search:None',
+        winhighlight = "Normal:BlinkCmpMenu,FloatBorder:BlinkCmpMenuBorder,CursorLine:BlinkCmpMenuSelection,Search:None",
         scrollbar = true,
-        direction_priority = { 's', 'n' },
+        direction_priority = { "s", "n" },
         auto_show = true,
         draw = {
           padding = 1,
@@ -69,7 +69,7 @@ return {
       default = { "snippets", "path", "lsp", "buffer", "emoji" },
       per_filetype = {
         sql = { "snippets", "dadbod" },
-        mysql = { "snippets", "dadbod" }
+        mysql = { "snippets", "dadbod" },
       },
       providers = {
         dadbod = { name = "Dadbod", module = "vim_dadbod_completion.blink" },
@@ -84,12 +84,11 @@ return {
         emoji = {
           module = "blink-emoji",
           name = "Emoji",
-          score_offset = 93,        -- the higher the number, the higher the priority
+          score_offset = 93, -- the higher the number, the higher the priority
           min_keyword_length = 2,
           opts = { insert = true }, -- Insert emoji (default) or complete its name
         },
-
-      }
+      },
     },
   },
   opts_extend = { "sources.default" },

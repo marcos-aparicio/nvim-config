@@ -1,11 +1,11 @@
 return {
-	"lukas-reineke/indent-blankline.nvim",
-	main = "ibl",
-	ft = {
-		"blade",
-	},
+  "lukas-reineke/indent-blankline.nvim",
+  main = "ibl",
+  ft = {
+    "blade",
+  },
 
-	---@module "ibl"
-	---@type ibl.config
-	opts = {},
+  ---@module "ibl"
+  ---@type ibl.config
+  opts = {},
 }

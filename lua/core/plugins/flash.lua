@@ -21,9 +21,9 @@ return {
         enabled = true,
       },
       char = {
-        jump_labels = true
-      }
-    }
+        jump_labels = true,
+      },
+    },
   },
   -- stylua: ignore
   keys = {

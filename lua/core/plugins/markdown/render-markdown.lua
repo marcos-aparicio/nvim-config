@@ -9,11 +9,13 @@ local list_patterns = {
 return {
   "MeanderingProgrammer/render-markdown.nvim",
   dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-mini/mini.icons" },
+  tag = "v8.10.0",
   ---@module 'render-markdown'
   ---@type render.md.UserConfig
   opts = {
     -- Customize bullet icons
     bullet = {
+      enabled = false,
       icons = { "• ", "‣ ", "∙ ", "◦ " }, -- Small and clean bullet icons
     },
     heading = {
@@ -42,13 +44,25 @@ return {
     checkbox = {
       custom = {
         todo = {
-          raw = '[-]',
-          rendered = '󰥔 ',
-          highlight = 'RenderMarkdownTodoCurrent',
-          scope_highlight = nil
+          raw = "[-]",
+          rendered = "󰥔 ",
+          highlight = "RenderMarkdownTodo",
+          scope_highlight = nil,
+        },
+        not_gonna_do = {
+          raw = "[c]",
+          rendered = "󰅖 ", -- choose an appropriate icon
+          highlight = "RenderMarkdownTodoCancelled",
+          scope_highlight = nil,
+        },
+        waiting = {
+          raw = "[w]",
+          rendered = "⏳",
+          highlight = "RenderMarkdownTodoCancelled",
+          scope_highlight = nil,
         },
       },
-    }
+    },
   },
   init = function()
     require("core.plugins.markdown.autocmds").setup()

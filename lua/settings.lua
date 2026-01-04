@@ -54,9 +54,9 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = { "markdown", "gitcommit" },
   callback = function()
     vim.opt_local.spell = true
-    vim.opt_local.spelllang = { "en_us", "es" }
+    vim.opt_local.spelllang = { "en_us", "es", "fr" }
   end,
 })
 
-    -- vim.opt_local.spell = true
-    -- vim.opt_local.spelllang = { "en_us", "es" }
+-- vim.opt_local.spell = true
+-- vim.opt_local.spelllang = { "en_us", "es" }

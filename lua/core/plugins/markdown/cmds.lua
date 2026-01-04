@@ -30,7 +30,7 @@ local function convert_selection_with_pandoc()
   -- Prompt for target format
   vim.ui.input({
     prompt = "Convert to format (e.g., html, latex, docx, rst): ",
-    default = "html"
+    default = "html",
   }, function(target_format)
     if not target_format or target_format == "" then
       vim.notify("No format specified", vim.log.levels.WARN)
@@ -54,7 +54,10 @@ local function convert_selection_with_pandoc()
 
           -- Copy to clipboard
           vim.fn.setreg("+", output)
-          vim.notify("Converted to " .. target_format .. " and copied to clipboard", vim.log.levels.INFO)
+          vim.notify(
+            "Converted to " .. target_format .. " and copied to clipboard",
+            vim.log.levels.INFO
+          )
         end
       end,
       on_stderr = function(_, data)
@@ -70,17 +73,22 @@ local function convert_selection_with_pandoc()
         if code ~= 0 then
           vim.notify("Pandoc conversion failed with exit code " .. code, vim.log.levels.ERROR)
         end
-      end
+      end,
     })
   end)
 end
 
 function M.setup_buffer_commands()
   -- Create user command for pandoc conversion
-  vim.api.nvim_buf_create_user_command(0, "MarkdownConvertSelection", convert_selection_with_pandoc, {
-    desc = "Convert selected markdown text to another format using pandoc and copies it to the clipboard",
-    range = true
-  })
+  vim.api.nvim_buf_create_user_command(
+    0,
+    "MarkdownConvertSelection",
+    convert_selection_with_pandoc,
+    {
+      desc = "Convert selected markdown text to another format using pandoc and copies it to the clipboard",
+      range = true,
+    }
+  )
 end
 
 return M

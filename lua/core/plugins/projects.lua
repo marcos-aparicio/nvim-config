@@ -14,7 +14,6 @@ return {
 
       detection_methods = { "lsp", "pattern" },
 
-
       -- All the patterns used to detect root dir, when **"pattern"** is in
       -- detection_methods
       patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "Makefile", "package.json" },
@@ -27,7 +26,6 @@ return {
       -- Ex: { "~/.cargo/*", ... }
       exclude_dirs = {},
 
-
       -- Show hidden files in telescope
       show_hidden = false,
 
@@ -39,13 +37,12 @@ return {
       -- * global (default)
       -- * tab
       -- * win
-      scope_chdir = 'global',
-
+      scope_chdir = "global",
 
       -- Path where project.nvim will store the project history for use in
       -- telescope
       datapath = vim.fn.stdpath("data"),
     },
-    main = "project_nvim"
-  }
+    main = "project_nvim",
+  },
 }

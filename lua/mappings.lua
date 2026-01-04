@@ -5,7 +5,7 @@ local keymaps = {
   -- lazy commands
   { "n", "<leader>lp", ":Lazy profile<CR>" },
   --
-  { "n", "<leader>w",  ":w<CR>" },
+  { "n", "<leader>w", ":w<CR>" },
 
   {
     "n",
@@ -31,82 +31,82 @@ local keymaps = {
     end,
     { desc = "Custom closing of buffer" },
   },
-  { "n",          "<leader>v",  ":vs<CR>" },
-  { "n",          "<leader>h",  ":sp<CR>" },
-  { "n",          ",",          "%" },
-  { "n",          "<C-h>",      "<C-w>h" },
-  { "n",          "<C-l>",      "<C-w>l" },
-  { "n",          "<C-j>",      "<C-w>j" },
-  { "n",          "<C-k>",      "<C-w>k" },
+  { "n", "<leader>v", ":vs<CR>" },
+  { "n", "<leader>h", ":sp<CR>" },
+  { "n", ",", "%" },
+  { "n", "<C-h>", "<C-w>h" },
+  { "n", "<C-l>", "<C-w>l" },
+  { "n", "<C-j>", "<C-w>j" },
+  { "n", "<C-k>", "<C-w>k" },
   -- better normal/visual mode movement
-  { { "n", "v" }, "gl",         "g$" },
-  { { "n", "v" }, "gh",         "g^" },
-  { { "n", "v" }, "gt",         "gg" },
-  { { "n", "v" }, "gb",         "G" },
-  { "n",          "gL",         "$" },
-  { "n",          "gH",         "^" },
-  { "n",          "ygl",        "y$" },
-  { "n",          "ygh",        "y^" },
-  { "n",          "<C-Tab>",    ":tabnext<CR>" },
-  { "n",          "<C-S-Tab>",  ":tabprevious<CR>" },
-  { "n",          "<C-w>",      ":tabclose<CR>" },
+  { { "n", "v" }, "gl", "g$" },
+  { { "n", "v" }, "gh", "g^" },
+  { { "n", "v" }, "gt", "gg" },
+  { { "n", "v" }, "gb", "G" },
+  { "n", "gL", "$" },
+  { "n", "gH", "^" },
+  { "n", "ygl", "y$" },
+  { "n", "ygh", "y^" },
+  { "n", "<C-Tab>", ":tabnext<CR>" },
+  { "n", "<C-S-Tab>", ":tabprevious<CR>" },
+  { "n", "<C-w>", ":tabclose<CR>" },
   -- some positioning remappings
-  { "n",          "zj",         "zt" },
-  { "n",          "zk",         "zb" },
+  { "n", "zj", "zt" },
+  { "n", "zk", "zb" },
   -- some navigation normal remappings
-  { "n",          "<leader>k",  ":b#<CR>" },
-  { { "n", "v" }, "j",          "gj" },
-  { { "n", "v" }, "k",          "gk" },
-  { "n",          "<C-d>",      "<C-d>zz" },
-  { "n",          "<C-u>",      "<C-u>zz" },
-  { "n",          "<C-o>",      "<C-o>zz" },
-  { "n",          "N",          "Nzzzv" },
-  { "n",          "n",          "nzzzv" },
+  { "n", "<leader>k", ":b#<CR>" },
+  { { "n", "v" }, "j", "gj" },
+  { { "n", "v" }, "k", "gk" },
+  { "n", "<C-d>", "<C-d>zz" },
+  { "n", "<C-u>", "<C-u>zz" },
+  { "n", "<C-o>", "<C-o>zz" },
+  { "n", "N", "Nzzzv" },
+  { "n", "n", "nzzzv" },
   -- better curly brackets manipulation
-  { "n",          "dic",        "diB" },
-  { "n",          "dac",        "daB" },
-  { "n",          "cic",        "ciB" },
-  { "n",          "cac",        "caB" },
-  { "v",          "ic",         "iB" },
-  { "v",          "ac",         "aB" },
+  { "n", "dic", "diB" },
+  { "n", "dac", "daB" },
+  { "n", "cic", "ciB" },
+  { "n", "cac", "caB" },
+  { "v", "ic", "iB" },
+  { "v", "ac", "aB" },
   -- basic insert remappings
-  { "i",          "kj",         "<Esc>" },
-  { "i",          "<C-e>",      "<C-o>$" },
-  { "i",          "<C-a>",      "<C-o>^" },
+  { "i", "kj", "<Esc>" },
+  { "i", "<C-e>", "<C-o>$" },
+  { "i", "<C-a>", "<C-o>^" },
   -- { "i", "<C-d>", "<C-o>o" },
-  { "i",          "<C-v>",      "<C-r>+" },
+  { "i", "<C-v>", "<C-r>+" },
   -- better replacing and handle of commands
-  { "n",          "<leader>s",  ":s//gI<Left><Left><Left>" },
-  { "v",          "<leader>s",  ":s//g<Left><Left>" },
-  { "n",          "<TAB>",      ">>" },
-  { "n",          "<S-TAB>",    "<<" },
-  { "i",          "<TAB>",      "<C-t>" },
-  { "i",          "<S-TAB>",    "<C-d>" },
-  { "v",          "<TAB>",      ">gv" },
-  { "v",          "<S-TAB>",    "<gv" },
+  { "n", "<leader>s", ":s//gI<Left><Left><Left>" },
+  { "v", "<leader>s", ":s//g<Left><Left>" },
+  { "n", "<TAB>", ">>" },
+  { "n", "<S-TAB>", "<<" },
+  { "i", "<TAB>", "<C-t>" },
+  { "i", "<S-TAB>", "<C-d>" },
+  { "v", "<TAB>", ">gv" },
+  { "v", "<S-TAB>", "<gv" },
   -- terminal mappings
-  { "t",          "<C-j>",      "<C-\\><C-N><C-w>j" },
-  { "t",          "<C-k>",      "<C-\\><C-N><C-w>k" },
-  { "t",          "<C-h>",      "<C-\\><C-N><C-w>h" },
-  { "t",          "<C-n>",      "<C-\\><C-N>" },
-  { "t",          "<C-q>",      "<C-\\><C-N>:bd!<CR>" },
-  { "t",          "<C-S-h>",    "<C-\\><C-N>:vertical resize -2<CR>" },
-  { "t",          "<C-S-j>",    "<C-\\><C-N>:resize +2<CR>" },
-  { "t",          "<C-S-k>",    "<C-\\><C-N>:resize -2<CR>" },
-  { "t",          "<C-S-l>",    "<C-\\><C-N>:vertical resize +2<CR>" },
+  { "t", "<C-j>", "<C-\\><C-N><C-w>j" },
+  { "t", "<C-k>", "<C-\\><C-N><C-w>k" },
+  { "t", "<C-h>", "<C-\\><C-N><C-w>h" },
+  { "t", "<C-n>", "<C-\\><C-N>" },
+  { "t", "<C-q>", "<C-\\><C-N>:bd!<CR>" },
+  { "t", "<C-S-h>", "<C-\\><C-N>:vertical resize -2<CR>" },
+  { "t", "<C-S-j>", "<C-\\><C-N>:resize +2<CR>" },
+  { "t", "<C-S-k>", "<C-\\><C-N>:resize -2<CR>" },
+  { "t", "<C-S-l>", "<C-\\><C-N>:vertical resize +2<CR>" },
   -- source current file
-  { "n",          "<leader>x",  ":source %<CR>" },
+  { "n", "<leader>x", ":source %<CR>" },
   -- quickfix mappings
-  { "n",          "<leader>co", ":copen<CR>" },
-  { "n",          "<leader>cq", ":cclose<CR>" },
-  { "n",          "<leader>cj", ":cnext<CR>" },
-  { "n",          "<leader>ck", ":cprev<CR>" },
+  { "n", "<leader>co", ":copen<CR>" },
+  { "n", "<leader>cq", ":cclose<CR>" },
+  { "n", "<leader>cj", ":cnext<CR>" },
+  { "n", "<leader>ck", ":cprev<CR>" },
   -- resizing windows
-  { "n",          "<C-S-h>",    ":vertical resize -2<CR>" },
-  { "n",          "<C-S-j>",    ":resize -2<CR>" },
-  { "n",          "<C-S-k>",    ":resize +2<CR>" },
-  { "n",          "<C-S-l>",    ":vertical resize +2<CR>" },
-  { "n",          "<leader>rr", ":ExecuteCurrentBuffer<CR>" },
+  { "n", "<C-S-h>", ":vertical resize -2<CR>" },
+  { "n", "<C-S-j>", ":resize -2<CR>" },
+  { "n", "<C-S-k>", ":resize +2<CR>" },
+  { "n", "<C-S-l>", ":vertical resize +2<CR>" },
+  { "n", "<leader>rr", ":ExecuteCurrentBuffer<CR>" },
   {
     "n",
     "<C-y>",
@@ -119,19 +119,19 @@ local keymaps = {
     "v",
     "<leader>bb",
     function()
-    vim.cmd('normal! "sy')
-    -- Open or switch to a scratch buffer
-    vim.cmd('enew')  -- creates a new empty buffer
-    -- vim.bo.buftype = 'nofile'
-    -- vim.bo.bufhidden = 'hide'
-    -- vim.bo.swapfile = false
-    vim.bo.buftype = ''
-    vim.bo.bufhidden = ''
-    vim.bo.swapfile = true
-    -- Paste the yanked text
-    vim.cmd('normal! "sp')
-    vim.notify("hello world")
-    end
+      vim.cmd('normal! "sy')
+      -- Open or switch to a scratch buffer
+      vim.cmd("enew") -- creates a new empty buffer
+      -- vim.bo.buftype = 'nofile'
+      -- vim.bo.bufhidden = 'hide'
+      -- vim.bo.swapfile = false
+      vim.bo.buftype = ""
+      vim.bo.bufhidden = ""
+      vim.bo.swapfile = true
+      -- Paste the yanked text
+      vim.cmd('normal! "sp')
+      vim.notify("hello world")
+    end,
   },
   {
     "n",
@@ -139,7 +139,7 @@ local keymaps = {
     function()
       vim.api.nvim_feedkeys("q:", "n", false)
       vim.api.nvim_feedkeys("i%! ", "n", false)
-    end
+    end,
   },
 }
 
@@ -178,7 +178,6 @@ autocmd({ "FileType" }, {
     end)
   end,
 })
-
 
 -- This code is definitely not mine, shotout to linkarzu for this awesome mappings!
 -- https://www.youtube.com/watch?v=EYczZLNEnIY
@@ -377,8 +376,6 @@ vim.keymap.set("n", "zi", function()
   vim.cmd("normal! zz") -- center the cursor line on screen
 end, { desc = "[P]Fold the heading cursor currently on" })
 
-
-
 vim.keymap.set("v", "<leader>qf", function()
   local start_pos = vim.fn.getpos("'<")
   local end_pos = vim.fn.getpos("'>")
@@ -388,7 +385,6 @@ vim.keymap.set("v", "<leader>qf", function()
   end
   local qf_entries = {}
   for i, text in ipairs(lines) do
-
     local fields = vim.split(text, ":", { plain = true })
     -- local lnum = start_pos[2] + i - 1
     table.insert(qf_entries, {
@@ -398,6 +394,6 @@ vim.keymap.set("v", "<leader>qf", function()
       text = fields[4],
     })
   end
-  vim.fn.setqflist(qf_entries, 'r')
+  vim.fn.setqflist(qf_entries, "r")
   vim.cmd("copen")
 end, { desc = "Add visual selection lines to quickfix list" })

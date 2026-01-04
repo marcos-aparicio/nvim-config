@@ -1,6 +1,6 @@
 return {
-	filetypes = {
-		"mail",
-		"tex",
-	},
+  filetypes = {
+    "mail",
+    "tex",
+  },
 }

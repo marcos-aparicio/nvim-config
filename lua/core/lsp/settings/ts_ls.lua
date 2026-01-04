@@ -1,6 +1,6 @@
 return {
   handlers = {
-    ['textDocument/publishDiagnostics'] = function(_, result, ctx)
+    ["textDocument/publishDiagnostics"] = function(_, result, ctx)
       local ft
       local bufnr = ctx.bufnr
       if bufnr and vim.api.nvim_buf_is_valid(bufnr) then
@@ -18,7 +18,7 @@ return {
       if ft == "javascript" or ft == "javascriptreact" then
         result.diagnostics = {}
       end
-      return vim.lsp.handlers['textDocument/publishDiagnostics'](nil, result, ctx)
-    end
-  }
+      return vim.lsp.handlers["textDocument/publishDiagnostics"](nil, result, ctx)
+    end,
+  },
 }
