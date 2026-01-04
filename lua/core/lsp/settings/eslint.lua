@@ -1,3 +1,3 @@
 return {
-	dynamicRegistration = true,
+  dynamicRegistration = true,
 }

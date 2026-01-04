@@ -1,8 +1,8 @@
 local list_patterns = {
   unordered = "[-+*]", -- - + *
-  digit = "%d+[.)]",   -- 1. 2. 3.
-  ascii = "%a[.)]",    -- a) b) c)
-  roman = "%u*[.)]",   -- I. II. III.
+  digit = "%d+[.)]", -- 1. 2. 3.
+  ascii = "%a[.)]", -- a) b) c)
+  roman = "%u*[.)]", -- I. II. III.
   latex_item = "\\item",
 }
 
@@ -44,25 +44,25 @@ return {
     checkbox = {
       custom = {
         todo = {
-          raw = '[-]',
-          rendered = '󰥔 ',
-          highlight = 'RenderMarkdownTodo',
-          scope_highlight = nil
+          raw = "[-]",
+          rendered = "󰥔 ",
+          highlight = "RenderMarkdownTodo",
+          scope_highlight = nil,
         },
         not_gonna_do = {
-          raw = '[c]',
-          rendered = '󰅖 ', -- choose an appropriate icon
-          highlight = 'RenderMarkdownTodoCancelled',
-          scope_highlight = nil
+          raw = "[c]",
+          rendered = "󰅖 ", -- choose an appropriate icon
+          highlight = "RenderMarkdownTodoCancelled",
+          scope_highlight = nil,
         },
         waiting = {
-          raw = '[w]',
-          rendered = '⏳',
-          highlight = 'RenderMarkdownTodoCancelled',
-          scope_highlight = nil
+          raw = "[w]",
+          rendered = "⏳",
+          highlight = "RenderMarkdownTodoCancelled",
+          scope_highlight = nil,
         },
       },
-    }
+    },
   },
   init = function()
     require("core.plugins.markdown.autocmds").setup()

@@ -1,4 +1,4 @@
-local globals = require "globals"
+local globals = require("globals")
 local M = {}
 
 local function setup_markdown_features()

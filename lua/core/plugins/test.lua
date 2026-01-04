@@ -12,7 +12,7 @@ return {
       "nvim-neotest/nvim-nio",
       {
         "fredrikaverpil/neotest-golang",
-        version = "*",                                                          -- Optional, but recommended; track releases
+        version = "*", -- Optional, but recommended; track releases
         build = function()
           vim.system({ "go", "install", "gotest.tools/gotestsum@latest" }):wait() -- Optional, but recommended
         end,
@@ -54,13 +54,13 @@ return {
             ---@param file_path string Path of the potential vitest test file
             ---@return boolean
             is_test_file = function(file_path)
-              return file_path:match("%.test%.js$") or
-                  file_path:match("%.test%.ts$") or
-                  file_path:match("%.test%.jsx$") or
-                  file_path:match("%.test%.tsx$")
+              return file_path:match("%.test%.js$")
+                or file_path:match("%.test%.ts$")
+                or file_path:match("%.test%.jsx$")
+                or file_path:match("%.test%.tsx$")
             end,
           }),
-          require("neotest-golang")
+          require("neotest-golang"),
         },
       }
     end,

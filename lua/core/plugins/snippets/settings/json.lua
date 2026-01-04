@@ -2,7 +2,6 @@ local prequire = require("utils").prequire
 local ls = prequire("luasnip")
 local date = require("date")
 
-
 if not ls then
   return
 end

@@ -10,7 +10,7 @@ return {
   "tpope/vim-speeddating",
   "tpope/vim-dispatch",
   -- "Treesitter for rasi filetype"
-  { "Fymyte/rasi.vim",          ft = "rasi" },
+  { "Fymyte/rasi.vim", ft = "rasi" },
   {
     "christoomey/vim-tmux-navigator",
     cmd = {
@@ -21,19 +21,22 @@ return {
       "TmuxNavigatePrevious",
     },
     keys = {
-      { "<C-h>",  "<cmd><C-U>TmuxNavigateLeft<cr>" },
-      { "<C-j>",  "<cmd><C-U>TmuxNavigateDown<cr>" },
-      { "<C-k>",  "<cmd><C-U>TmuxNavigateUp<cr>" },
-      { "<C-l>",  "<cmd><C-U>TmuxNavigateRight<cr>" },
+      { "<C-h>", "<cmd><C-U>TmuxNavigateLeft<cr>" },
+      { "<C-j>", "<cmd><C-U>TmuxNavigateDown<cr>" },
+      { "<C-k>", "<cmd><C-U>TmuxNavigateUp<cr>" },
+      { "<C-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
       { "<C-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
     },
   },
   { "andrewradev/linediff.vim", cmd = "Linediff" },
-  { "lukas-reineke/virt-column.nvim", opts = {
-    char ={ ".","." },
-    virtcolumn = "80,100",
-    highlight = {"@comment","@comment"}
-  } },
+  {
+    "lukas-reineke/virt-column.nvim",
+    opts = {
+      char = { ".", "." },
+      virtcolumn = "80,100",
+      highlight = { "@comment", "@comment" },
+    },
+  },
   {
     "catgoose/nvim-colorizer.lua",
     event = "BufReadPre",
@@ -45,13 +48,18 @@ return {
   --   event = { "BufReadPost", "BufWritePost", "BufNewFile" },
   --   opts = {},
   -- },
-  { "Pocco81/HighStr.nvim",  main = "high-str",       opts = {} },
+  { "Pocco81/HighStr.nvim", main = "high-str", opts = {} },
   {
     "ziontee113/color-picker.nvim",
     cmd = { "PickColor", "PickColorInsert" },
     keys = {
-      { "<leader><leader>co", "<Cmd>PickColor<CR>",       mode = { "n" }, desc = "Open color picker" },
-      { "<C-c>",              "<Cmd>PickColorInsert<CR>", mode = { "i" } },
+      {
+        "<leader><leader>co",
+        "<Cmd>PickColor<CR>",
+        mode = { "n" },
+        desc = "Open color picker",
+      },
+      { "<C-c>", "<Cmd>PickColorInsert<CR>", mode = { "i" } },
     },
     main = "color-picker",
     opts = {},
@@ -67,7 +75,7 @@ return {
     cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
     keys = {
       { "<C-p>", "<Cmd>MarkdownPreview<CR>", ft = { "markdown", "vimwiki" } },
-      { ",ll",   "<Cmd>MarkdownPreview<CR>", ft = { "markdown", "vimwiki" } },
+      { ",ll", "<Cmd>MarkdownPreview<CR>", ft = { "markdown", "vimwiki" } },
     },
     ft = { "markdown", "vimwiki" },
     build = function()
@@ -79,9 +87,9 @@ return {
     ---@type snacks.Config
     opts = {
       bigfile = {
-        notify = true,            -- show notification when big file detected
+        notify = true, -- show notification when big file detected
         size = 1.5 * 1024 * 1024, -- 1.5MB
-        line_length = 500,       -- average line length (useful for minified files)
+        line_length = 500, -- average line length (useful for minified files)
         -- your bigfile configuration comes here
         -- or leave it empty to use the default settings
         -- refer to the configuration section below
@@ -168,15 +176,18 @@ return {
     "MagicDuck/grug-far.nvim",
     keys = {
       { "<leader>ln", ":GrugFar<CR>" },
-      { "<leader>lb", ":lua require('grug-far').open({ prefills = { paths = vim.fn.expand(\"%\") } })<CR>" },
+      {
+        "<leader>lb",
+        ":lua require('grug-far').open({ prefills = { paths = vim.fn.expand(\"%\") } })<CR>",
+      },
       {
         "<leader>lb",
         function()
-          require('grug-far').open({ visualSelectionUsage = 'operate-within-range' })
+          require("grug-far").open({ visualSelectionUsage = "operate-within-range" })
         end,
         mode = { "v" },
-        desc = 'grug-far: Search within range'
-      }
+        desc = "grug-far: Search within range",
+      },
     },
     config = function()
       require("grug-far").setup()
@@ -189,7 +200,7 @@ return {
       { "<leader>pa", desc = "Send all requests" },
       { "<leader>pb", desc = "Open scratchpad" },
     },
-    ft = {"http", "rest"},
+    ft = { "http", "rest" },
     opts = {
       global_keymaps = true,
 

@@ -22,7 +22,7 @@ function M.toggle_task_state()
 
   -- Helper function to find heading using Treesitter
   local function find_heading_by_treesitter(heading_text)
-    local parser = vim.treesitter.get_parser(buf, 'markdown')
+    local parser = vim.treesitter.get_parser(buf, "markdown")
     if not parser then
       return nil
     end
@@ -31,12 +31,15 @@ function M.toggle_task_state()
     local root = tree:root()
 
     -- Query for ATX level 2 headings
-    local query = vim.treesitter.query.parse('markdown', [[
+    local query = vim.treesitter.query.parse(
+      "markdown",
+      [[
       (atx_heading
         (atx_h2_marker)
         (inline) @content
       ) @heading
-    ]])
+    ]]
+    )
 
     for id, node in query:iter_captures(root, buf, 0, -1) do
       local name = query.captures[id]
@@ -56,7 +59,7 @@ function M.toggle_task_state()
 
   -- Find the start of the bullet point using Treesitter
   local function find_task_chunk()
-    local parser = vim.treesitter.get_parser(buf, 'markdown')
+    local parser = vim.treesitter.get_parser(buf, "markdown")
     if not parser then
       -- Fallback to original logic if Treesitter is not available
       local chunk_start = start_line
@@ -79,14 +82,17 @@ function M.toggle_task_state()
     local root = tree:root()
 
     -- Query for list items
-    local query = vim.treesitter.query.parse('markdown', [[
+    local query = vim.treesitter.query.parse(
+      "markdown",
+      [[
       (list_item
         (task_list_marker_checked)
       ) @task_item
       (list_item
         (task_list_marker_unchecked)
       ) @task_item
-    ]])
+    ]]
+    )
 
     for id, node in query:iter_captures(root, buf, 0, -1) do
       local start_row, _, end_row, _ = node:range()
@@ -152,7 +158,10 @@ function M.toggle_task_state()
   end
 
   local function removeLabel(line)
-    return line:gsub("%s+#_progress", ""):gsub("%s+#_done%s+%d%d%d%d%d%d%-%d%d%d%d", ""):gsub("%s+`untoggled`", "")
+    return line
+      :gsub("%s+#_progress", "")
+      :gsub("%s+#_done%s+%d%d%d%d%d%d%-%d%d%d%d", "")
+      :gsub("%s+`untoggled`", "")
   end
 
   local function insertLabelAfterCheckbox(line, label)
@@ -190,7 +199,6 @@ function M.toggle_task_state()
 
     vim.api.nvim_buf_set_lines(buf, chunk_start, chunk_end + 1, false, chunk)
     vim.notify("Marked as In Progress", vim.log.levels.INFO)
-
   elseif state == "progress" then
     chunk[1] = bulletToX(chunk[1])
     chunk[1] = removeLabel(chunk[1])
@@ -233,7 +241,6 @@ function M.toggle_task_state()
 
     vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
     vim.notify("Completed", vim.log.levels.INFO)
-
   elseif state == "done" then
     chunk[1] = bulletToBlank(chunk[1])
     chunk[1] = removeLabel(chunk[1])

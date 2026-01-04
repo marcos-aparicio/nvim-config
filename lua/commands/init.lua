@@ -8,8 +8,12 @@ user_cmd("OpenAlacrittyReadonly", function()
   local current_file = vim.fn.expand("%:p")
   local current_line, current_col = unpack(vim.api.nvim_win_get_cursor(0))
 
-  local alacritty_command =
-      string.format("alacritty --command nvim %s -R '+call cursor(%d, %d)'", current_file, current_line, current_col)
+  local alacritty_command = string.format(
+    "alacritty --command nvim %s -R '+call cursor(%d, %d)'",
+    current_file,
+    current_line,
+    current_col
+  )
   vim.fn.jobstart(alacritty_command, {
     detach = true,
   })
@@ -58,18 +62,18 @@ end, {
 })
 vim.keymap.set({ "n" }, "<leader>cc", ":PrintBufferPath<CR>")
 
-vim.api.nvim_create_user_command('DragToWindows', function()
+vim.api.nvim_create_user_command("DragToWindows", function()
   local buf_path = vim.api.nvim_buf_get_name(0)
   if buf_path == "" then
     print("No file in current buffer.")
     return
   end
   -- Convert to Windows path using wslpath
-  local win_path = vim.fn.system({ 'wslpath', '-w', buf_path }):gsub("\n", "")
+  local win_path = vim.fn.system({ "wslpath", "-w", buf_path }):gsub("\n", "")
   if win_path == "" then
     print("Could not convert path.")
     return
   end
   -- Open in Explorer using system()
-  vim.fn.system({ 'explorer.exe', '/select,' .. win_path })
+  vim.fn.system({ "explorer.exe", "/select," .. win_path })
 end, {})

@@ -13,7 +13,7 @@ local snippets = {
   s("usvg", {
     t({ "<svg>", '<use xmlns:xlink="http://www.w3.org/2000/svg" xlink:href="#' }),
     i(1, "icon-id"),
-    t({ '"></use>', "</svg>" })
-  })
+    t({ '"></use>', "</svg>" }),
+  }),
 }
 ls.add_snippets("html", snippets)

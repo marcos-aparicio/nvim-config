@@ -1,6 +1,5 @@
 local M = {}
 
-
 local function get_h1_from_file(filename)
   -- Get buffer number, create if doesn't exist
   local bufnr = vim.fn.bufnr(filename)
@@ -20,13 +19,18 @@ local function get_h1_from_file(filename)
   end
 
   local ok, parser = pcall(vim.treesitter.get_parser, bufnr, "markdown")
-  if not ok or not parser then return "" end
+  if not ok or not parser then
+    return ""
+  end
 
-  local query = vim.treesitter.query.parse("markdown", [[
+  local query = vim.treesitter.query.parse(
+    "markdown",
+    [[
     (atx_heading
       (atx_h1_marker)
       (inline) @h1_text)
-  ]])
+  ]]
+  )
   local tree = parser:parse()[1]
   for _, node in query:iter_captures(tree:root(), bufnr, 0) do
     local text = vim.treesitter.get_node_text(node, bufnr)
@@ -100,31 +104,32 @@ function M.get_tag_telescope_finder(tag, unique_by_filename)
       ::continue::
     end
 
-    pickers.new(themes.get_ivy({
-      prompt_title = tag,
-      finder = finders.new_table({
-        results = entries,
-        entry_maker = function(entry)
-          return {
-            value = entry,
-            display = entry.display,
-            ordinal = entry.filename .. " " .. (entry.text or ""),
-            filename = entry.filename,
-            lnum = entry.lnum,
-            col = entry.col,
-          }
-        end,
-      }),
-      sorter = conf.generic_sorter({}),
-      previewer = conf.grep_previewer({}),
-      layout_config = { preview_width = 0.5 },
-      wrap_results = true,
-    })):find()
+    pickers
+      .new(themes.get_ivy({
+        prompt_title = tag,
+        finder = finders.new_table({
+          results = entries,
+          entry_maker = function(entry)
+            return {
+              value = entry,
+              display = entry.display,
+              ordinal = entry.filename .. " " .. (entry.text or ""),
+              filename = entry.filename,
+              lnum = entry.lnum,
+              col = entry.col,
+            }
+          end,
+        }),
+        sorter = conf.generic_sorter({}),
+        previewer = conf.grep_previewer({}),
+        layout_config = { preview_width = 0.5 },
+        wrap_results = true,
+      }))
+      :find()
   end)
 end
 
-
-local function pick_tag_and_search(tag_filter_fn, picker_title,unique_by_filename)
+local function pick_tag_and_search(tag_filter_fn, picker_title, unique_by_filename)
   local pickers = require("telescope.pickers")
   local finders = require("telescope.finders")
   local conf = require("telescope.config").values
@@ -156,29 +161,32 @@ local function pick_tag_and_search(tag_filter_fn, picker_title,unique_by_filenam
       return
     end
 
-    pickers.new({}, {
-      prompt_title = picker_title and picker_title or "Select Tag",
-      finder = finders.new_table({ results = tag_list }),
-      sorter = conf.generic_sorter({}),
-      attach_mappings = function(prompt_bufnr, map)
-        actions.select_default:replace(function()
-          actions.close(prompt_bufnr)
-          local selection = action_state.get_selected_entry()
-          if not selection then
-            return
-          end
+    pickers
+      .new({}, {
+        prompt_title = picker_title and picker_title or "Select Tag",
+        finder = finders.new_table({ results = tag_list }),
+        sorter = conf.generic_sorter({}),
+        attach_mappings = function(prompt_bufnr, map)
+          actions.select_default:replace(function()
+            actions.close(prompt_bufnr)
+            local selection = action_state.get_selected_entry()
+            if not selection then
+              return
+            end
 
-          M.get_tag_telescope_finder(selection[1],unique_by_filename)
-
-        end)
-        return true
-      end,
-    }):find()
+            M.get_tag_telescope_finder(selection[1], unique_by_filename)
+          end)
+          return true
+        end,
+      })
+      :find()
   end)
 end
 
 function M.search_tasks_with_tag(tag)
-  if not tag or tag == "" then return end
+  if not tag or tag == "" then
+    return
+  end
   local pattern = string.format("^\\s*- \\[[ -]\\].*%s", vim.pesc(tag))
   require("telescope.builtin").grep_string(require("telescope.themes").get_ivy({
     prompt_title = "Tasks with tag: " .. tag,
@@ -188,7 +196,9 @@ function M.search_tasks_with_tag(tag)
     initial_mode = "normal",
     layout_config = { preview_width = 0.5 },
     wrap_results = true,
-    additional_args = function() return { "--no-ignore" } end,
+    additional_args = function()
+      return { "--no-ignore" }
+    end,
   }))
 end
 
@@ -225,21 +235,25 @@ function M.pick_task_tag_and_search()
       return
     end
 
-    pickers.new({}, {
-      prompt_title = "Select Task Tag",
-      finder = finders.new_table({ results = tag_list }),
-      sorter = conf.generic_sorter({}),
-      attach_mappings = function(prompt_bufnr, map)
-        actions.select_default:replace(function()
-          actions.close(prompt_bufnr)
-          local selection = action_state.get_selected_entry()
-          if not selection then return end
-          local tag = selection[1]
-          M.search_tasks_with_tag(tag)
-        end)
-        return true
-      end,
-    }):find()
+    pickers
+      .new({}, {
+        prompt_title = "Select Task Tag",
+        finder = finders.new_table({ results = tag_list }),
+        sorter = conf.generic_sorter({}),
+        attach_mappings = function(prompt_bufnr, map)
+          actions.select_default:replace(function()
+            actions.close(prompt_bufnr)
+            local selection = action_state.get_selected_entry()
+            if not selection then
+              return
+            end
+            local tag = selection[1]
+            M.search_tasks_with_tag(tag)
+          end)
+          return true
+        end,
+      })
+      :find()
   end)
 end
 
@@ -252,7 +266,9 @@ function M.search_completed_tasks()
     initial_mode = "normal",
     layout_config = { preview_width = 0.5 },
     wrap_results = true,
-    additional_args = function() return { "--no-ignore" } end,
+    additional_args = function()
+      return { "--no-ignore" }
+    end,
   }))
 end
 
@@ -265,7 +281,9 @@ function M.search_progress_tasks()
     initial_mode = "normal",
     layout_config = { preview_width = 0.5 },
     wrap_results = true,
-    additional_args = function() return { "--no-ignore" } end,
+    additional_args = function()
+      return { "--no-ignore" }
+    end,
   }))
 end
 
@@ -277,10 +295,11 @@ function M.search_incomplete_tasks()
     use_regex = true,
     initial_mode = "normal",
     layout_config = { preview_width = 0.5 },
-    additional_args = function() return { "--no-ignore" } end,
+    additional_args = function()
+      return { "--no-ignore" }
+    end,
   }))
 end
-
 
 function M.get_all_task_tags()
   local tags = {}

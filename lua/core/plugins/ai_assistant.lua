@@ -46,7 +46,6 @@ local codecompanion_config = {
   },
 }
 
-
 local copilotchat_config = {
   "copilotc-nvim/copilotchat.nvim",
   dependencies = {
@@ -57,63 +56,63 @@ local copilotchat_config = {
   opts = {
     mappings = {
       show_help = {
-        normal = "?"
+        normal = "?",
       },
       reset = {
         insert = "",
-        normal = "grs"
-      }
-    }
+        normal = "grs",
+      },
+    },
   },
 }
 
 if USE_CODECOMPANION then
   return { codecompanion_config }
 else
-	return {
-		{
-			"copilotc-nvim/copilotchat.nvim",
-			dependencies = {
-				{ "nvim-lua/plenary.nvim", branch = "master" },
-			},
-			cmd = { "CopilotChatToggle", "CopilotChat" },
-			keys = {
-				{ "<leader>ac", ":CopilotChatToggle<cr>" },
-				{ "<leader>a.", ":CopilotChatSave ", mode = "n", ft = "copilot-chat" },
-				{
-					"<leader>a,",
+  return {
+    {
+      "copilotc-nvim/copilotchat.nvim",
+      dependencies = {
+        { "nvim-lua/plenary.nvim", branch = "master" },
+      },
+      cmd = { "CopilotChatToggle", "CopilotChat" },
+      keys = {
+        { "<leader>ac", ":CopilotChatToggle<cr>" },
+        { "<leader>a.", ":CopilotChatSave ", mode = "n", ft = "copilot-chat" },
+        {
+          "<leader>a,",
           ":CopilotChatLoad ",
           ft = "copilot-chat",
-					{ desc = "Open CopilotChat History Picker" },
-				},
-			},
-			build = "make tiktoken",
-			opts = {
-				mappings = {
-					show_help = {
-						normal = "?",
-					},
-					reset = {
-						normal = "grs",
-					},
-				},
-        functions ={
+          { desc = "Open CopilotChat History Picker" },
+        },
+      },
+      build = "make tiktoken",
+      opts = {
+        mappings = {
+          show_help = {
+            normal = "?",
+          },
+          reset = {
+            normal = "grs",
+          },
+        },
+        functions = {
           dir_tree = {
             description = "Returns a tree view of the given directory path",
             uri = "tree://{path}",
             schema = {
-              type = 'object',
-              required = { 'path' },
+              type = "object",
+              required = { "path" },
               properties = {
                 path = {
-                  type = 'string',
+                  type = "string",
                   description = "Directory path to display as a tree",
                 },
               },
             },
             resolve = function(input)
               local max_level = 4 -- set your desired depth
-              local handle = io.popen('tree -L ' .. max_level .. ' "' .. input.path .. '"')
+              local handle = io.popen("tree -L " .. max_level .. ' "' .. input.path .. '"')
               local result = ""
               if handle then
                 result = handle:read("*a")
@@ -123,15 +122,15 @@ else
               end
               return {
                 {
-                  uri = 'tree://' .. input.path,
-                  mimetype = 'text/plain',
+                  uri = "tree://" .. input.path,
+                  mimetype = "text/plain",
                   data = result,
-                }
+                },
               }
-            end
-          }
-        }
-			},
-		},
-	}
+            end,
+          },
+        },
+      },
+    },
+  }
 end
