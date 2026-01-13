@@ -1,17 +1,17 @@
 -- mini.files config extracted from https://github.com/linkarzu/dotfiles-latest/blob/main/neovim/neobean/lua/plugins/mini-files.lua Thank you for sharing!
 return {
   { "nvim-mini/mini.diff", opts = {} },
-  { "nvim-mini/mini.ai", opts = {} },
+  { "nvim-mini/mini.ai",   opts = {} },
   {
     "nvim-mini/mini.surround",
     opts = {
       mappings = {
-        add = "gsa", -- Add surrounding in Normal and Visual modes
-        delete = "gsd", -- Delete surrounding
-        find = "gsf", -- Find surrounding (to the right)
+        add = "gsa",       -- Add surrounding in Normal and Visual modes
+        delete = "gsd",    -- Delete surrounding
+        find = "gsf",      -- Find surrounding (to the right)
         find_left = "gsF", -- Find surrounding (to the left)
         highlight = "gsh", -- Highlight surrounding
-        replace = "gsr", -- Replace surrounding
+        replace = "gsr",   -- Replace surrounding
         suffix_last = "l", -- Suffix to search with "prev" method
         suffix_next = "n", -- Suffix to search with "next" method
       },
@@ -28,7 +28,7 @@ return {
     },
     lazy = false,
     keys = {
-      { "<leader>to", ":lua MiniDiff.toggle_overlay()<CR>" },
+      { "<leader>to", ":lua MiniDiff.toggle_overlay()<CR>", desc = "toggle mini.diff overlay" },
     },
   },
   {
