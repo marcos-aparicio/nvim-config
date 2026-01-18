@@ -585,13 +585,23 @@ function M.setup_buffer_keymaps()
     { buffer = true, desc = "Open selected markdown link in browser" }
   )
 
-  -- Task management
-  vim.keymap.set(
-    "n",
-    "<localleader>d",
-    task_mgmt.toggle_task_state,
-    { buffer = true, desc = "Toggle task state (blank → progress → done → blank)" }
-  )
+   -- Task management
+   vim.keymap.set(
+     "n",
+     "<localleader>d",
+     function()
+       task_mgmt.toggle_task_state("forward")
+     end,
+     { buffer = true, desc = "Toggle task state forward (blank → progress → done → blank)" }
+   )
+   vim.keymap.set(
+     "n",
+     "<localleader>D",
+     function()
+       task_mgmt.toggle_task_state("backward")
+     end,
+     { buffer = true, desc = "Toggle task state backward (blank → done → progress → blank)" }
+   )
 
   -- Diary note keymaps
   vim.keymap.set("n", "<leader>dh", function()
