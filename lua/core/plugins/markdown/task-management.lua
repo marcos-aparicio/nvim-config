@@ -185,157 +185,155 @@ function M.toggle_task_state(direction)
     end
   end
 
-   local state = getState(chunk[1])
+  -- Helper function to move chunk to completed section
+  local function moveToCompleted()
+    for i = chunk_end, chunk_start, -1 do
+      table.remove(lines, i + 1)
+    end
 
-   if direction == "forward" then
-     -- Forward: blank → progress → done → blank
-     if state == "blank" then
-       chunk[1] = bulletToProgress(chunk[1])
-       chunk[1] = removeLabel(chunk[1])
-       chunk[1] = insertLabelAfterCheckbox(chunk[1], label_progress)
+    local heading_index = find_heading_by_treesitter(tasks_heading)
+    if heading_index then
+      heading_index = heading_index + 1
+      for _, cLine in ipairs(chunk) do
+        table.insert(lines, heading_index + 1, cLine)
+        heading_index = heading_index + 1
+      end
+      local after_last_item = heading_index + 1
+      if lines[after_last_item] == "" then
+        table.remove(lines, after_last_item)
+      end
+    else
+      table.insert(lines, tasks_heading)
+      for _, cLine in ipairs(chunk) do
+        table.insert(lines, cLine)
+      end
+      local after_last_item = #lines + 1
+      if lines[after_last_item] == "" then
+        table.remove(lines, after_last_item)
+      end
+    end
+  end
 
-       for i = 2, #chunk do
-         chunk[i] = chunk[i]:gsub("%- %[%-%#_progress%]", label_progress)
-         chunk[i] = chunk[i]:gsub("%s+#_done%s+%d%d%d%d%d%d%-%d%d%d%d", label_done)
-         chunk[i] = chunk[i]:gsub("%s+`untoggled`", "")
-       end
+  -- State transition definitions: state -> { transformation, sub_transforms, notification }
+  local transitions = {
+    forward = {
+      blank = {
+        transform = function()
+          chunk[1] = bulletToProgress(chunk[1])
+        end,
+        sub_transforms = function()
+          for i = 1, #chunk do
+            chunk[i] = chunk[i]:gsub("%- %[%-%#_progress%]", label_progress)
+            chunk[i] = chunk[i]:gsub("%s+#_done%s+%d%d%d%d%d%d%-%d%d%d%d", label_done)
+            chunk[i] = chunk[i]:gsub("%s+`untoggled`", "")
+          end
+        end,
+        notification = "Marked as In Progress",
+        isLocal = true,
+      },
+      progress = {
+        transform = function()
+          chunk[1] = bulletToX(chunk[1])
+        end,
+        sub_transforms = function()
+          for i = 1, #chunk do
+            chunk[i] =
+              chunk[i]:gsub("%s+#_done%s+%d%d%d%d%d%d%-%d%d%d%d", label_done .. " " .. timestamp)
+            chunk[i] = chunk[i]:gsub("%s+#_progress", label_progress)
+            chunk[i] = chunk[i]:gsub("%s+`untoggled`", "")
+          end
+        end,
+        notification = "Completed",
+        isLocal = false,
+      },
+      done = {
+        transform = function()
+          chunk[1] = bulletToBlank(chunk[1])
+        end,
+        sub_transforms = function()
+          for i = 1, #chunk do
+            chunk[i] = chunk[i]:gsub("%s+#_progress", label_progress)
+            chunk[i] = chunk[i]:gsub("%s+#_done%s+%d%d%d%d%d%d%-%d%d%d%d", label_done)
+            chunk[i] = chunk[i]:gsub("%s+`untoggled`", "")
+          end
+        end,
+        notification = "Untoggled",
+        isLocal = true,
+      },
+    },
+    backward = {
+       blank = {
+         transform = function()
+           -- No transform needed, stays blank
+         end,
+         sub_transforms = function()
+           for i = 1, #chunk do
+             chunk[i] = chunk[i]:gsub("%s+#_progress", "")
+             chunk[i] = chunk[i]:gsub("%s+#_done%s+%d%d%d%d%d%d%-%d%d%d%d", "")
+             chunk[i] = chunk[i]:gsub("%s+`untoggled`", "")
+           end
+         end,
+         notification = "Removed from progress",
+         isLocal = true,
+       },
+      progress = {
+        transform = function()
+          chunk[1] = bulletToBlank(chunk[1])
+        end,
+        sub_transforms = function()
+          for i = 1, #chunk do
+            chunk[i] = chunk[i]:gsub("%s+#_progress", "")
+            chunk[i] = chunk[i]:gsub("%s+#_done%s+%d%d%d%d%d%d%-%d%d%d%d", label_done)
+            chunk[i] = chunk[i]:gsub("%s+`untoggled`", "")
+          end
+        end,
+        notification = "Marked as Blank",
+        isLocal = true,
+      },
+      done = {
+        transform = function()
+          chunk[1] = bulletToProgress(chunk[1])
+        end,
+        sub_transforms = function()
+          for i = 1, #chunk do
+            chunk[i] = chunk[i]:gsub("%- %[%-%#_progress%]", label_progress)
+            chunk[i] = chunk[i]:gsub("%s+#_done%s+%d%d%d%d%d%d%-%d%d%d%d", label_done)
+            chunk[i] = chunk[i]:gsub("%s+`untoggled`", "")
+          end
+        end,
+        notification = "Marked as In Progress (backward)",
+        isLocal = true,
+      },
+    },
+  }
 
-       vim.api.nvim_buf_set_lines(buf, chunk_start, chunk_end + 1, false, chunk)
-       vim.notify("Marked as In Progress", vim.log.levels.INFO)
-     elseif state == "progress" then
-       chunk[1] = bulletToX(chunk[1])
-       chunk[1] = removeLabel(chunk[1])
-       chunk[1] = insertDoneLabelWithDate(chunk[1], label_done, timestamp)
+  local state = getState(chunk[1])
 
-       for i = 2, #chunk do
-         chunk[i] = chunk[i]:gsub("%s+#_done%s+%d%d%d%d%d%d%-%d%d%d%d", label_done .. " " .. timestamp)
-         chunk[i] = chunk[i]:gsub("%s+#_progress", label_progress)
-         chunk[i] = chunk[i]:gsub("%s+`untoggled`", "")
-       end
+  if not transitions[direction] or not transitions[direction][state] then
+    vim.notify(
+      state and "Invalid direction. Use 'forward' or 'backward'" or "Unknown task state",
+      vim.log.levels.WARN
+    )
+    vim.cmd("loadview")
+    return
+  end
 
-       -- Move chunk to completed section using Treesitter
-       for i = chunk_end, chunk_start, -1 do
-         table.remove(lines, i + 1)
-       end
+   local trans = transitions[direction][state]
+   trans.transform()
+   chunk[1] = removeLabel(chunk[1])
+   chunk[1] = trans.isLocal
+       and insertLabelAfterCheckbox(chunk[1], state == "done" and "`untoggled`" or label_progress)
+     or insertDoneLabelWithDate(chunk[1], label_done, timestamp)
+   trans.sub_transforms()
 
-       local heading_index = find_heading_by_treesitter(tasks_heading)
+  if trans.isLocal then
+    vim.api.nvim_buf_set_lines(buf, chunk_start, chunk_end + 1, false, chunk)
+  else
+    moveToCompleted()
+    vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+  end
 
-       if heading_index then
-         -- Convert to 1-based indexing for table operations
-         heading_index = heading_index + 1
-         for _, cLine in ipairs(chunk) do
-           table.insert(lines, heading_index + 1, cLine)
-           heading_index = heading_index + 1
-         end
-         local after_last_item = heading_index + 1
-         if lines[after_last_item] == "" then
-           table.remove(lines, after_last_item)
-         end
-       else
-         table.insert(lines, tasks_heading)
-         for _, cLine in ipairs(chunk) do
-           table.insert(lines, cLine)
-         end
-         local after_last_item = #lines + 1
-         if lines[after_last_item] == "" then
-           table.remove(lines, after_last_item)
-         end
-       end
-
-       vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
-       vim.notify("Completed", vim.log.levels.INFO)
-     elseif state == "done" then
-       chunk[1] = bulletToBlank(chunk[1])
-       chunk[1] = removeLabel(chunk[1])
-       chunk[1] = insertLabelAfterCheckbox(chunk[1], "`untoggled`")
-
-       for i = 2, #chunk do
-         chunk[i] = chunk[i]:gsub("%s+#_progress", label_progress)
-         chunk[i] = chunk[i]:gsub("%s+#_done%s+%d%d%d%d%d%d%-%d%d%d%d", label_done)
-         chunk[i] = chunk[i]:gsub("%s+`untoggled`", "")
-       end
-
-       vim.api.nvim_buf_set_lines(buf, chunk_start, chunk_end + 1, false, chunk)
-       vim.notify("Untoggled", vim.log.levels.INFO)
-     else
-       vim.notify("Unknown task state", vim.log.levels.WARN)
-     end
-   elseif direction == "backward" then
-     -- Backward: blank → done → progress → blank
-     if state == "blank" then
-       chunk[1] = bulletToX(chunk[1])
-       chunk[1] = removeLabel(chunk[1])
-       chunk[1] = insertDoneLabelWithDate(chunk[1], label_done, timestamp)
-
-       for i = 2, #chunk do
-         chunk[i] = chunk[i]:gsub("%s+#_done%s+%d%d%d%d%d%d%-%d%d%d%d", label_done .. " " .. timestamp)
-         chunk[i] = chunk[i]:gsub("%s+#_progress", label_progress)
-         chunk[i] = chunk[i]:gsub("%s+`untoggled`", "")
-       end
-
-       -- Move chunk to completed section using Treesitter
-       for i = chunk_end, chunk_start, -1 do
-         table.remove(lines, i + 1)
-       end
-
-       local heading_index = find_heading_by_treesitter(tasks_heading)
-
-       if heading_index then
-         -- Convert to 1-based indexing for table operations
-         heading_index = heading_index + 1
-         for _, cLine in ipairs(chunk) do
-           table.insert(lines, heading_index + 1, cLine)
-           heading_index = heading_index + 1
-         end
-         local after_last_item = heading_index + 1
-         if lines[after_last_item] == "" then
-           table.remove(lines, after_last_item)
-         end
-       else
-         table.insert(lines, tasks_heading)
-         for _, cLine in ipairs(chunk) do
-           table.insert(lines, cLine)
-         end
-         local after_last_item = #lines + 1
-         if lines[after_last_item] == "" then
-           table.remove(lines, after_last_item)
-         end
-       end
-
-       vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
-       vim.notify("Completed (backward)", vim.log.levels.INFO)
-     elseif state == "progress" then
-       chunk[1] = bulletToBlank(chunk[1])
-       chunk[1] = removeLabel(chunk[1])
-       chunk[1] = insertLabelAfterCheckbox(chunk[1], "`untoggled`")
-
-       for i = 2, #chunk do
-         chunk[i] = chunk[i]:gsub("%s+#_progress", label_progress)
-         chunk[i] = chunk[i]:gsub("%s+#_done%s+%d%d%d%d%d%d%-%d%d%d%d", label_done)
-         chunk[i] = chunk[i]:gsub("%s+`untoggled`", "")
-       end
-
-       vim.api.nvim_buf_set_lines(buf, chunk_start, chunk_end + 1, false, chunk)
-       vim.notify("Marked as Blank", vim.log.levels.INFO)
-     elseif state == "done" then
-       chunk[1] = bulletToProgress(chunk[1])
-       chunk[1] = removeLabel(chunk[1])
-       chunk[1] = insertLabelAfterCheckbox(chunk[1], label_progress)
-
-       for i = 2, #chunk do
-         chunk[i] = chunk[i]:gsub("%- %[%-%#_progress%]", label_progress)
-         chunk[i] = chunk[i]:gsub("%s+#_done%s+%d%d%d%d%d%d%-%d%d%d%d", label_done)
-         chunk[i] = chunk[i]:gsub("%s+`untoggled`", "")
-       end
-
-       vim.api.nvim_buf_set_lines(buf, chunk_start, chunk_end + 1, false, chunk)
-       vim.notify("Marked as In Progress (backward)", vim.log.levels.INFO)
-     else
-       vim.notify("Unknown task state", vim.log.levels.WARN)
-     end
-   else
-     vim.notify("Invalid direction. Use 'forward' or 'backward'", vim.log.levels.WARN)
-   end
+  vim.notify(trans.notification, vim.log.levels.INFO)
 
   vim.cmd("silent update")
   vim.cmd("loadview")
