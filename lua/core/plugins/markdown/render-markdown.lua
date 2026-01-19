@@ -61,6 +61,12 @@ return {
           highlight = "RenderMarkdownTodoCancelled",
           scope_highlight = nil,
         },
+        incubating = {
+          raw = "[0]",
+          rendered = "🥚",
+          highlight = "RenderMarkdownTodoCancelled",
+          scope_highlight = nil,
+        }
       },
     },
   },
