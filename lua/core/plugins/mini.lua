@@ -28,7 +28,7 @@ return {
     },
     lazy = false,
     keys = {
-      { "<leader>to", ":lua MiniDiff.toggle_overlay()<CR>", desc = "toggle mini.diff overlay" },
+      { "<leader>gh", ":lua MiniDiff.toggle_overlay()<CR>", desc = "toggle mini.diff overlay" },
     },
   },
   {
