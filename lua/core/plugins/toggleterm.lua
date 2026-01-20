@@ -33,6 +33,25 @@ return {
       desc = "Open lazygit in floating terminal",
     },
     {
+      "<leader>lc",
+      function()
+        local Terminal = require("toggleterm.terminal").Terminal
+        local lazygit = Terminal:new({
+          cmd = "ikhal",
+          direction = "float",
+          close_on_exit = true,
+          float_opts = {
+            border = "rounded",
+            width = math.floor(vim.o.columns * 0.85),
+            height = math.floor(vim.o.lines * 0.85),
+          },
+        })
+        lazygit:open()
+      end,
+      mode = { "n", "t" },
+      desc = "Open ikhal in floating terminal",
+    },
+    {
       "<leader><leader>tr",
       function()
         if not _G.translate_shell_term then
