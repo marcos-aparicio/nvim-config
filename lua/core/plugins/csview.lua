@@ -20,5 +20,25 @@ return {
     },
   },
   cmd = { "CsvViewEnable", "CsvViewDisable", "CsvViewToggle" },
+  keys = {
+    {
+      "<leader>csve",
+      ":CsvViewEnable",
+      mode = "n",
+      desc = "Type :CsvViewEnable in command-line (do not execute)"
+    },
+    {
+      "<leader>csvd",
+      "<cmd>CsvViewDisable<cr>",
+      mode = "n",
+      desc = "Disable CSV view"
+    },
+    {
+      "<leader>csvt",
+      "<cmd>CsvViewToggle<cr>",
+      mode = "n",
+      desc = "Toggle CSV view"
+    }
+  },
   ft = { "csv", "tsv" }
 }
