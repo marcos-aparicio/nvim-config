@@ -100,7 +100,7 @@ local function open_weekly_note_for_date(date_str)
     local thursday = t + (4 - dow) * 24 * 60 * 60
     local week = tonumber(os.date("%V", thursday))
     local week_year = tonumber(os.date("%G", thursday))
-    return string.format("%d-W%d", week_year, week)
+    return string.format("%d-W%02d", week_year, week)
   end
 
   local week_str = iso_week(date_str)
