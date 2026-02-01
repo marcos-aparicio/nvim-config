@@ -2,6 +2,26 @@ local M = {}
 
 local bookmarks_repo = os.getenv("HOME") .. "/Documents/Areas/Obsidian/bookmarks"
 
+-- Helper function to convert Unix timestamp to French format with day of week
+-- e.g., timestamp for 2026-01-28 becomes "mercredi 28 janvier 2026"
+local function format_date_french(timestamp)
+  local french_weekdays = {
+    "dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"
+  }
+  
+  local french_months = {
+    "janvier", "février", "mars", "avril", "mai", "juin",
+    "juillet", "août", "septembre", "octobre", "novembre", "décembre"
+  }
+  
+  local dow = tonumber(os.date("%w", timestamp)) + 1 -- +1 because Lua tables are 1-indexed
+  local day = tonumber(os.date("%d", timestamp))
+  local month = tonumber(os.date("%m", timestamp))
+  local year = tonumber(os.date("%Y", timestamp))
+  
+  return string.format("%s %d %s %d", french_weekdays[dow], day, french_months[month], year)
+end
+
 -- Helper to find project root by locating .obsidian directory
 local function find_obsidian_root(start_path)
   local Path = require("plenary.path")
@@ -41,31 +61,37 @@ local function open_diary_note_for_date(date_str)
     vim.fn.mkdir(diary_dir, "p")
   end
 
-  local diary_file = diary_dir .. "/" .. date_str .. ".md"
-  if vim.fn.filereadable(diary_file) == 0 then
-    local diary_content
-    if vim.fn.filereadable(diary_template) == 1 then
-      -- Read template and replace placeholders
-      diary_content = vim.fn.readfile(diary_template)
-      for i, line in ipairs(diary_content) do
-        diary_content[i] = line:gsub("{{date:YYYY%-MM%-DD}}", date_str)
+    local diary_file = diary_dir .. "/" .. date_str .. ".md"
+    if vim.fn.filereadable(diary_file) == 0 then
+      local diary_content
+      if vim.fn.filereadable(diary_template) == 1 then
+        -- Read template and replace placeholders
+        diary_content = vim.fn.readfile(diary_template)
+        local year, month, day = date_str:match("(%d+)%-(%d+)%-(%d+)")
+        if year and month and day then
+          local timestamp = os.time({ year = tonumber(year), month = tonumber(month), day = tonumber(day) })
+          local french_date = format_date_french(timestamp)
+          for i, line in ipairs(diary_content) do
+            diary_content[i] = line:gsub("{{date:YYYY%-MM%-DD}}", date_str)
+            diary_content[i] = diary_content[i]:gsub("{{date:french}}", french_date)
+          end
+        end
+      else
+        -- Fallback to hardcoded content
+        diary_content = {
+          "# " .. date_str .. " Diary",
+          "",
+          "## Notes",
+          "",
+          ".",
+          "",
+          "## Todo",
+          "",
+          ".",
+        }
       end
-    else
-      -- Fallback to hardcoded content
-      diary_content = {
-        "# " .. date_str .. " Diary",
-        "",
-        "## Notes",
-        "",
-        ".",
-        "",
-        "## Todo",
-        "",
-        ".",
-      }
+      vim.fn.writefile(diary_content, diary_file)
     end
-    vim.fn.writefile(diary_content, diary_file)
-  end
   vim.cmd("edit " .. diary_file)
 end
 
