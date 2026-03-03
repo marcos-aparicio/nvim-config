@@ -8,6 +8,7 @@ return {
     { "<leader>gc", ":G commit<CR>" },
     { "<leader>gu", ":G reset %<CR>" },
     { "<leader>gl", ":vertical G log -n 300<CR>" },
+    { "<leader>gf", ":G fetch<space>" },
     { "<leader>gps", ":G push<space>" },
     { "<leader>gpl", ":G pull origin<space>" },
     { "<leader>gnb", ':G checkout -b ""<left>' },
