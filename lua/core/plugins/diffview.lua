@@ -1,5 +1,5 @@
 return {
-  "sindrets/diffview.nvim",
+  "dlyongemallo/diffview.nvim",
   lazy = false,
   keys = {
     { "<leader>gd", ":DiffviewFileHistory %" },
