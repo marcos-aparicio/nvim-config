@@ -39,6 +39,7 @@ end
 local markdown_mappings = {
   s("todo", { t("- [ ] ") }),
   s("task", { t("* [ ] ") }),
+  s("smd", { t("* [ ] "), i(1), t(" #_someday") }),
   s("h6", { t("###### ") }),
   s("h5", { t("##### ") }),
   s("h4", { t("#### ") }),
