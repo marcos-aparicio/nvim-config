@@ -1,6 +1,7 @@
 local M = {}
 
 local diary = require("core.plugins.markdown.diary")
+local bookmarks_repo = os.getenv("HOME") .. "/Documents/Areas/Obsidian/bookmarks"
 
 local function create_task_with_tags()
   local telescope = require("core.plugins.markdown.telescope")
@@ -221,7 +222,7 @@ local function open_random_bookmark_note()
     vim.notify("plenary.nvim is required for bookmark keymap", vim.log.levels.ERROR)
     return
   end
-  local root = find_obsidian_root()
+  local root = diary.find_obsidian_root()
   if not root then
     vim.notify("Could not find .obsidian directory in parent folders", vim.log.levels.ERROR)
     return

@@ -8,17 +8,17 @@ local function format_date_french(timestamp)
   local french_weekdays = {
     "dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"
   }
-  
+
   local french_months = {
     "janvier", "février", "mars", "avril", "mai", "juin",
     "juillet", "août", "septembre", "octobre", "novembre", "décembre"
   }
-  
+
   local dow = tonumber(os.date("%w", timestamp)) + 1 -- +1 because Lua tables are 1-indexed
   local day = tonumber(os.date("%d", timestamp))
   local month = tonumber(os.date("%m", timestamp))
   local year = tonumber(os.date("%Y", timestamp))
-  
+
   return string.format("%s %d %s %d", french_weekdays[dow], day, french_months[month], year)
 end
 
@@ -35,6 +35,7 @@ local function find_obsidian_root(start_path)
   end
   return nil
 end
+M.find_obsidian_root = find_obsidian_root
 
 M.open_diary_note_for_date = function(date_str)
   local plenary_ok, _ = pcall(require, "plenary.path")
