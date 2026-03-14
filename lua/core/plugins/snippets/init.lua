@@ -12,6 +12,7 @@ return {
       "json",
       "css",
       "octo",
+      "yaml",
       "python",
       "markdown",
       "php",
