@@ -40,5 +40,5 @@ return {
       desc = "Toggle CSV view"
     }
   },
-  ft = { "csv", "tsv" }
+  ft = { "csv", "tsv", "psv" }
 }
