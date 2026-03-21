@@ -94,7 +94,6 @@ return {
       desc = "Toggle qalc in floating terminal",
     },
     { "<leader>ld", "<Cmd>TermExec direction=float cmd=lazydocker<CR>", mode = { "t", "n" } },
-    -- Custom key for lf in a floating terminal
     {
       "<leader>lf",
       function()
@@ -142,6 +141,39 @@ return {
       end,
       mode = { "n" },
       desc = "Pick file(s) via lf in floating terminal",
+    },
+    {
+      "<leader>cv",
+      function()
+        local Terminal = require("toggleterm.terminal").Terminal
+        local filepath = vim.api.nvim_buf_get_name(0)
+        
+        if not filepath or filepath == "" then
+          vim.notify("No file associated with this buffer", vim.log.levels.WARN)
+          return
+        end
+
+        -- Create a unique ID for this file's visidata terminal
+        local term_id = "visidata_" .. vim.fn.fnamemodify(filepath, ":t"):gsub("%.", "_")
+        
+        if not _G[term_id] then
+          _G[term_id] = Terminal:new({
+            cmd = "visidata " .. vim.fn.shellescape(filepath),
+            direction = "float",
+            close_on_exit = true,
+            float_opts = {
+              border = "rounded",
+              width = math.floor(vim.o.columns * 0.80),
+              height = math.floor(vim.o.lines * 0.80),
+            },
+          })
+        end
+        
+        _G[term_id]:toggle()
+      end,
+      ft = { "csv", "tsv", "psv", "json" },
+      mode = "n",
+      desc = "Open CSV/TSV/PSV/JSON with VisiData",
     },
   },
 }
