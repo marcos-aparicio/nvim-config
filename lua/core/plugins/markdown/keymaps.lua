@@ -1,6 +1,7 @@
 local M = {}
 
 local diary = require("core.plugins.markdown.diary")
+local lists = require("core.plugins.markdown.lists")
 local bookmarks_repo = os.getenv("HOME") .. "/Documents/Areas/Obsidian/bookmarks"
 
 local function create_task_with_tags()
@@ -582,6 +583,15 @@ function M.setup_buffer_keymaps()
     local next_week = os.date("%Y-%m-%d", os.time() + 7 * 24 * 60 * 60)
     diary.open_weekly_note_for_date(next_week)
   end, { buffer = true, desc = "Open next week's note" })
+
+  -- Lists keymaps
+  vim.keymap.set("n", "<leader>nn", function()
+    lists.open_next()
+  end, { buffer = true, desc = "Open next.md list" })
+
+  vim.keymap.set("n", "<leader>ns", function()
+    lists.open_someday_maybe()
+  end, { buffer = true, desc = "Open someday-maybe.md list" })
 end
 
 return M
