@@ -594,7 +594,7 @@ function M.setup_buffer_keymaps()
   end, { buffer = true, desc = "Open someday-maybe.md list" })
 
   vim.keymap.set("n", "<leader>ni", function()
-    lists.open_someday_maybe()
+    lists.open_inbox()
   end, { buffer = true, desc = "Open inbox.md list" })
 end
 
