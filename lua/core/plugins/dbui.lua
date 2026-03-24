@@ -11,7 +11,7 @@ return {
     { "kristijanhusak/vim-dadbod-completion", ft = { "sql", "mysql", "plsql" }, lazy = true },
   },
   keys = {
-    { "<leader><leader>db", ":tab DBUI<CR>" },
+    { "<leader><leader>db", ":tab DBUI<CR>", desc = "Open DBUI in a new tab" },
   },
   cmd = {
     "DBUI",
