@@ -11,14 +11,14 @@ local function open_list_file(filename)
   end
 
   local lists_dir = root .. "/lists"
-  
+
   -- Create lists directory if it doesn't exist
   if vim.fn.isdirectory(lists_dir) == 0 then
     vim.fn.mkdir(lists_dir, "p")
   end
 
   local file_path = lists_dir .. "/" .. filename
-  
+
   -- Create file if it doesn't exist
   if vim.fn.filereadable(file_path) == 0 then
     vim.fn.writefile({}, file_path)
@@ -35,6 +35,11 @@ end
 -- Open someday-maybe.md
 function M.open_someday_maybe()
   open_list_file("someday-maybe.md")
+end
+
+-- Open someday-maybe.md
+function M.open_inbox()
+  open_list_file("inbox.md")
 end
 
 return M
