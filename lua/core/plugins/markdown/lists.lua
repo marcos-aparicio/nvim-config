@@ -37,9 +37,19 @@ function M.open_someday_maybe()
   open_list_file("someday-maybe.md")
 end
 
--- Open someday-maybe.md
+-- Open inbox.md
 function M.open_inbox()
   open_list_file("inbox.md")
+end
+
+-- Open waiting-to.md
+function M.open_waiting_to()
+  open_list_file("waiting-to.md")
+end
+
+-- Open tickler.md
+function M.open_tickler()
+  open_list_file("tickler.md")
 end
 
 return M

@@ -593,6 +593,14 @@ function M.setup_buffer_keymaps()
     lists.open_someday_maybe()
   end, { buffer = true, desc = "Open someday-maybe.md list" })
 
+  vim.keymap.set("n", "<leader>nw", function()
+    lists.open_waiting_to()
+  end, { buffer = true, desc = "Open waiting-to.md list" })
+
+  vim.keymap.set("n", "<leader>nt", function()
+    lists.open_tickler()
+  end, { buffer = true, desc = "Open tickler.md list" })
+
   vim.keymap.set("n", "<leader>ni", function()
     lists.open_inbox()
   end, { buffer = true, desc = "Open inbox.md list" })
