@@ -604,6 +604,14 @@ function M.setup_buffer_keymaps()
   vim.keymap.set("n", "<leader>ni", function()
     lists.open_inbox()
   end, { buffer = true, desc = "Open inbox.md list" })
+
+  vim.keymap.set("n", "<leader>nl", function()
+    lists.open_lists_telescope()
+  end, { buffer = true, desc = "Open lists with telescope" })
+
+  vim.keymap.set("n", "<leader>na", function()
+    lists.create_new_list()
+  end, { buffer = true, desc = "Create new list" })
 end
 
 return M

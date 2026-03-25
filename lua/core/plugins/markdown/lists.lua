@@ -52,4 +52,69 @@ function M.open_tickler()
   open_list_file("tickler.md")
 end
 
+-- Open lists directory with telescope finder
+function M.open_lists_telescope()
+  local root = diary.find_obsidian_root()
+  if not root then
+    vim.notify("Could not find .obsidian directory in parent folders", vim.log.levels.ERROR)
+    return
+  end
+
+  local lists_dir = root .. "/lists"
+
+  -- Create lists directory if it doesn't exist
+  if vim.fn.isdirectory(lists_dir) == 0 then
+    vim.fn.mkdir(lists_dir, "p")
+  end
+
+  local telescope = require("telescope.builtin")
+  telescope.find_files({
+    cwd = lists_dir,
+    prompt_title = "Lists",
+  })
+end
+
+-- Create a new list with automatic name transformation
+function M.create_new_list()
+  local root = diary.find_obsidian_root()
+  if not root then
+    vim.notify("Could not find .obsidian directory in parent folders", vim.log.levels.ERROR)
+    return
+  end
+
+  local lists_dir = root .. "/lists"
+
+  -- Create lists directory if it doesn't exist
+  if vim.fn.isdirectory(lists_dir) == 0 then
+    vim.fn.mkdir(lists_dir, "p")
+  end
+
+  vim.ui.input({ prompt = "Enter list name: " }, function(input)
+    if not input or input:match("^%s*$") then
+      vim.notify("List name cannot be empty", vim.log.levels.WARN)
+      return
+    end
+
+    -- Transform name: trim, convert to lowercase, replace spaces with dashes
+    local list_name = vim.trim(input):lower():gsub("%s+", "-")
+    local filename = list_name .. ".md"
+    local file_path = lists_dir .. "/" .. filename
+
+    -- Check if file already exists
+    if vim.fn.filereadable(file_path) == 1 then
+      vim.notify("List '" .. filename .. "' already exists", vim.log.levels.WARN)
+      return
+    end
+
+    -- Create file with h1 header
+    local h1_title = input:gsub("^%s+", ""):gsub("%s+$", "") -- Trim the original input
+    local content = { "# " .. h1_title, "" }
+    vim.fn.writefile(content, file_path)
+
+    -- Open the newly created file
+    vim.cmd("edit " .. vim.fn.fnameescape(file_path))
+    vim.notify("Created list: " .. filename, vim.log.levels.INFO)
+  end)
+end
+
 return M
