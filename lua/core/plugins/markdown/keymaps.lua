@@ -612,6 +612,10 @@ function M.setup_buffer_keymaps()
   vim.keymap.set("n", "<leader>na", function()
     lists.create_new_list()
   end, { buffer = true, desc = "Create new list" })
+
+  vim.keymap.set("n", "<leader>ii", function()
+    lists.append_to_inbox()
+  end, { buffer = true, desc = "Add item to inbox" })
 end
 
 return M

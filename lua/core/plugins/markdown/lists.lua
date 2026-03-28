@@ -117,4 +117,38 @@ function M.create_new_list()
   end)
 end
 
+-- Append item to inbox list
+function M.append_to_inbox()
+  local root = diary.find_obsidian_root()
+  if not root then
+    vim.notify("Could not find .obsidian directory in parent folders", vim.log.levels.ERROR)
+    return
+  end
+
+  local lists_dir = root .. "/lists"
+  local inbox_path = lists_dir .. "/inbox.md"
+
+  vim.ui.input({ prompt = "Add to inbox: " }, function(input)
+    if not input or input:match("^%s*$") then
+      return
+    end
+
+    -- Read current inbox content
+    local lines = {}
+    if vim.fn.filereadable(inbox_path) == 1 then
+      lines = vim.fn.readfile(inbox_path)
+    else
+      -- Create inbox if it doesn't exist
+      lines = { "# inbox", "" }
+    end
+
+    -- Append the new item
+    table.insert(lines, "- " .. input)
+
+    -- Write back to file
+    vim.fn.writefile(lines, inbox_path)
+    vim.notify("Added to inbox: " .. input, vim.log.levels.INFO)
+  end)
+end
+
 return M
