@@ -1,5 +1,20 @@
 vim.keymap.set({ "n" }, "<leader>al", ":AerialToggle left<CR>")
-vim.keymap.set({ "n" }, "<leader>at", ":lua require('aerial').snacks_picker()<CR>")
+vim.keymap.set({ "n" }, "<leader>at", function()
+  vim.b.aerial_filter_kind = nil
+  require("aerial").snacks_picker()
+end, { desc = "Toggle Aerial Snack picker with all symbols" })
+vim.keymap.set({ "n" }, "<leader>av", function()
+  vim.b.aerial_filter_kind = { "Variable", "Constant", "Field", "Property" }
+  require("aerial").snacks_picker()
+  vim.b.aerial_filter_kind = nil
+end, { desc = "Toggle Aerial Snack picker with only variables" })
+
+vim.keymap.set({ "n" }, "<leader>af", function()
+  vim.b.aerial_filter_kind = { "Function", "Method" }
+  require("aerial").snacks_picker()
+  vim.b.aerial_filter_kind = nil
+end, { desc = "Toggle Aerial Snack picker with only functions" })
+
 return {
   "stevearc/aerial.nvim",
   opts = {
