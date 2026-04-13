@@ -21,6 +21,15 @@ local function setup_lists_index_watcher()
     end,
   })
 
+  -- Watch for changes in tickler directory
+  vim.api.nvim_create_autocmd("BufWritePost", {
+    pattern = "*/lists/tickler/*.md",
+    callback = function()
+      -- Regenerate tickler index when any tickler file is saved
+      lists_index.regenerate_tickler_index()
+    end,
+  })
+
   -- Also watch for file creation/deletion by monitoring BufEnter in lists
   vim.api.nvim_create_autocmd("DirChanged", {
     callback = function()
@@ -29,6 +38,10 @@ local function setup_lists_index_watcher()
         local lists_dir = root .. "/lists"
         if vim.fn.isdirectory(lists_dir) == 1 then
           lists_index.regenerate_index()
+        end
+        local tickler_dir = root .. "/lists/tickler"
+        if vim.fn.isdirectory(tickler_dir) == 1 then
+          lists_index.regenerate_tickler_index()
         end
       end
     end,
