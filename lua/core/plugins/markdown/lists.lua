@@ -1,6 +1,7 @@
 local M = {}
 
 local diary = require("core.plugins.markdown.diary")
+local lists_index = require("core.plugins.markdown.lists-index")
 
 -- Open a specific list file
 local function open_list_file(filename)
@@ -114,6 +115,9 @@ function M.create_new_list()
     -- Open the newly created file
     vim.cmd("edit " .. vim.fn.fnameescape(file_path))
     vim.notify("Created list: " .. filename, vim.log.levels.INFO)
+
+    -- Regenerate index
+    lists_index.regenerate_index()
   end)
 end
 

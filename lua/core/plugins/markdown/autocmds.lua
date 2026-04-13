@@ -8,6 +8,33 @@ local function setup_markdown_features()
   commands.setup_buffer_commands()
 end
 
+local function setup_lists_index_watcher()
+  local lists_index = require("core.plugins.markdown.lists-index")
+  local diary = require("core.plugins.markdown.diary")
+
+  -- Watch for changes in lists directory
+  vim.api.nvim_create_autocmd("BufWritePost", {
+    pattern = "*/lists/*.md",
+    callback = function()
+      -- Regenerate index when any list file is saved
+      lists_index.regenerate_index()
+    end,
+  })
+
+  -- Also watch for file creation/deletion by monitoring BufEnter in lists
+  vim.api.nvim_create_autocmd("DirChanged", {
+    callback = function()
+      local root = diary.find_obsidian_root()
+      if root then
+        local lists_dir = root .. "/lists"
+        if vim.fn.isdirectory(lists_dir) == 1 then
+          lists_index.regenerate_index()
+        end
+      end
+    end,
+  })
+end
+
 function M.setup()
   -- For markdown files
   vim.api.nvim_create_autocmd("FileType", {
@@ -20,6 +47,9 @@ function M.setup()
     pattern = globals.notes_workspaces_dir .. "/*",
     callback = setup_markdown_features,
   })
+
+  -- Setup lists index watcher
+  setup_lists_index_watcher()
 end
 
 return M
