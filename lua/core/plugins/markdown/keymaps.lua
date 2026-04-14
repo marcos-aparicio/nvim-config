@@ -369,6 +369,40 @@ local function open_selected_markdown_link()
   end
 end
 
+local function open_lists_index()
+  local root = diary.find_obsidian_root()
+  if not root then
+    vim.notify("Could not find .obsidian directory in parent folders", vim.log.levels.ERROR)
+    return
+  end
+
+  local index_file = root .. "/indexes/lists.md"
+
+  if vim.fn.filereadable(index_file) == 0 then
+    vim.notify("Lists index not found at " .. index_file, vim.log.levels.WARN)
+    return
+  end
+
+  vim.cmd("edit " .. vim.fn.fnameescape(index_file))
+end
+
+local function open_tickler_index()
+  local root = diary.find_obsidian_root()
+  if not root then
+    vim.notify("Could not find .obsidian directory in parent folders", vim.log.levels.ERROR)
+    return
+  end
+
+  local index_file = root .. "/indexes/tickler.md"
+
+  if vim.fn.filereadable(index_file) == 0 then
+    vim.notify("Tickler index not found at " .. index_file, vim.log.levels.WARN)
+    return
+  end
+
+  vim.cmd("edit " .. vim.fn.fnameescape(index_file))
+end
+
 function M.setup_buffer_keymaps()
   local telescope = require("core.plugins.markdown.telescope")
   local task_mgmt = require("core.plugins.markdown.task-management")
@@ -616,6 +650,15 @@ function M.setup_buffer_keymaps()
   vim.keymap.set("n", "<leader>ii", function()
     lists.append_to_inbox()
   end, { buffer = true, desc = "Add item to inbox" })
+
+  -- Index keymaps
+  vim.keymap.set("n", "<leader>il", function()
+    open_lists_index()
+  end, { buffer = true, desc = "Open lists index" })
+
+  vim.keymap.set("n", "<leader>it", function()
+    open_tickler_index()
+  end, { buffer = true, desc = "Open tickler index" })
 end
 
 return M
