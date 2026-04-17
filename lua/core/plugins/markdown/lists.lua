@@ -146,8 +146,9 @@ function M.append_to_inbox()
       lines = { "# inbox", "" }
     end
 
-    -- Append the new item
-    table.insert(lines, "- " .. input)
+     -- Append the new item with date
+     local date_str = os.date("%c")
+     table.insert(lines, "- (" .. date_str .. ") " .. input)
 
     -- Write back to file
     vim.fn.writefile(lines, inbox_path)
