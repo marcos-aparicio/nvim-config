@@ -111,6 +111,18 @@ local markdown_mappings = {
     end, {}),
     t({ "", "- " }),
   }),
+  s({
+    trig = ">in",
+    name = "dated list item",
+    desc = "Create a list item with current date and time",
+  }, {
+    t("- "),
+    f(function()
+      return os.date("(%a %d %b %Y %I:%M:%S %p %Z)")
+    end, {}),
+    t(" "),
+    i(1, "<type here>"),
+  }),
 }
 
 -- ls.add_snippets("vimwiki", markdown_mappings)
