@@ -15,6 +15,7 @@ return {
       "yaml",
       "python",
       "markdown",
+      "grug-far",
       "php",
       "misc",
     }
