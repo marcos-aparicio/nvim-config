@@ -30,6 +30,24 @@ local function setup_lists_index_watcher()
     end,
   })
 
+  -- Watch for list file deletions
+  vim.api.nvim_create_autocmd("BufDelete", {
+    pattern = "*/lists/*.md",
+    callback = function()
+      -- Regenerate index when any list file is deleted
+      lists_index.regenerate_index()
+    end,
+  })
+
+  -- Watch for tickler file deletions
+  vim.api.nvim_create_autocmd("BufDelete", {
+    pattern = "*/lists/tickler/*.md",
+    callback = function()
+      -- Regenerate tickler index when any tickler file is deleted
+      lists_index.regenerate_tickler_index()
+    end,
+  })
+
   -- Also watch for file creation/deletion by monitoring BufEnter in lists
   vim.api.nvim_create_autocmd("DirChanged", {
     callback = function()

@@ -70,16 +70,116 @@ function M.regenerate_index()
 
   local list_files = get_list_files(lists_dir)
 
-  -- Build index content
-  local lines = { "# Lists Index", "" }
-
+  -- Create a map of current file titles for quick lookup
+  local current_titles = {}
   for _, file in ipairs(list_files) do
-    local title = get_h1_from_file(file.path)
+    local title = get_h1_from_file(file.path) or file.basename
+    current_titles[title] = true
+  end
+
+  -- Build index content by reading existing file and updating it
+  local lines = {}
+  local in_other_section = false
+  local other_section_start_idx = nil
+  local found_other_section = false
+
+  if vim.fn.filereadable(index_file) == 1 then
+    local original_lines = vim.fn.readfile(index_file)
+
+    for i, line in ipairs(original_lines) do
+      -- Keep the header
+      if line:match("^#%s+Lists Index") then
+        table.insert(lines, line)
+        goto continue
+      end
+
+      -- Detect "Other Lists" section
+      if line:match("^## Other Lists") then
+        found_other_section = true
+        other_section_start_idx = #lines + 1
+        table.insert(lines, line)
+        goto continue
+      end
+
+      -- If we're in "Other Lists" section, collect new items later
+      if found_other_section and (line == "" or line:match("^%[%[")) then
+        if line == "" then
+          goto continue
+        end
+        -- We'll rebuild this section, skip it for now
+        goto continue
+      end
+
+      -- Check if it's a wiki link
+      local title = line:match("^%[%[(.+)%]%]$")
+      if title then
+        -- Keep it only if the file still exists
+        if current_titles[title] then
+          table.insert(lines, line)
+        end
+        -- If it doesn't exist, skip it (removal)
+      else
+        -- Keep empty lines and other content (but not from Other Lists section)
+        if not found_other_section or i <= (other_section_start_idx or 0) then
+          table.insert(lines, line)
+        end
+      end
+
+      ::continue::
+    end
+  else
+    -- File doesn't exist, create from scratch
+    table.insert(lines, "# Lists Index")
+    table.insert(lines, "")
+  end
+
+  -- Now find all new/untracked lists
+  local new_list_items = {}
+  local existing_in_file = {}
+
+  -- Collect existing links from the file
+  for _, line in ipairs(lines) do
+    local title = line:match("^%[%[(.+)%]%]$")
     if title then
-      table.insert(lines, string.format("[[%s]]", title))
-    else
-      -- Fallback to basename if no H1 found
-      table.insert(lines, string.format("[[%s]]", file.basename))
+      existing_in_file[title] = true
+    end
+  end
+
+  -- Find new lists
+  for _, file in ipairs(list_files) do
+    local title = get_h1_from_file(file.path) or file.basename
+    if not existing_in_file[title] then
+      table.insert(new_list_items, string.format("[[%s]]", title))
+    end
+  end
+
+  -- Add "Other Lists" section if there are new items
+  if #new_list_items > 0 then
+    -- Remove old "Other Lists" section if it exists
+    local new_lines = {}
+    local skip_other_section = false
+    for _, line in ipairs(lines) do
+      if line:match("^## Other Lists") then
+        skip_other_section = true
+        goto skip
+      end
+      if skip_other_section and line ~= "" and not line:match("^%[%[") then
+        skip_other_section = false
+      end
+      if not skip_other_section then
+        table.insert(new_lines, line)
+      end
+      ::skip::
+    end
+
+    lines = new_lines
+
+    -- Add new "Other Lists" section
+    table.insert(lines, "")
+    table.insert(lines, "## Other Lists")
+    table.insert(lines, "")
+    for _, item in ipairs(new_list_items) do
+      table.insert(lines, item)
     end
   end
 
