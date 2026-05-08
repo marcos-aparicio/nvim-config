@@ -175,7 +175,9 @@ function M.regenerate_index()
     lines = new_lines
 
     -- Add new "Other Lists" section
-    table.insert(lines, "")
+    if #lines > 0 and lines[#lines] ~= "" then
+      table.insert(lines, "")
+    end
     table.insert(lines, "## Other Lists")
     table.insert(lines, "")
     for _, item in ipairs(new_list_items) do
