@@ -2,6 +2,7 @@ return {
   { "HiPhish/rainbow-delimiters.nvim", event = { "BufReadPost", "BufWritePost", "BufNewFile" } },
   {
     "nvim-treesitter/nvim-treesitter-textobjects",
+    branch = "main",
     event = { "BufReadPost", "BufWritePost", "BufNewFile" },
   },
   {
@@ -22,21 +23,11 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     event = "VeryLazy",
+    branch = "main",
     build = function()
       require("nvim-treesitter.install").update({ with_sync = true })
     end,
-    main = "nvim-treesitter.configs",
     opts = function()
-      local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
-      parser_config.blade = {
-        install_info = {
-          url = "https://github.com/EmranMR/tree-sitter-blade",
-          files = { "src/parser.c" },
-          branch = "main",
-        },
-        filetype = "blade",
-      }
-
       vim.filetype.add({
         name = "blade",
         extensions = { "blade.php" },
