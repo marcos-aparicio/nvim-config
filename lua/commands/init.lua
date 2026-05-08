@@ -1,6 +1,7 @@
 require("commands.copy-buffer-path")
 require("commands.execute-current-buffer")
 require("commands.toggle-last-position-in-buffer")
+require("commands.markdown-apy-add-from-file")
 
 local user_cmd = vim.api.nvim_create_user_command
 
