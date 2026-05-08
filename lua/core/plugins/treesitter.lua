@@ -24,6 +24,7 @@ return {
     "nvim-treesitter/nvim-treesitter",
     event = "VeryLazy",
     branch = "main",
+    main = "nvim-treesitter",
     build = function()
       require("nvim-treesitter.install").update({ with_sync = true })
     end,
@@ -86,7 +87,7 @@ return {
             -- mapping query_strings to modes.
             selection_modes = {
               ["@parameter.outer"] = "v", -- charwise
-              ["@function.outer"] = "V", -- linewise
+              ["@function.outer"] = "V",  -- linewise
               ["@class.outer"] = "<c-v>", -- blockwise
             },
             -- If you set this to `true` (default is `false`) then any textobject is
@@ -137,5 +138,27 @@ return {
         },
       }
     end,
+    init = function()
+      vim.api.nvim_create_autocmd('FileType', {
+        callback = function()
+          -- Enable treesitter highlighting and disable regex syntax
+          pcall(vim.treesitter.start)
+          -- Enable treesitter-based indentation
+          vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        end,
+      })
+      local ensureInstalled = {
+        'lua', 'python', 'typescript', 'javascript', 'javascriptreact', 'http',
+        'html', 'scss', 'css', 'yaml', 'toml'
+        -- ... your parsers
+      }
+      local alreadyInstalled = require('nvim-treesitter.config').get_installed()
+      local parsersToInstall = vim.iter(ensureInstalled)
+          :filter(function(parser)
+            return not vim.tbl_contains(alreadyInstalled, parser)
+          end)
+          :totable()
+      require('nvim-treesitter').install(parsersToInstall)
+    end
   },
 }
