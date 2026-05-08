@@ -123,6 +123,20 @@ local markdown_mappings = {
     t(" "),
     i(1, "<type here>"),
   }),
+  s({
+    trig = "@anki",
+    name = "Anki Note Template",
+    desc = "Insert Anki note template with Spanish, French, and metadata sections",
+  }, {
+    t("# Note"),
+    t({ "", "", "## Spanish" }),
+    t({ "", "" }),
+    i(1),
+    t({ "", "", "## French" }),
+    t({ "", "" }),
+    i(2),
+    t({ "", "", "## FrenchAudio", "", "", "## HintAfterAnswer", "", "", "## SentenceExamples" }),
+  }),
 }
 
 -- ls.add_snippets("vimwiki", markdown_mappings)
