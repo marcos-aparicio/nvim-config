@@ -2,7 +2,8 @@ return {
   { "windwp/nvim-ts-autotag", event = { "BufReadPre", "BufNewFile" } },
   { "JoosepAlviste/nvim-ts-context-commentstring", event = { "BufReadPre", "BufNewFile" } },
   {
-    "numToStr/Comment.nvim",
+    "faergeek/Comment.nvim",
+    branch = "nvim-0.12-compatibility",
     event = { "BufReadPost", "BufWritePost", "BufNewFile" },
     main = "Comment",
     opts = function()
