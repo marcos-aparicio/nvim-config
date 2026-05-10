@@ -96,6 +96,14 @@ return {
       },
       picker = {
         ui_select = true,
+        sources = {
+          lsp_symbols = {
+            -- Show ALL symbol types (default filter hides Variable, Constant, etc.)
+            filter = {
+              default = true, -- true = show all symbols
+            },
+          },
+        },
       },
       styles = {
         snacks_image = {
