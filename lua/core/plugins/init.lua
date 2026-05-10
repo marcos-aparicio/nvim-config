@@ -119,6 +119,17 @@ return {
             lua = nil,
           },
         },
+        actions = {
+          yank_clipboard = { action = "yank", reg = "+", field = "name" },
+        },
+        win = {
+          input = {
+            keys = {
+              ["yy"] = { "yank_clipboard", mode = { "n", "i" }, desc = "Yank to clipboard" },
+            },
+          },
+        },
+
       },
       styles = {
         snacks_image = {
