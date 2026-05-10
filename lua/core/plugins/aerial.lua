@@ -2,18 +2,6 @@ vim.keymap.set({ "n" }, "<leader>al", ":AerialToggle left<CR>")
 vim.keymap.set({ "n" }, "<leader>at", function()
   require("aerial").snacks_picker()
 end, { desc = "Toggle Aerial Snack picker with all symbols" })
-vim.keymap.set({ "n" }, "<leader>av", function()
-  -- Snacks.picker.lsp_symbols({ filter = { default = { "Variable", "Constant", "Field", "Property", "Object" } } })
-  require('telescope.builtin').lsp_document_symbols({  symbols = { "variable", "constant", "field", "property", "object" }  })
-end, { desc = "Toggle Aerial Snack picker with only variables" })
-
-vim.keymap.set({ "n" }, "<leader>af", function()
-  require('telescope.builtin').lsp_document_symbols({  symbols = {"function", "method"}  })
-  -- require("aerial").snacks_picker({
-  --   filter = { default = { "Function", "Method" } }
-  -- })
-  -- Snacks.picker.lsp_symbols({ filter = { default = { "Function", "Method" } } })
-end, { desc = "Toggle Aerial Snack picker with only functions" })
 
 return {
   "stevearc/aerial.nvim",

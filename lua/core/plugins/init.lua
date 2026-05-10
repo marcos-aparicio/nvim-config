@@ -10,7 +10,7 @@ return {
   "tpope/vim-speeddating",
   "tpope/vim-dispatch",
   -- "Treesitter for rasi filetype"
-  { "Fymyte/rasi.vim", ft = "rasi" },
+  { "Fymyte/rasi.vim",          ft = "rasi" },
   {
     "christoomey/vim-tmux-navigator",
     cmd = {
@@ -21,10 +21,10 @@ return {
       "TmuxNavigatePrevious",
     },
     keys = {
-      { "<C-h>", "<cmd><C-U>TmuxNavigateLeft<cr>" },
-      { "<C-j>", "<cmd><C-U>TmuxNavigateDown<cr>" },
-      { "<C-k>", "<cmd><C-U>TmuxNavigateUp<cr>" },
-      { "<C-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
+      { "<C-h>",  "<cmd><C-U>TmuxNavigateLeft<cr>" },
+      { "<C-j>",  "<cmd><C-U>TmuxNavigateDown<cr>" },
+      { "<C-k>",  "<cmd><C-U>TmuxNavigateUp<cr>" },
+      { "<C-l>",  "<cmd><C-U>TmuxNavigateRight<cr>" },
       { "<C-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
     },
   },
@@ -48,7 +48,7 @@ return {
   --   event = { "BufReadPost", "BufWritePost", "BufNewFile" },
   --   opts = {},
   -- },
-  { "Pocco81/HighStr.nvim", main = "high-str", opts = {} },
+  { "Pocco81/HighStr.nvim",  main = "high-str",       opts = {} },
   {
     "ziontee113/color-picker.nvim",
     cmd = { "PickColor", "PickColorInsert" },
@@ -75,7 +75,7 @@ return {
     cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
     keys = {
       { "<C-p>", "<Cmd>MarkdownPreview<CR>", ft = { "markdown", "vimwiki" } },
-      { ",ll", "<Cmd>MarkdownPreview<CR>", ft = { "markdown", "vimwiki" } },
+      { ",ll",   "<Cmd>MarkdownPreview<CR>", ft = { "markdown", "vimwiki" } },
     },
     ft = { "markdown", "vimwiki" },
     build = function()
@@ -84,24 +84,39 @@ return {
   },
   {
     "folke/snacks.nvim",
+    keys = {
+      {
+        "<leader>av",
+        function()
+          Snacks.picker.lsp_symbols({ filter = { default = { "Variable", "Constant", "Field", "Property", "Object" }, lua = { "Variable", "Constant", "Field", "Property", "Object" } } })
+        end,
+        desc = "Toggle LSP Symbols Snack picker with only variables"
+      },
+      {
+        "<leader>af",
+        function()
+          Snacks.picker.lsp_symbols({ filter = { default = { "Function", "Method" }, lua = { "Function", "Method" } } })
+        end,
+        desc = "Toggle LSP Symbols Snack picker with only functions"
+      }
+    },
     ---@type snacks.Config
     opts = {
       bigfile = {
-        notify = true, -- show notification when big file detected
+        notify = true,            -- show notification when big file detected
         size = 1.5 * 1024 * 1024, -- 1.5MB
-        line_length = 500, -- average line length (useful for minified files)
+        line_length = 500,        -- average line length (useful for minified files)
         -- your bigfile configuration comes here
         -- or leave it empty to use the default settings
         -- refer to the configuration section below
       },
       picker = {
         ui_select = true,
-        sources = {
-          lsp_symbols = {
-            -- Show ALL symbol types (default filter hides Variable, Constant, etc.)
-            filter = {
-              default = true, -- true = show all symbols
-            },
+        lsp_symbols = {
+          -- Show ALL symbol types (default filter hides Variable, Constant, etc.)
+          filter = {
+            default = true, -- true = show all symbols
+            lua = nil,
           },
         },
       },
