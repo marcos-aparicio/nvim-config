@@ -134,6 +134,14 @@ return {
           },
           find_files = {
             file_ignore_patterns = { "node_modules" },
+            mappings = {
+              n = {
+                tt = function()
+                  local entry = action_state.get_selected_entry()
+                  vim.cmd("tabedit " .. vim.fn.fnameescape(entry.path or entry.value))
+                end
+              }
+            }
           },
           git_bcommits = {
             mappings = {
