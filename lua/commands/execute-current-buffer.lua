@@ -1,15 +1,17 @@
-local width = math.floor(vim.o.columns * 0.4)
-local height = vim.o.lines - 2 -- Adjust for status lines
-local win_opts = {
-  relative = "win",
-  width = width,
-  height = height,
-  win = -1,
-  col = vim.o.columns - width,
-  row = 0,
-  style = "minimal",
-  border = "single",
-}
+local function getWindowOpts()
+  local width = math.floor(vim.o.columns * 0.4)
+  local height = vim.o.lines - 2 -- Adjust for status lines
+  return {
+    relative = "win",
+    width = width,
+    height = height,
+    win = vim.api.nvim_get_current_win(),
+    col = vim.o.columns - width,
+    row = 0,
+    style = "minimal",
+    border = "single",
+  }
+end
 
 local state = {
   output = {
@@ -82,7 +84,7 @@ local function createRunnerBuffer(opts)
   local output = vim.fn.systemlist(opts.command)
   -- Write the command output to the buffer
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, output)
-  local win = vim.api.nvim_open_win(buf, true, win_opts)
+  local win = vim.api.nvim_open_win(buf, true, getWindowOpts())
   SetupRunnerWindow(win, buf)
   return { buf = buf, win = win }
 end
@@ -97,7 +99,7 @@ local function toggleRunnerBuffer()
     return
   end
 
-  local win = vim.api.nvim_open_win(state.output.buf, true, win_opts)
+  local win = vim.api.nvim_open_win(state.output.buf, true, getWindowOpts())
   state.output.win = win
   SetupRunnerWindow(state.output.win, state.output.buf)
 end
