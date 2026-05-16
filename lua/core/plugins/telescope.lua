@@ -73,6 +73,75 @@ return {
             })
           end,
         },
+        {
+          "n",
+          "<leader>tg",
+          function()
+            local tags_output = vim.fn.systemlist("tmsu tags")
+            if #tags_output == 0 then
+              vim.notify("No tags found", vim.log.levels.WARN)
+              return
+            end
+
+            local current_picker = nil
+
+            current_picker = require("telescope.pickers").new({}, {
+              prompt_title = "TMSU Tags",
+              finder = require("telescope.finders").new_table({
+                results = tags_output,
+                entry_maker = function(entry)
+                  return {
+                    value = entry,
+                    display = entry,
+                    ordinal = entry,
+                  }
+                end,
+              }),
+              sorter = require("telescope.sorters").get_generic_fuzzy_sorter(),
+              previewer = previewers.new_termopen_previewer({
+                get_command = function(entry)
+                  return { "tmsu", "files", entry.value }
+                end,
+              }),
+              attach_mappings = function(prompt_bufnr, map)
+                actions.select_default:replace(function()
+                  local entry = action_state.get_selected_entry()
+                  vim.fn.setreg("+", entry.value)
+                  vim.notify("Copied tag: " .. entry.value, vim.log.levels.INFO)
+                  actions.close(prompt_bufnr)
+                end)
+                map("n", "dd", function()
+                  local entry = action_state.get_selected_entry()
+                  local tag = entry.value
+                  local result = vim.fn.system("tmsu delete " .. vim.fn.shellescape(tag))
+                  if vim.v.shell_error == 0 then
+                    vim.notify("Deleted tag: " .. tag, vim.log.levels.INFO)
+                    -- Refresh the picker with updated tags
+                    local updated_tags = vim.fn.systemlist("tmsu tags")
+                    current_picker:refresh(
+                      require("telescope.finders").new_table({
+                        results = updated_tags,
+                        entry_maker = function(entry)
+                          return {
+                            value = entry,
+                            display = entry,
+                            ordinal = entry,
+                          }
+                        end,
+                      }),
+                      { reset_prompt = true }
+                    )
+                  else
+                    vim.notify("Failed to delete tag: " .. result, vim.log.levels.ERROR)
+                  end
+                end)
+                return true
+              end,
+            })
+
+            current_picker:find()
+          end,
+        },
       }
 
       for _, map in ipairs(keymaps) do
