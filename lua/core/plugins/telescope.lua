@@ -142,6 +142,43 @@ return {
             current_picker:find()
           end,
         },
+        {
+          "n",
+          "<leader>ad",
+          function()
+            local decks_output = vim.fn.systemlist("apy list-decks")
+            if #decks_output == 0 then
+              vim.notify("No decks found", vim.log.levels.WARN)
+              return
+            end
+
+            require("telescope.pickers")
+              .new({}, {
+                prompt_title = "Anki Decks",
+                finder = require("telescope.finders").new_table({
+                  results = decks_output,
+                  entry_maker = function(entry)
+                    return {
+                      value = entry,
+                      display = entry,
+                      ordinal = entry,
+                    }
+                  end,
+                }),
+                sorter = require("telescope.sorters").get_generic_fuzzy_sorter(),
+                attach_mappings = function(prompt_bufnr, map)
+                  actions.select_default:replace(function()
+                    local entry = action_state.get_selected_entry()
+                    vim.fn.setreg("+", entry.value)
+                    vim.notify("Copied deck: " .. entry.value, vim.log.levels.INFO)
+                    actions.close(prompt_bufnr)
+                  end)
+                  return true
+                end,
+              })
+              :find()
+          end,
+        },
       }
 
       for _, map in ipairs(keymaps) do
