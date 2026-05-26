@@ -667,6 +667,36 @@ function M.setup_buffer_keymaps()
   vim.keymap.set("n", "<leader>it", function()
     open_tickler_index()
   end, { buffer = true, desc = "Open tickler index" })
+
+  -- Routines keymaps
+  local routines = require("core.plugins.markdown.routines")
+
+  vim.keymap.set("n", "<leader>rl", function()
+    routines.open_routines_telescope()
+  end, { buffer = true, desc = "Open routines with telescope" })
+
+  vim.keymap.set("n", "<leader>ra", function()
+    routines.create_new_routine()
+  end, { buffer = true, desc = "Create new routine" })
+
+  -- Routines index keymaps
+  vim.keymap.set("n", "<leader>ir", function()
+    local routines_index = require("core.plugins.markdown.routines-index")
+    local root = diary.find_obsidian_root()
+    if not root then
+      vim.notify("Could not find .obsidian directory in parent folders", vim.log.levels.ERROR)
+      return
+    end
+
+    local index_file = root .. "/indexes/routines.md"
+
+    if vim.fn.filereadable(index_file) == 0 then
+      vim.notify("Routines index not found at " .. index_file, vim.log.levels.WARN)
+      return
+    end
+
+    vim.cmd("edit " .. vim.fn.fnameescape(index_file))
+  end, { buffer = true, desc = "Open routines index" })
 end
 
 return M

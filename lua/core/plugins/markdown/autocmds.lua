@@ -66,6 +66,42 @@ local function setup_lists_index_watcher()
   })
 end
 
+local function setup_routines_index_watcher()
+  local routines_index = require("core.plugins.markdown.routines-index")
+  local diary = require("core.plugins.markdown.diary")
+
+  -- Watch for changes in routines directory
+  vim.api.nvim_create_autocmd("BufWritePost", {
+    pattern = "*/routines/*.md",
+    callback = function()
+      -- Regenerate index when any routine file is saved
+      routines_index.regenerate_index()
+    end,
+  })
+
+  -- Watch for routine file deletions
+  vim.api.nvim_create_autocmd("BufDelete", {
+    pattern = "*/routines/*.md",
+    callback = function()
+      -- Regenerate index when any routine file is deleted
+      routines_index.regenerate_index()
+    end,
+  })
+
+  -- Also watch for file creation/deletion by monitoring DirChanged in routines
+  vim.api.nvim_create_autocmd("DirChanged", {
+    callback = function()
+      local root = diary.find_obsidian_root()
+      if root then
+        local routines_dir = root .. "/routines"
+        if vim.fn.isdirectory(routines_dir) == 1 then
+          routines_index.regenerate_index()
+        end
+      end
+    end,
+  })
+end
+
 function M.setup()
   -- For markdown files
   vim.api.nvim_create_autocmd("FileType", {
@@ -81,6 +117,9 @@ function M.setup()
 
   -- Setup lists index watcher
   setup_lists_index_watcher()
+
+  -- Setup routines index watcher
+  setup_routines_index_watcher()
 end
 
 return M
