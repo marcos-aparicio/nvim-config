@@ -84,6 +84,7 @@ return {
   },
   {
     "folke/snacks.nvim",
+    lazy = false,
     keys = {
       {
         "<leader>av",
