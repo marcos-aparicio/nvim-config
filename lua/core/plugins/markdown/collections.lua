@@ -14,6 +14,11 @@ local collections_config = {
     has_index = true,
     index_module = "core.plugins.markdown.routines-index",
   },
+  tracking = {
+    dir_name = "tracking",
+    has_index = true,
+    index_module = "core.plugins.markdown.tracking-index",
+  },
   random = {
     dir_name = "random",
     has_index = false,

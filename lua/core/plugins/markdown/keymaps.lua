@@ -708,6 +708,36 @@ function M.setup_buffer_keymaps()
   vim.keymap.set("n", "<leader>xa", function()
     random.create_new_random()
   end, { buffer = true, desc = "Create new random entry" })
+
+  -- Tracking keymaps
+  local tracking = require("core.plugins.markdown.tracking")
+
+  vim.keymap.set("n", "<leader>tl", function()
+    tracking.open_tracking_telescope()
+  end, { buffer = true, desc = "Open tracking entries with telescope" })
+
+  vim.keymap.set("n", "<leader>ta", function()
+    tracking.create_new_tracking()
+  end, { buffer = true, desc = "Create new tracking entry" })
+
+  -- Tracking index keymap
+  vim.keymap.set("n", "<leader>it", function()
+    local tracking_index = require("core.plugins.markdown.tracking-index")
+    local root = diary.find_obsidian_root()
+    if not root then
+      vim.notify("Could not find .obsidian directory in parent folders", vim.log.levels.ERROR)
+      return
+    end
+
+    local index_file = root .. "/indexes/tracking.md"
+
+    if vim.fn.filereadable(index_file) == 0 then
+      vim.notify("Tracking index not found at " .. index_file, vim.log.levels.WARN)
+      return
+    end
+
+    vim.cmd("edit " .. vim.fn.fnameescape(index_file))
+  end, { buffer = true, desc = "Open tracking index" })
 end
 
 return M
