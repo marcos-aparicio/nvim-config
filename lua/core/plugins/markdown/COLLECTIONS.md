@@ -41,8 +41,17 @@ Each collection:
 - **Features**: Telescope browsing (no indexing)
 - **Purpose**: Random notes, ideas, or loose ends
 - **Keymaps**:
-  - `<leader>r` - Browse all random entries (telescope)
-  - Add new random entry keymap (to be configured)
+  - `<leader>nr` - Browse all random entries (telescope)
+  - `<leader>xa` - Create new random entry
+
+### Tracking
+- **Directory**: `tracking/`
+- **Features**: Telescope browsing, auto-indexing
+- **Purpose**: Track goals, progress, metrics, or anything you want to monitor
+- **Keymaps**:
+  - `<leader>tl` - Browse all tracking entries (telescope)
+  - `<leader>ta` - Create new tracking entry
+  - `<leader>it` - View tracking index
 
 ## Adding a New Collection
 
