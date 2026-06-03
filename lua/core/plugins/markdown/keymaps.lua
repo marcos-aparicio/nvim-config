@@ -697,6 +697,17 @@ function M.setup_buffer_keymaps()
 
     vim.cmd("edit " .. vim.fn.fnameescape(index_file))
   end, { buffer = true, desc = "Open routines index" })
+
+  -- Random keymaps
+  local random = require("core.plugins.markdown.random")
+
+  vim.keymap.set("n", "<leader>nr", function()
+    random.open_random_telescope()
+  end, { buffer = true, desc = "Open random entries with telescope" })
+
+  vim.keymap.set("n", "<leader>xa", function()
+    random.create_new_random()
+  end, { buffer = true, desc = "Create new random entry" })
 end
 
 return M
