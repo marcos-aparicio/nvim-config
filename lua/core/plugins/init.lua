@@ -229,6 +229,7 @@ return {
   },
   {
     "mistweaverco/kulala.nvim",
+    tag = "v5.3.4",
     keys = {
       { "<leader>ps", desc = "Send request" },
       { "<leader>pa", desc = "Send all requests" },
