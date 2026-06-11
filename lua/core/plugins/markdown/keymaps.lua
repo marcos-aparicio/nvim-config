@@ -709,6 +709,17 @@ function M.setup_buffer_keymaps()
     random.create_new_random()
   end, { buffer = true, desc = "Create new random entry" })
 
+  -- References keymaps
+  local references = require("core.plugins.markdown.references")
+
+  vim.keymap.set("n", "<leader><leader>el", function()
+    references.open_references_telescope()
+  end, { buffer = true, desc = "Open references entries with telescope" })
+
+  vim.keymap.set("n", "<leader><leader>ea", function()
+    references.create_new_reference()
+  end, { buffer = true, desc = "Create new reference entry" })
+
   -- Tracking keymaps
   local tracking = require("core.plugins.markdown.tracking")
 

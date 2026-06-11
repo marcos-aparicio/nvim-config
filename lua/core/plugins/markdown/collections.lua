@@ -23,6 +23,10 @@ local collections_config = {
     dir_name = "random",
     has_index = false,
   },
+  references = {
+    dir_name = "references",
+    has_index = false,
+  },
 }
 
 -- Get config for a collection
