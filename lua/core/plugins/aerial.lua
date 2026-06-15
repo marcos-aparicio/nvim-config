@@ -1,6 +1,27 @@
 vim.keymap.set({ "n" }, "<leader>al", ":AerialToggle left<CR>")
+
 vim.keymap.set({ "n" }, "<leader>at", function()
-  require("aerial").snacks_picker()
+  require("aerial").snacks_picker({
+    on_close = function()
+      -- After picker closes (user selected something), unfold if in markdown
+      vim.defer_fn(function()
+        if vim.bo.filetype ~= "markdown" then
+          return
+        end
+
+        local line = vim.fn.line(".")
+        -- Keep unfolding until the line is visible
+        for _ = 1, 30 do
+          if vim.fn.foldclosed(line) == -1 then
+            break
+          end
+          vim.cmd("normal! zo")
+        end
+        -- Center the screen on the cursor line
+        vim.cmd("normal! zz")
+      end, 10)
+    end,
+  })
 end, { desc = "Toggle Aerial Snack picker with all symbols" })
 
 return {
