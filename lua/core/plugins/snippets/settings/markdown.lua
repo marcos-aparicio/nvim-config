@@ -124,6 +124,22 @@ local markdown_mappings = {
     i(1, "<type here>"),
   }),
   s({
+    trig = "notasum",
+    name = "NOTA SUMMARY",
+    desc = "Create a note summary with date and standard sections",
+  }, {
+    t("## "),
+    f(function()
+      return os.date("(%a %d %b %Y %I:%M:%S %p %Z)")
+    end, {}),
+    t({ " NOTA SUMMARY:", "", "### Webadas que si importan", "" }),
+    i(1),
+    t({ "", "", "", "### si pero no", "" }),
+    i(2),
+    t({ "", "", "", "### personal puro", "" }),
+    i(3),
+  }),
+  s({
     trig = "@anki",
     name = "Anki Note Template",
     desc = "Insert Anki note template with Spanish, French, and metadata sections",
