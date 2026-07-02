@@ -3,3 +3,8 @@ plugin/
 .worktrees/
 .vim-bookmarks/
 lua/globals.lua
+
+# Beads / Dolt files (added by bd init)
+.dolt/
+*.db
+.beads-credential-key
