@@ -1,0 +1,1 @@
+{"id":"int-234ea606","kind":"field_change","created_at":"2026-07-07T01:12:11.148294657Z","actor":"marcos-aparicio","issue_id":"nvim-8qr","extra":{"field":"status","new_value":"closed","old_value":"in_progress","reason":"Implemented fallback chain: <root>/memory/gtd/inbox.md first, falling back to existing <root>/lists/inbox.md; open_inbox now follows the same resolution."}}

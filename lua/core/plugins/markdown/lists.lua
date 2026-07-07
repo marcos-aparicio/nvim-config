@@ -8,6 +8,40 @@ local function open_list_file(filename)
   collections.open_file("lists", filename)
 end
 
+-- Ordered fallback chain of candidate inbox files, relative to the obsidian root.
+-- The last entry (lists/inbox.md) is always a valid fallback.
+local function get_inbox_candidates(root)
+  return {
+    root .. "/memory/gtd/inbox.md",
+    root .. "/lists/inbox.md",
+  }
+end
+
+-- Resolve the inbox path by picking the first candidate whose parent directory
+-- already exists, falling back to the last candidate (lists/inbox.md) otherwise.
+local function resolve_inbox_path(root)
+  local candidates = get_inbox_candidates(root)
+  for i, candidate in ipairs(candidates) do
+    local is_last = i == #candidates
+    local dir = vim.fn.fnamemodify(candidate, ":h")
+    if is_last or vim.fn.isdirectory(dir) == 1 then
+      return candidate
+    end
+  end
+end
+
+-- Open (creating if necessary) a file at an arbitrary absolute path
+local function open_file_creating(path)
+  local dir = vim.fn.fnamemodify(path, ":h")
+  if vim.fn.isdirectory(dir) == 0 then
+    vim.fn.mkdir(dir, "p")
+  end
+  if vim.fn.filereadable(path) == 0 then
+    vim.fn.writefile({}, path)
+  end
+  vim.cmd("edit " .. vim.fn.fnameescape(path))
+end
+
 -- Open next.md
 function M.open_next()
   open_list_file("next.md")
@@ -18,9 +52,15 @@ function M.open_someday_maybe()
   open_list_file("someday-maybe.md")
 end
 
--- Open inbox.md
+-- Open inbox.md, following the same fallback chain as append_to_inbox
 function M.open_inbox()
-  open_list_file("inbox.md")
+  local root = diary.find_obsidian_root()
+  if not root then
+    vim.notify("Could not find .obsidian directory in parent folders", vim.log.levels.ERROR)
+    return
+  end
+
+  open_file_creating(resolve_inbox_path(root))
 end
 
 -- Open waiting-to.md
@@ -51,8 +91,7 @@ function M.append_to_inbox()
     return
   end
 
-  local lists_dir = root .. "/lists"
-  local inbox_path = lists_dir .. "/inbox.md"
+  local inbox_path = resolve_inbox_path(root)
 
   vim.ui.input({ prompt = "Add to inbox: " }, function(input)
     if not input or input:match("^%s*$") then
@@ -64,7 +103,11 @@ function M.append_to_inbox()
     if vim.fn.filereadable(inbox_path) == 1 then
       lines = vim.fn.readfile(inbox_path)
     else
-      -- Create inbox if it doesn't exist
+      -- Create inbox dir and content if it doesn't exist
+      local inbox_dir = vim.fn.fnamemodify(inbox_path, ":h")
+      if vim.fn.isdirectory(inbox_dir) == 0 then
+        vim.fn.mkdir(inbox_dir, "p")
+      end
       lines = { "# inbox", "" }
     end
 
