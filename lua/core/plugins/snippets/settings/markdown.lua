@@ -124,6 +124,69 @@ local markdown_mappings = {
     i(1, "<type here>"),
   }),
   s({
+    trig = ">ind",
+    name = "dated list item (prompt date)",
+    desc = "Prompt for a date (YYYY-MM-DD), defaults to today, then insert a dated list item",
+  }, {
+    t("- "),
+    f(function()
+      local today = os.date("%Y-%m-%d")
+      local raw = vim.fn.input("Date (YYYY-MM-DD): ", today)
+      if raw == "" then
+        return os.date("(%a %d %b %Y)")
+      end
+      local y, m, d = raw:match("^(%d%d%d%d)-(%d%d)-(%d%d)$")
+      if y and m and d then
+        local t_val = os.time({ year = tonumber(y), month = tonumber(m), day = tonumber(d) })
+        return os.date("(%a %d %b %Y)", t_val)
+      end
+      return "(" .. raw .. ")"
+    end, {}),
+    t(" "),
+    i(1, "<type here>"),
+  }),
+  s({
+    trig = ">indt",
+    name = "dated list item (prompt date + time)",
+    desc = "Prompt for date then time sequentially, insert a dated+timed list item",
+  }, {
+    t("- "),
+    f(function()
+      -- First prompt: date, pre-filled with today.
+      local date_raw = vim.fn.input("Date (YYYY-MM-DD): ", os.date("%Y-%m-%d"))
+      local y, m, d = date_raw:match("^(%d%d%d%d)-(%d%d)-(%d%d)$")
+
+      -- Second prompt: time, pre-filled with now.
+      local time_raw = vim.fn.input("Time (HH:MM): ", os.date("%H:%M"))
+      local hh, mm = time_raw:match("^(%d%d?):(%d%d)$")
+
+      -- Build the formatted date portion.
+      local date_str
+      if y and m and d then
+        local t_val = os.time({ year = tonumber(y), month = tonumber(m), day = tonumber(d) })
+        date_str = os.date("%a %d %b %Y", t_val)
+      else
+        date_str = date_raw ~= "" and date_raw or os.date("%a %d %b %Y")
+      end
+
+      -- Build the formatted time portion.
+      local time_str
+      if hh and mm then
+        local h = tonumber(hh)
+        local suffix = h >= 12 and "PM" or "AM"
+        h = h % 12
+        if h == 0 then h = 12 end
+        time_str = string.format("%02d:%s %s", h, mm, suffix)
+      else
+        time_str = time_raw ~= "" and time_raw or os.date("%I:%M %p")
+      end
+
+      return string.format("(%s %s)", date_str, time_str)
+    end, {}),
+    t(" "),
+    i(1, "<type here>"),
+  }),
+  s({
     trig = "notasum",
     name = "NOTA SUMMARY",
     desc = "Create a note summary with date and standard sections",
