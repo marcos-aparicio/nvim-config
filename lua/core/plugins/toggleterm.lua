@@ -33,6 +33,25 @@ return {
       desc = "Open lazygit in floating terminal",
     },
     {
+      "<leader>lh",
+      function()
+        local Terminal = require("toggleterm.terminal").Terminal
+        local lazygit = Terminal:new({
+          cmd = "gh dash",
+          direction = "float",
+          close_on_exit = true,
+          float_opts = {
+            border = "rounded",
+            width = math.floor(vim.o.columns * 0.85),
+            height = math.floor(vim.o.lines * 0.85),
+          },
+        })
+        lazygit:open()
+      end,
+      mode = { "n", "t" },
+      desc = "Open gh dash in floating terminal",
+    },
+    {
       "<leader>lc",
       function()
         local Terminal = require("toggleterm.terminal").Terminal
@@ -147,7 +166,7 @@ return {
       function()
         local Terminal = require("toggleterm.terminal").Terminal
         local filepath = vim.api.nvim_buf_get_name(0)
-        
+
         if not filepath or filepath == "" then
           vim.notify("No file associated with this buffer", vim.log.levels.WARN)
           return
@@ -155,7 +174,7 @@ return {
 
         -- Create a unique ID for this file's visidata terminal
         local term_id = "visidata_" .. vim.fn.fnamemodify(filepath, ":t"):gsub("%.", "_")
-        
+
         if not _G[term_id] then
           _G[term_id] = Terminal:new({
             cmd = "visidata " .. vim.fn.shellescape(filepath),
@@ -168,7 +187,7 @@ return {
             },
           })
         end
-        
+
         _G[term_id]:toggle()
       end,
       ft = { "csv", "tsv", "psv", "json" },
