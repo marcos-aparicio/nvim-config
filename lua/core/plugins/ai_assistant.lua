@@ -5,7 +5,7 @@ return {
     --- @type agentic.PartialUserConfig
     opts = {
       -- Any ACP-compatible provider works. Built-in: "claude-agent-acp" | "gemini-acp" | "codex-acp" | "opencode-acp" | "cursor-acp" | "copilot-acp" | "auggie-acp" | "mistral-vibe-acp" | "cline-acp" | "goose-acp" | "kiro-acp" | "pi-acp"
-      provider = "claude-agent-acp",
+      provider = "opencode-acp",
     },
 
     keys = {
@@ -13,21 +13,21 @@ return {
       {
         "<leader>ac",
         function() require("agentic").toggle() end,
-        mode = { "n", "v", "i" },
+        mode = { "n", "v" },
         desc = "Toggle Agentic Chat",
       },
       -- was CopilotChatLoad (history picker)
       {
         "<leader>a,",
         function() require("agentic").restore_session() end,
-        mode = { "n", "v", "i" },
+        mode = { "n", "v" },
         desc = "Agentic Restore Session",
       },
       -- no previous equivalent; kept in the same <leader>a* style
       {
         "<leader>an",
         function() require("agentic").new_session() end,
-        mode = { "n", "v", "i" },
+        mode = { "n", "v" },
         desc = "New Agentic Session",
       },
       {
@@ -69,7 +69,7 @@ return {
             end
           end)
         end,
-        mode = { "n", "i" },
+        mode = { "n" },
         desc = "Toggle Focus Between Agentic Prompt and File Buffer",
       },
     },
