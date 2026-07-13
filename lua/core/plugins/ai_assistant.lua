@@ -1,76 +1,64 @@
 return {
   {
-    "carlos-algms/agentic.nvim",
+    "olimorris/codecompanion.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
 
-    --- @type agentic.PartialUserConfig
+    ---@type CodeCompanion.Config
     opts = {
-      -- Any ACP-compatible provider works. Built-in: "claude-agent-acp" | "gemini-acp" | "codex-acp" | "opencode-acp" | "cursor-acp" | "copilot-acp" | "auggie-acp" | "mistral-vibe-acp" | "cline-acp" | "goose-acp" | "kiro-acp" | "pi-acp"
-      provider = "opencode-acp",
+      adapters = {
+        acp = {
+          -- Hide every other ACP preset; only Claude Code and OpenCode are
+          -- offered as providers.
+          opts = { show_presets = false },
+          claude_code = function() return require("codecompanion.adapters").extend("claude_code") end,
+          opencode = function() return require("codecompanion.adapters").extend("opencode") end,
+        },
+      },
+      interactions = {
+        chat = {
+          -- Default provider. Switch per-session with `ga` in the chat buffer,
+          -- or `:CodeCompanionChat adapter=claude_code|opencode`.
+          adapter = "opencode",
+        },
+      },
     },
 
     keys = {
-      -- was CopilotChatToggle
+      -- was <leader>ac (Toggle Agentic Chat)
       {
         "<leader>ac",
-        function() require("agentic").toggle() end,
+        "<cmd>CodeCompanionChat Toggle<cr>",
         mode = { "n", "v" },
-        desc = "Toggle Agentic Chat",
+        desc = "Toggle CodeCompanion Chat",
       },
-      -- was CopilotChatLoad (history picker)
-      {
-        "<leader>a,",
-        function() require("agentic").restore_session() end,
-        mode = { "n", "v" },
-        desc = "Agentic Restore Session",
-      },
-      -- no previous equivalent; kept in the same <leader>a* style
+      -- was <leader>an (New Agentic Session)
       {
         "<leader>an",
-        function() require("agentic").new_session() end,
+        function() require("codecompanion").chat() end,
         mode = { "n", "v" },
-        desc = "New Agentic Session",
+        desc = "New CodeCompanion Chat",
       },
+      -- was <leader>aC (Add File or Selection to Agentic Context)
       {
         "<leader>aC",
-        function() require("agentic").add_selection_or_file_to_context() end,
-        mode = { "n", "v" },
-        desc = "Add File or Selection to Agentic Context",
+        "<cmd>CodeCompanionChat Add<cr>",
+        mode = "v",
+        desc = "Add Selection to CodeCompanion Chat",
       },
-      {
-        "<leader>ad",
-        function() require("agentic").add_current_line_diagnostics() end,
-        mode = { "n" },
-        desc = "Add Current Line Diagnostics to Agentic",
-      },
+      -- was <leader>ad / <leader>aD (Add Diagnostics to Agentic); capitalized
+      -- to avoid the existing buffer-local <leader>ad Anki mapping in telescope.lua
       {
         "<leader>aD",
-        function() require("agentic").add_buffer_diagnostics() end,
-        mode = { "n" },
-        desc = "Add Buffer Diagnostics to Agentic",
+        function() vim.cmd([[CodeCompanionChat #{diagnostics} Can you help me fix these?]]) end,
+        mode = "n",
+        desc = "Send Buffer Diagnostics to CodeCompanion Chat",
       },
-      -- No public API for this; agentic.nvim only exposes open/close/toggle of the
-      -- whole widget, not a focus swap, so we reach into the session's widget directly.
+      -- Upstream's suggested workflow keymap for browsing all actions/prompts
       {
-        "<leader>af",
-        function()
-          require("agentic.session_registry").get_session_for_tab_page(nil, function(session)
-            local widget = session.widget
-            if not widget:is_open() then return end
-
-            if widget:is_cursor_in_widget() then
-              local target = widget:find_first_non_widget_window()
-              if target then vim.api.nvim_set_current_win(target) end
-            else
-              local input_win = widget.win_nrs.input
-              if input_win and vim.api.nvim_win_is_valid(input_win) then
-                vim.api.nvim_set_current_win(input_win)
-                vim.cmd("startinsert!")
-              end
-            end
-          end)
-        end,
-        mode = { "n" },
-        desc = "Toggle Focus Between Agentic Prompt and File Buffer",
+        "<C-a>",
+        "<cmd>CodeCompanionActions<cr>",
+        mode = { "n", "v" },
+        desc = "CodeCompanion Action Palette",
       },
     },
   },
