@@ -228,22 +228,6 @@ return {
     end,
   },
   {
-    "mistweaverco/kulala.nvim",
-    tag = "v5.3.4",
-    keys = {
-      { "<leader>ps", desc = "Send request" },
-      { "<leader>pa", desc = "Send all requests" },
-      { "<leader>pb", desc = "Open scratchpad" },
-    },
-    ft = { "http", "rest" },
-    opts = {
-      global_keymaps = true,
-
-      global_keymaps_prefix = "<leader>p",
-      kulala_keymaps_prefix = "",
-    },
-  },
-  {
     "HakonHarnes/img-clip.nvim",
     event = "VeryLazy",
     opts = {
