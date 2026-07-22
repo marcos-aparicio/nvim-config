@@ -37,7 +37,7 @@ M.setup = function()
 end
 
 local function lsp_keymaps(bufnr)
-  local opts = { noremap = true, silent = true }
+  local opts = { noremap = true, silent = true, buffer = bufnr }
   vim.keymap.set("n", "<leader>lsr", ":LspRestart<CR>", opts)
   vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
   vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
@@ -75,7 +75,17 @@ M.on_attach = function(client, bufnr)
   if client.server_capabilities.documentSymbolProvider then
     navic.attach(client, bufnr)
   end
-  lsp_keymaps(bufnr)
+  -- keymaps handled globally via the LspAttach autocmd below, so they apply
+  -- to every client (mason-managed and otherwise, e.g. kulala's LSP)
 end
+
+-- Fires for every LSP client that attaches to any buffer, regardless of how
+-- the server was started (mason, lspconfig, or in-process servers like kulala).
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = vim.api.nvim_create_augroup("UserLspKeymaps", { clear = true }),
+  callback = function(args)
+    lsp_keymaps(args.buf)
+  end,
+})
 
 return M
