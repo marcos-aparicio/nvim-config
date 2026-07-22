@@ -179,9 +179,9 @@ return {
     },
     cmd = { "Laravel" },
     keys = {
-      { "<leader>la", ":Laravel artisan<cr>" },
-      { "<leader>lr", ":Laravel routes<cr>" },
-      { "<leader>lm", ":Laravel related<cr>" },
+      { "<leader>lla", ":Laravel artisan<cr>", ft = "php" },
+      { "<leader>llr", ":Laravel routes<cr>", ft = "php" },
+      { "<leader>llm", ":Laravel related<cr>", ft = "php" },
     },
     opts = {},
     config = true,
