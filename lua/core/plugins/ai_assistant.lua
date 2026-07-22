@@ -15,6 +15,9 @@ return {
         },
       },
       interactions = {
+        cli = {
+          agent = "claude"
+        },
         chat = {
           -- Default provider. Switch per-session with `ga` in the chat buffer,
           -- or `:CodeCompanionChat adapter=claude_code|opencode`.
