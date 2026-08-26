@@ -12,6 +12,34 @@ return {
           opts = { show_presets = false },
           claude_code = function() return require("codecompanion.adapters").extend("claude_code") end,
           opencode = function() return require("codecompanion.adapters").extend("opencode") end,
+          codex = function()
+            return require("codecompanion.adapters").extend("codex", {
+              defaults = {
+                auth_method = "chat-gpt", -- "api-key"|"chat-gpt"
+              },
+            })
+          end,
+          copilot_acp = function()
+            return require("codecompanion.adapters").extend("copilot_acp", {
+              defaults = {
+                mcpServers = "inherit_from_config",
+
+                session_config_options = {
+                  mode = "https://agentclientprotocol.com/protocol/session-modes#autopilot",
+                  permissions = "on",
+                },
+              },
+            })
+          end,
+        },
+      },
+      display = {
+        chat = {
+          icons = {
+            chat_fold = " ",
+          },
+          fold_reasoning = false,
+          show_reasoning = false,
         },
       },
       interactions = {
@@ -21,7 +49,7 @@ return {
         chat = {
           -- Default provider. Switch per-session with `ga` in the chat buffer,
           -- or `:CodeCompanionChat adapter=claude_code|opencode`.
-          adapter = "opencode",
+          adapter = "copilot_acp",
         },
       },
     },
@@ -40,6 +68,12 @@ return {
         function() require("codecompanion").chat() end,
         mode = { "n", "v" },
         desc = "New CodeCompanion Chat",
+      },
+      {
+        "<leader>ar",
+        "<cmd>CodeCompanionChat adapter=copilot_acp /resume<cr>",
+        mode = { "n", "v" },
+        desc = "Resume Copilot Session",
       },
       -- was <leader>aC (Add File or Selection to Agentic Context)
       {
