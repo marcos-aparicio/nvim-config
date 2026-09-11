@@ -1,14 +1,42 @@
 return {
-  "tpope/vim-abolish",
+  -- plenary is only ever pulled in as a dependency now, so its test-runner
+  -- commands need declaring to stay reachable.
+  {
+    "nvim-lua/plenary.nvim",
+    lazy = true,
+    cmd = { "PlenaryBustedFile", "PlenaryBustedDirectory" },
+  },
+  -- Abolish installs the `cr` coercion operator and :S/:Subvert. Loading it at
+  -- VeryLazy keeps the mappings identical without paying for it during startup.
+  { "tpope/vim-abolish", event = "VeryLazy" },
   {
     "kkoomen/vim-doge",
     build = ":call doge#install()",
+    cmd = { "DogeGenerate" },
+    keys = { { "<leader>dd", desc = "DOGE: generate docblock" } },
     init = function()
       vim.g.doge_mapping = "<leader>dd" -- Change this to your desired mapping
     end,
   },
-  "tpope/vim-speeddating",
-  "tpope/vim-dispatch",
+  -- <C-a>/<C-x> are what speeddating overrides; VeryLazy preserves the current
+  -- mapping precedence (codecompanion's <C-a> stub is registered before this).
+  { "tpope/vim-speeddating", event = "VeryLazy" },
+  {
+    "tpope/vim-dispatch",
+    cmd = { "Dispatch", "Start", "Spawn", "Make", "Focus", "FocusDispatch", "AbortDispatch", "Copen" },
+    -- dispatch's 20 default mappings, declared so they keep working without
+    -- the plugin being present: m* = :Make, `* = :Dispatch, '* = :Start,
+    -- g'*/g`* = :Spawn.
+    keys = (function()
+      local keys = {}
+      for _, prefix in ipairs({ "m", "`", "'", "g`", "g'" }) do
+        for _, suffix in ipairs({ "<Space>", "<CR>", "!", "?" }) do
+          keys[#keys + 1] = prefix .. suffix
+        end
+      end
+      return keys
+    end)(),
+  },
   -- "Treesitter for rasi filetype"
   { "Fymyte/rasi.vim",          ft = "rasi" },
   {
@@ -31,6 +59,7 @@ return {
   { "andrewradev/linediff.vim", cmd = "Linediff" },
   {
     "lukas-reineke/virt-column.nvim",
+    event = { "BufReadPre", "BufNewFile" },
     opts = {
       char = { ".", "." },
       virtcolumn = "80,100",
@@ -48,7 +77,12 @@ return {
   --   event = { "BufReadPost", "BufWritePost", "BufNewFile" },
   --   opts = {},
   -- },
-  { "Pocco81/HighStr.nvim",  main = "high-str",       opts = {} },
+  {
+    "Pocco81/HighStr.nvim",
+    cmd = { "HSHighlight", "HSRmHighlight", "HSExport", "HSImport" },
+    main = "high-str",
+    opts = {},
+  },
   {
     "ziontee113/color-picker.nvim",
     cmd = { "PickColor", "PickColorInsert" },
@@ -64,7 +98,7 @@ return {
     main = "color-picker",
     opts = {},
   },
-  { "windwp/nvim-autopairs", main = "nvim-autopairs", opts = {} },
+  { "windwp/nvim-autopairs", event = "InsertEnter", main = "nvim-autopairs", opts = {} },
   {
     "akinsho/bufferline.nvim",
     version = "*",
@@ -73,6 +107,7 @@ return {
   {
     "selimacerbas/markdown-preview.nvim",
     dependencies = { "selimacerbas/live-server.nvim" },
+    cmd = { "MarkdownPreview", "MarkdownPreviewRefresh", "MarkdownPreviewStop" },
     main = "markdown_preview",
     opts = {
       instance_mode = "takeover", -- "takeover" (one tab) or "multi" (tab per instance)
@@ -81,6 +116,18 @@ return {
       default_theme = "dark",     -- "dark" or "light"; initial preview theme
       debounce_ms = 300,
     }
+  },
+  {
+    "selimacerbas/live-server.nvim",
+    cmd = {
+      "LiveServerStart",
+      "LiveServerOpen",
+      "LiveServerReload",
+      "LiveServerToggleLive",
+      "LiveServerStop",
+      "LiveServerStatus",
+      "LiveServerStopAll",
+    },
   },
   {
     "folke/snacks.nvim",
@@ -200,8 +247,10 @@ return {
     },
   },
   {
+    -- plugin/wakatime.vim alone costs ~60ms of startup (python/cli discovery).
+    -- Deferring to VeryLazy keeps tracking intact but off the critical path.
     "wakatime/vim-wakatime",
-    lazy = false,
+    event = "VeryLazy",
     opts = {
       api_key_vault_cmd = "pass show wakatime_api_key",
     },

@@ -14,7 +14,11 @@ end
 
 return {
   "dlyongemallo/diffview.nvim",
-  lazy = false,
+  cmd = {
+    "DiffviewOpen", "DiffviewToggle", "DiffviewClose", "DiffviewRefresh",
+    "DiffviewFileHistory", "DiffviewFocusFiles", "DiffviewToggleFiles",
+    "DiffviewDiffFiles", "DiffviewDiffDirs", "DiffviewMergeFiles", "DiffviewLog",
+  },
   keys = {
     { "<leader>gd", ":DiffviewFileHistory %" },
     { "<leader>gD", ":DiffviewOpen --current-file" },

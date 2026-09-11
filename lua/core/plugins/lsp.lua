@@ -1,5 +1,7 @@
 return {
-  "MunifTanjim/prettier.nvim",
+  -- NOTE: "MunifTanjim/prettier.nvim" and "roobert/tailwindcss-colorizer-cmp.nvim"
+  -- used to sit here. Nothing required either one: conform.nvim owns formatting
+  -- and the completion engine is blink.cmp, not nvim-cmp. Both only cost startup.
   {
     "folke/lazydev.nvim",
     ft = "lua", -- only load on lua files
@@ -42,14 +44,6 @@ return {
         "typescriptreact",
         "typescript.tsx",
       },
-    },
-  },
-  {
-    "roobert/tailwindcss-colorizer-cmp.nvim",
-    main = "tailwindcss-colorizer-cmp",
-    -- optionally, override the default options:
-    opts = {
-      color_square_width = 2,
     },
   },
 }

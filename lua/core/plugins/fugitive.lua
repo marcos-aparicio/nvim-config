@@ -1,6 +1,5 @@
 return {
   "tpope/vim-fugitive",
-  lazy = false,
   keys = {
     { "<leader>ga", ":G add<space>" },
     { "<leader>go", ":G open<CR>" }, -- custom command of mine
@@ -16,6 +15,15 @@ return {
     { "<leader>gk", ":G checkout -- %" },
     { "<leader>gw", ":diffput<CR>", mode = "v" },
     { "<leader>gh", ":0G log -n 300<CR>", ft = "git", desc = "Open git log in the current buffer" },
+    -- fugitive's two non-<leader> globals: yank the current git object, and
+    -- insert the git path on the command line.
+    { "y<C-G>", desc = "fugitive: yank git object" },
+    { "<C-R><C-G>", mode = "c", desc = "fugitive: insert git path" },
   },
-  cmd = { "G" },
+  cmd = {
+    "G", "Git", "Gcd", "Glcd", "Gedit", "Ge", "Gsplit", "Gvsplit", "Gtabedit", "Gpedit",
+    "Gdrop", "Gread", "Gr", "Gwrite", "Gw", "Gwq", "Gdiffsplit", "Ghdiffsplit", "Gvdiffsplit",
+    "GMove", "Gmove", "GRename", "Grename", "GDelete", "Gdelete", "GRemove", "Gremove",
+    "GUnlink", "GBrowse", "Gbrowse", "Ggrep", "Glgrep", "Gclog", "GcLog", "Gllog", "GlLog",
+  },
 }

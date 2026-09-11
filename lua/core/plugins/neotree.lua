@@ -7,8 +7,10 @@ return {
     "MunifTanjim/nui.nvim",
     -- {"3rd/image.nvim", opts = {}}, -- Optional image support in preview window: See `# Preview Mode` for more information
   },
-  keys = { { "<C-n>", ":Neotree toggle<CR>" } },
-  lazy = false, -- neo-tree will lazily load itself
+  -- mini.files owns `use_as_default_explorer`, so neo-tree never has to be
+  -- present at startup: <C-n> and :Neotree are the only ways in.
+  cmd = "Neotree",
+  keys = { { "<C-n>", ":Neotree toggle<CR>", desc = "Toggle Neotree" } },
   ---@module "neo-tree"
   ---@type neotree.Config?
   opts = {

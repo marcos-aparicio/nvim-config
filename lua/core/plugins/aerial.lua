@@ -26,6 +26,13 @@ end, { desc = "Toggle Aerial Snack picker with all symbols" })
 
 return {
   "stevearc/aerial.nvim",
+  -- The two <leader>a* maps above are plain keymaps set at startup; they route
+  -- through :AerialToggle / require("aerial"), both of which load the plugin.
+  cmd = {
+    "AerialToggle", "AerialOpen", "AerialOpenAll", "AerialClose", "AerialCloseAll",
+    "AerialNext", "AerialPrev", "AerialGo", "AerialInfo",
+    "AerialNavToggle", "AerialNavOpen", "AerialNavClose",
+  },
   opts = {
     attach_mode = "global",
     backends = { "lsp", "treesitter", "markdown", "man" },

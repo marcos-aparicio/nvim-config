@@ -1,9 +1,10 @@
 -- mini.files config extracted from https://github.com/linkarzu/dotfiles-latest/blob/main/neovim/neobean/lua/plugins/mini-files.lua Thank you for sharing!
 return {
-  { "nvim-mini/mini.diff", opts = {} },
-  { "nvim-mini/mini.ai",   opts = {} },
+  { "nvim-mini/mini.ai",        event = "VeryLazy", opts = {} },
+  { "nvim-mini/mini.operators", event = "VeryLazy", opts = {} },
   {
     "nvim-mini/mini.surround",
+    event = "VeryLazy",
     opts = {
       mappings = {
         add = "gsa",       -- Add surrounding in Normal and Visual modes
@@ -17,16 +18,16 @@ return {
       },
     },
   },
-  { "nvim-mini/mini.operators", opts = {} },
   {
     "nvim-mini/mini.diff",
     version = "*",
+    -- Signs only matter once a real buffer exists, so attach at read time.
+    event = { "BufReadPre", "BufNewFile" },
     opts = {
       view = {
         style = "sign",
       },
     },
-    lazy = false,
     keys = {
       { "<leader>gh", ":lua MiniDiff.toggle_overlay()<CR>", desc = "toggle mini.diff overlay" },
     },

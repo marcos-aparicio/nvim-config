@@ -7,6 +7,9 @@ return {
   {
     "polarmutex/git-worktree.nvim",
     version = "^2",
+    -- Reached only through `:Telescope git_worktree`, which telescope's
+    -- load_extension pulls in when telescope itself loads.
+    lazy = true,
     dependencies = {
       { "nvim-lua/plenary.nvim" },
       { "nvim-telescope/telescope.nvim" },
@@ -15,42 +18,43 @@ return {
   {
     "nvim-telescope/telescope.nvim",
     branch = "master",
-    event = "VeryLazy",
-    -- tag = "0.1.6",
+    -- Every entry point below is a keymap or :Telescope, so telescope (and
+    -- plenary, and the three extensions) load on first use instead of at
+    -- startup. `init` only registers mappings -- it requires nothing.
+    cmd = "Telescope",
     dependencies = { "nvim-lua/plenary.nvim" },
-    opts = function()
-      local telescope = require("telescope")
-      local actions = require("telescope.actions")
-      local action_layout = require("telescope.actions.layout")
-      local action_state = require("telescope.actions.state")
-      local builtin = require("telescope.builtin")
-      local lga_actions = require("telescope-live-grep-args.actions")
-      local previewers = require("telescope.previewers")
-      local Job = require("plenary.job")
-      local Path = require("plenary.path")
+    init = function()
+      -- Defer every `require` into the callback so pressing the key is what
+      -- loads telescope.
+      local function builtin(name, args)
+        return function()
+          require("telescope.builtin")[name](args)
+        end
+      end
 
       local keymaps = {
-        { "n", "<leader>f",   builtin.find_files },
-        { "n", "<leader>b",   builtin.buffers },
-        { "n", "<leader>gfl", builtin.git_bcommits },
+        { "n", "<leader>f",   builtin("find_files") },
+        { "n", "<leader>b",   builtin("buffers") },
+        { "n", "<leader>gfl", builtin("git_bcommits") },
         { "n", "<leader>gt",  ":Telescope git_worktree<CR>" },
         { "n", "<leader>td",  ":Telescope diagnostics<CR>" },
         { "v", "<leader>ll",  "y<ESC>:Telescope live_grep_args default_text=<c-r>0<CR>" },
-        { "n", "<leader>z",   telescope.extensions.zoxide.list },
-        { "n", "<leader>gs",  builtin.git_status },
+        { "n", "<leader>z",   function() require("telescope").extensions.zoxide.list() end },
+        { "n", "<leader>gs",  builtin("git_status") },
         { "n", "<leader>tl",  ":Telescope lsp_document_symbols<CR>" },
-        { "n", "<leader>gb",  builtin.git_branches },
+        { "n", "<leader>gb",  builtin("git_branches") },
         { "n", "<leader>tp",  ":Telescope projects<CR>" },
-        { "n", "<leader>th",  builtin.help_tags },
+        { "n", "<leader>th",  builtin("help_tags") },
         { "n", "<leader>tk",  ":Telescope keymaps<CR>" },
         { "n", "<leader>cm",  ":Telescope commands<CR>" },
         { "n", "<leader>ch",  ":Telescope command_history<CR>" },
-        { "n", "<leader>/",   builtin.current_buffer_fuzzy_find },
+        { "n", "<leader>/",   builtin("current_buffer_fuzzy_find") },
         {
           "n",
           "<leader>ll",
           function()
-            telescope.extensions.live_grep_args.live_grep_args({
+            local lga_actions = require("telescope-live-grep-args.actions")
+            require("telescope").extensions.live_grep_args.live_grep_args({
               auto_quoting = true, -- enable/disable auto-quoting
               mappings = {
                 i = {
@@ -66,17 +70,18 @@ return {
         {
           "n",
           "<leader>rf",
-          function()
-            builtin.find_files({
-              no_ignore = true,
-              find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
-            })
-          end,
+          builtin("find_files", {
+            no_ignore = true,
+            find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
+          }),
         },
         {
           "n",
           "<leader>tg",
           function()
+            local actions = require("telescope.actions")
+            local action_state = require("telescope.actions.state")
+            local previewers = require("telescope.previewers")
             local tags_output = vim.fn.systemlist("tmsu tags")
             if #tags_output == 0 then
               vim.notify("No tags found", vim.log.levels.WARN)
@@ -146,6 +151,8 @@ return {
           "n",
           "<leader>ad",
           function()
+            local actions = require("telescope.actions")
+            local action_state = require("telescope.actions.state")
             local decks_output = vim.fn.systemlist("apy list-decks")
             if #decks_output == 0 then
               vim.notify("No decks found", vim.log.levels.WARN)
@@ -187,6 +194,12 @@ return {
         local final_opts = map[4] and vim.tbl_extend("force", opts, map[4]) or opts
         vim.keymap.set(map[1], map[2], map[3], final_opts)
       end
+    end,
+    opts = function()
+      local telescope = require("telescope")
+      local actions = require("telescope.actions")
+      local action_layout = require("telescope.actions.layout")
+      local action_state = require("telescope.actions.state")
 
       telescope.load_extension("live_grep_args")
       telescope.load_extension("projects")

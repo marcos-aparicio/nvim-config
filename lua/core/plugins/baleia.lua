@@ -1,6 +1,9 @@
 return {
   "m00qek/baleia.nvim",
   version = "*",
+  -- lazy stubs both commands, so :BaleiaColorize / :BaleiaLogs stay available
+  -- while the plugin itself is only required on first use.
+  cmd = { "BaleiaColorize", "BaleiaLogs" },
   config = function()
     vim.g.baleia = require("baleia").setup({})
 

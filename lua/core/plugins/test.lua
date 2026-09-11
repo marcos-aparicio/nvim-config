@@ -1,8 +1,17 @@
+-- Every neotest entry point is a <leader>t* mapping, so `keys` is the trigger:
+-- the mappings exist from startup, but neotest and its four adapters (plus
+-- nvim-nio, FixCursorHold and jit.p) only load the first time one is pressed.
+local function run(fn)
+  return function()
+    fn(require("neotest"))
+  end
+end
+
 return {
   {
     "nvim-neotest/neotest",
-    ft = { "python", "py", "typescript", "ts", "javascript", "js", "go" },
-    lazy = false,
+    cmd = { "Neotest" },
+    ft = { "python", "typescript", "javascript", "go" },
     dependencies = {
       "nvim-lua/plenary.nvim",
       "antoinemadec/FixCursorHold.nvim",
@@ -18,28 +27,15 @@ return {
         end,
       },
     },
+    keys = {
+      { "<leader>tr", run(function(n) n.run.run() end), desc = "Neotest: run nearest" },
+      { "<leader>tt", run(function(n) n.run.run(vim.fn.expand("%")) end), desc = "Neotest: run file" },
+      { "<leader>ts", run(function(n) n.summary.toggle() end), desc = "Neotest: toggle summary" },
+      { "<leader>to", run(function(n) n.output.open({ enter = true, auto_close = true }) end), desc = "Neotest: output" },
+      { "<leader>tO", run(function(n) n.output_panel.toggle() end), desc = "Neotest: output panel" },
+      { "<leader>tw", run(function(n) n.watch.toggle(vim.fn.expand("%")) end), desc = "Neotest: watch file" },
+    },
     opts = function()
-      local neotest = require("neotest")
-      local map = vim.keymap.set
-      map("n", "<leader>tr", function()
-        neotest.run.run()
-      end)
-      map("n", "<leader>tt", function()
-        neotest.run.run(vim.fn.expand("%"))
-      end)
-      map("n", "<leader>ts", function()
-        neotest.summary.toggle()
-      end)
-      map("n", "<leader>to", function()
-        neotest.output.open({ enter = true, auto_close = true })
-      end)
-      map("n", "<leader>tO", function()
-        neotest.output_panel.toggle()
-      end)
-      map("n", "<leader>tw", function()
-        neotest.watch.toggle(vim.fn.expand("%"))
-      end)
-
       return {
         level = vim.log.levels.DEBUG,
         adapters = {

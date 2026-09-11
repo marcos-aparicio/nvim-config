@@ -1,5 +1,5 @@
 local M = {}
-local navic = require("nvim-navic")
+local navic
 
 M.setup = function()
   local signs = {
@@ -43,7 +43,11 @@ local function lsp_keymaps(bufnr)
   vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
   vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
   vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-  vim.keymap.set("n", "<leader>gr", require("telescope.builtin").lsp_references, opts)
+  -- Deferred require: binding the function directly pulled all of telescope in
+  -- on the first LSP attach, which happens on the first buffer read.
+  vim.keymap.set("n", "<leader>gr", function()
+    require("telescope.builtin").lsp_references()
+  end, opts)
   vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
   vim.keymap.set("n", "[d", function()
     vim.diagnostic.jump({ severity = vim.diagnostic.severity.ERROR, count = -1, float = true })
@@ -73,6 +77,9 @@ end
 
 M.on_attach = function(client, bufnr)
   if client.server_capabilities.documentSymbolProvider then
+    -- Required here rather than at module scope so navic loads only once a
+    -- symbol-capable server actually attaches.
+    navic = navic or require("nvim-navic")
     navic.attach(client, bufnr)
   end
   -- keymaps handled globally via the LspAttach autocmd below, so they apply

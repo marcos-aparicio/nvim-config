@@ -33,8 +33,9 @@ return {
     { "mp", ":lua require('lspmark.bookmarks').paste_text()<CR>" },
     { "mi", ":lua require('lspmark.bookmarks').modify_comment()<CR>" },
   },
-  -- event = { "DirChanged" },
-  lazy = false,
+  -- Bookmarks only need to exist once the UI is up; VeryLazy keeps the marks
+  -- appearing on the first drawn frame without blocking startup.
+  event = "VeryLazy",
   config = function()
     require("lspmark").setup()
     require("lspmark.bookmarks").load_bookmarks() -- so that it also loads on startup

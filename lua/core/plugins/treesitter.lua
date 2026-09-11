@@ -7,6 +7,9 @@ return {
   },
   {
     "SmiteshP/nvim-navic",
+    -- Pulled in by core.lsp.handlers (on LSP attach) and by lualine's `navic`
+    -- component; lazy's require hook loads and configures it on first touch.
+    lazy = true,
     dependencies = "neovim/nvim-lspconfig",
     opts = {
       -- separator = " ",
@@ -24,7 +27,6 @@ return {
     "nvim-treesitter/nvim-treesitter",
     event = "VeryLazy",
     branch = "main",
-    main = "nvim-treesitter",
     build = function()
       require("nvim-treesitter.install").update({ with_sync = true })
     end,
@@ -138,6 +140,8 @@ return {
         },
       }
     end,
+    -- `init` runs during startup, so it must not touch the plugin itself.
+    -- Only core APIs and autocmd registration belong here.
     init = function()
       vim.api.nvim_create_autocmd('FileType', {
         callback = function()
@@ -163,8 +167,17 @@ return {
       })
 
       vim.treesitter.language.register("crystal", { "cr" })
+    end,
+    config = function(_, opts)
+      local ts = require('nvim-treesitter')
+      ts.setup(opts)
+
+      -- Was in `init`, where `require('nvim-treesitter.config')` dragged the
+      -- whole plugin into startup (and re-printed the parser warning every
+      -- launch). "javascriptreact" is not a parser -- that filetype is served
+      -- by the "javascript" parser -- so it is gone rather than warned about.
       local ensureInstalled = {
-        'lua', 'python', 'typescript', 'javascript', 'javascriptreact', 'http',
+        'lua', 'python', 'typescript', 'javascript', 'http',
         'html', 'scss', 'css', 'yaml', 'toml'
         -- ... your parsers
       }
@@ -174,7 +187,7 @@ return {
             return not vim.tbl_contains(alreadyInstalled, parser)
           end)
           :totable()
-      require('nvim-treesitter').install(parsersToInstall)
+      ts.install(parsersToInstall)
     end
   },
 }

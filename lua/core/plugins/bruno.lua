@@ -6,6 +6,9 @@ return {
     -- Choose one based on whichever picker you prefer.
     "nvim-telescope/telescope.nvim",
   },
+  -- Dragging telescope + plenary in at startup for an HTTP client that is only
+  -- ever reached through :Bruno* was the single biggest dependency cascade here.
+  cmd = { "BrunoRun", "BrunoEnv", "BrunoSearch", "BrunoToggleFormat" },
   opts = {
     -- Paths to your bruno collections.
     collection_paths = {
