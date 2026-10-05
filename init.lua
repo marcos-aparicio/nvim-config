@@ -3,6 +3,7 @@
 vim.loader.enable()
 
 require("settings")
+require("chezmoi-filetype")
 require("autocmds")
 require("commands")
 require("datediff")
