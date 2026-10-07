@@ -27,6 +27,14 @@ return {
       view = {
         style = "sign",
       },
+      -- mini.diff's defaults claim gh/gH ("Apply hunks"/"Reset hunks"), which
+      -- shadow the custom gh -> g^ / gH -> ^ movement mappings set at startup.
+      -- Set '' to disable; <leader>gh still toggles the overlay.
+      mappings = {
+        apply = "",
+        reset = "",
+        textobject = "",
+      },
     },
     keys = {
       { "<leader>gh", ":lua MiniDiff.toggle_overlay()<CR>", desc = "toggle mini.diff overlay" },

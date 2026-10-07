@@ -67,7 +67,9 @@ local function lsp_keymaps(bufnr)
   vim.keymap.set("n", "]w", function()
     vim.diagnostic.jump({ severity = vim.diagnostic.severity.WARN, count = 1, float = true })
   end, {})
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+  -- nvim_buf_set_keymap rejects the `buffer` key in opts (LspAttach used to
+  -- abort here with "invalid key: buffer"); vim.keymap.set accepts it.
+  vim.keymap.set("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
   vim.keymap.set(
     "n",
     "gk",
