@@ -247,15 +247,6 @@ return {
     },
   },
   {
-    -- plugin/wakatime.vim alone costs ~60ms of startup (python/cli discovery).
-    -- Deferring to VeryLazy keeps tracking intact but off the critical path.
-    "wakatime/vim-wakatime",
-    event = "VeryLazy",
-    opts = {
-      api_key_vault_cmd = "pass show wakatime_api_key",
-    },
-  },
-  {
     "MagicDuck/grug-far.nvim",
     keys = {
       { "<leader>ln", ":GrugFar<CR>" },
