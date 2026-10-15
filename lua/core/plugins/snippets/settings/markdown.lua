@@ -12,6 +12,31 @@ local t = ls.text_node
 local i = ls.insert_node
 local f = ls.function_node
 local c = ls.choice_node
+local events = require("luasnip.util.events")
+
+--- Run `prompt` only when the snippet actually expands, and expose its result to
+--- function nodes as `env.MD_PROMPTED`. Prompting inside a function node is not
+--- safe: completion menus (blink.cmp) evaluate function nodes to render snippet
+--- previews, which would pop the prompt up while typing.
+---
+--- @param prompt fun(): string
+local function prompt_on_expand(prompt)
+  return {
+    callbacks = {
+      [-1] = {
+        [events.pre_expand] = function()
+          return { env_override = { MD_PROMPTED = prompt() } }
+        end,
+      },
+    },
+  }
+end
+
+local function prompted_text()
+  return f(function(_, parent)
+    return parent.snippet.env.MD_PROMPTED
+  end, {})
+end
 
 --- Retrieves the current date in a formatted string.
 ---
@@ -129,63 +154,62 @@ local markdown_mappings = {
     desc = "Prompt for a date (YYYY-MM-DD), defaults to today, then insert a dated list item",
   }, {
     t("- "),
-    f(function()
-      local today = os.date("%Y-%m-%d")
-      local raw = vim.fn.input("Date (YYYY-MM-DD): ", today)
-      if raw == "" then
-        return os.date("(%a %d %b %Y)")
-      end
-      local y, m, d = raw:match("^(%d%d%d%d)-(%d%d)-(%d%d)$")
-      if y and m and d then
-        local t_val = os.time({ year = tonumber(y), month = tonumber(m), day = tonumber(d) })
-        return os.date("(%a %d %b %Y)", t_val)
-      end
-      return "(" .. raw .. ")"
-    end, {}),
+    prompted_text(),
     t(" "),
     i(1, "<type here>"),
-  }),
+  }, prompt_on_expand(function()
+    local raw = vim.fn.input("Date (YYYY-MM-DD): ", os.date("%Y-%m-%d"))
+    if raw == "" then
+      return os.date("(%a %d %b %Y)")
+    end
+    local y, m, d = raw:match("^(%d%d%d%d)-(%d%d)-(%d%d)$")
+    if y and m and d then
+      local t_val = os.time({ year = tonumber(y), month = tonumber(m), day = tonumber(d) })
+      return os.date("(%a %d %b %Y)", t_val)
+    end
+    return "(" .. raw .. ")"
+  end)),
   s({
     trig = ">indt",
     name = "dated list item (prompt date + time)",
     desc = "Prompt for date then time sequentially, insert a dated+timed list item",
   }, {
     t("- "),
-    f(function()
-      -- First prompt: date, pre-filled with today.
-      local date_raw = vim.fn.input("Date (YYYY-MM-DD): ", os.date("%Y-%m-%d"))
-      local y, m, d = date_raw:match("^(%d%d%d%d)-(%d%d)-(%d%d)$")
-
-      -- Second prompt: time, pre-filled with now.
-      local time_raw = vim.fn.input("Time (HH:MM): ", os.date("%H:%M"))
-      local hh, mm = time_raw:match("^(%d%d?):(%d%d)$")
-
-      -- Build the formatted date portion.
-      local date_str
-      if y and m and d then
-        local t_val = os.time({ year = tonumber(y), month = tonumber(m), day = tonumber(d) })
-        date_str = os.date("%a %d %b %Y", t_val)
-      else
-        date_str = date_raw ~= "" and date_raw or os.date("%a %d %b %Y")
-      end
-
-      -- Build the formatted time portion.
-      local time_str
-      if hh and mm then
-        local h = tonumber(hh)
-        local suffix = h >= 12 and "PM" or "AM"
-        h = h % 12
-        if h == 0 then h = 12 end
-        time_str = string.format("%02d:%s %s", h, mm, suffix)
-      else
-        time_str = time_raw ~= "" and time_raw or os.date("%I:%M %p")
-      end
-
-      return string.format("(%s %s)", date_str, time_str)
-    end, {}),
+    prompted_text(),
     t(" "),
     i(1, "<type here>"),
-  }),
+  }, prompt_on_expand(function()
+    -- First prompt: date, pre-filled with today.
+    local date_raw = vim.fn.input("Date (YYYY-MM-DD): ", os.date("%Y-%m-%d"))
+    local y, m, d = date_raw:match("^(%d%d%d%d)-(%d%d)-(%d%d)$")
+
+    -- Second prompt: time, pre-filled with now.
+    local time_raw = vim.fn.input("Time (HH:MM): ", os.date("%H:%M"))
+    local hh, mm = time_raw:match("^(%d%d?):(%d%d)$")
+
+    -- Build the formatted date portion.
+    local date_str
+    if y and m and d then
+      local t_val = os.time({ year = tonumber(y), month = tonumber(m), day = tonumber(d) })
+      date_str = os.date("%a %d %b %Y", t_val)
+    else
+      date_str = date_raw ~= "" and date_raw or os.date("%a %d %b %Y")
+    end
+
+    -- Build the formatted time portion.
+    local time_str
+    if hh and mm then
+      local h = tonumber(hh)
+      local suffix = h >= 12 and "PM" or "AM"
+      h = h % 12
+      if h == 0 then h = 12 end
+      time_str = string.format("%02d:%s %s", h, mm, suffix)
+    else
+      time_str = time_raw ~= "" and time_raw or os.date("%I:%M %p")
+    end
+
+    return string.format("(%s %s)", date_str, time_str)
+  end)),
   s({
     trig = "notasum",
     name = "NOTA SUMMARY",
