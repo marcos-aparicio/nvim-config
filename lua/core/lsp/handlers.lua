@@ -75,6 +75,11 @@ local function lsp_keymaps(bufnr)
     "gk",
     ':lua vim.diagnostic.open_float(0, { scope = "line", border = "rounded" })<CR>'
   )
+  vim.keymap.set(
+    "n",
+    "gK",
+    ':lua vim.diagnostic.open_float(0, { scope = "cursor", border = "rounded" })<CR>'
+  )
 end
 
 M.on_attach = function(client, bufnr)
