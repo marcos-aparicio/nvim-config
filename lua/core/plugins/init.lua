@@ -19,7 +19,7 @@ return {
     end,
   },
   -- <C-a>/<C-x> are what speeddating overrides; VeryLazy preserves the current
-  -- mapping precedence (codecompanion's <C-a> stub is registered before this).
+  -- mapping precedence (sidekick's <C-a> stub is registered before this).
   { "tpope/vim-speeddating", event = "VeryLazy" },
   {
     "tpope/vim-dispatch",

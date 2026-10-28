@@ -10,7 +10,7 @@ My personal Neovim setup. Uses Lua and includes plugins I find useful for develo
 - Treesitter for syntax highlighting
 - Telescope for file navigation
 - Git integration (fugitive, neogit, diffview)
-- AI assistant (Avante)
+- AI agents in tmux-backed terminals (sidekick.nvim: omp, pi, claude)
 - Task management for markdown
 - DAP for debugging
 - LaTeX support

@@ -1,101 +1,136 @@
+-- Show the tmux window that runs an agent (omp/pi/claude) in this tmux session
+-- inside a Neovim split. It is a second live view of the same process, made by
+-- attaching a grouped tmux session that only shows that window and is destroyed
+-- when the split's terminal closes. Both views share one size; tmux resizes the
+-- window to whichever view was used last.
+local agents = { omp = true, pi = true, claude = true }
+
+local function open_agent_window()
+  local pane = vim.env.TMUX_PANE
+  if not pane then
+    return vim.notify("Not running inside tmux", vim.log.levels.WARN)
+  end
+  -- Talk to the tmux server Neovim lives in, even with TMUX unset below.
+  local tmux = { "tmux", "-S", vim.env.TMUX:match("^[^,]+") }
+  local function cmd(...) return vim.list_extend(vim.deepcopy(tmux), { ... }) end
+
+  local session = vim.fn.system(cmd("display-message", "-p", "-t", pane, "#S")):gsub("%s+$", "")
+  local window
+  for _, line in ipairs(vim.fn.systemlist(cmd("list-panes", "-s", "-t", session, "-F", "#{window_id} #{pane_current_command}"))) do
+    local id, name = line:match("^(%S+) (%S+)$")
+    if id and agents[name] then
+      window = id
+      break
+    end
+  end
+  if not window then
+    return vim.notify("No omp/pi/claude window in tmux session " .. session, vim.log.levels.WARN)
+  end
+
+  vim.cmd("botright vsplit | enew")
+  local buf = vim.api.nvim_get_current_buf()
+  -- `env -u TMUX`: tmux refuses to attach from inside one of its own panes.
+  vim.fn.jobstart(vim.list_extend({ "env", "-u", "TMUX" }, cmd(
+    "new-session", "-t", session,
+    ";", "set-option", "destroy-unattached", "on",
+    ";", "set-option", "status", "off",
+    ";", "select-window", "-t", window
+  )), {
+    term = true,
+    on_exit = function()
+      vim.schedule(function()
+        if vim.api.nvim_buf_is_valid(buf) then vim.api.nvim_buf_delete(buf, { force = true }) end
+      end)
+    end,
+  })
+  vim.cmd.startinsert()
+end
+
+-- Toggle the sidekick-owned session of a tool. Plain `toggle({ name = ... })`
+-- also offers omp already running in another tmux window, which sidekick can
+-- only send to, not show (that is what <leader>ao is for), so it would prompt
+-- every time.
+local function toggle_embedded(name)
+  local State = require("sidekick.cli.state")
+  for _, state in ipairs(State.get({ name = name })) do
+    if not state.external then
+      if state.session then
+        return require("sidekick.cli").toggle({ filter = { session = state.session.id }, focus = true })
+      end
+      return State.attach(state, { show = true, focus = true })
+    end
+  end
+end
+
 return {
   {
-    "olimorris/codecompanion.nvim",
-    dependencies = { "nvim-lua/plenary.nvim" },
-
-    ---@type CodeCompanion.Config
+    "folke/sidekick.nvim",
     opts = {
-      adapters = {
-        acp = {
-          -- Hide every other ACP preset; only Claude Code and OpenCode are
-          -- offered as providers.
-          opts = { show_presets = false },
-          claude_code = function() return require("codecompanion.adapters").extend("claude_code") end,
-          opencode = function() return require("codecompanion.adapters").extend("opencode") end,
-          codex = function()
-            return require("codecompanion.adapters").extend("codex", {
-              defaults = {
-                auth_method = "chat-gpt", -- "api-key"|"chat-gpt"
-              },
-            })
-          end,
-          copilot_acp = function()
-            return require("codecompanion.adapters").extend("copilot_acp", {
-              defaults = {
-                mcpServers = "inherit_from_config",
-
-                session_config_options = {
-                  mode = "https://agentclientprotocol.com/protocol/session-modes#autopilot",
-                  permissions = "on",
-                },
-              },
-            })
-          end,
+      -- Next Edit Suggestions need the Copilot LSP; only the CLI side is used.
+      nes = { enabled = false },
+      cli = {
+        win = {
+          layout = "right",
+          split = { width = 0 }, -- 0 = half the screen
         },
-      },
-      display = {
-        chat = {
-          icons = {
-            chat_fold = " ",
-          },
-          fold_reasoning = false,
-          show_reasoning = false,
-        },
-      },
-      interactions = {
-        cli = {
-          agent = "claude"
-        },
-        chat = {
-          -- Default provider. Switch per-session with `ga` in the chat buffer,
-          -- or `:CodeCompanionChat adapter=claude_code|opencode`.
-          adapter = "copilot_acp",
+        -- Agents run inside their own tmux session, so they survive Neovim
+        -- restarts and can be attached from another pane with `tmux attach -t`.
+        -- Agents already running in this project's tmux windows are detected
+        -- too, and the send keymaps below can target them.
+        mux = { backend = "tmux", enabled = true },
+        tools = {
+          omp = { cmd = { "omp" }, is_proc = "\\<omp\\>" },
+          omp_resume = { cmd = { "omp", "--resume" } },
         },
       },
     },
 
     keys = {
-      -- was <leader>ac (Toggle Agentic Chat)
       {
         "<leader>ac",
-        "<cmd>CodeCompanionChat Toggle<cr>",
+        function() toggle_embedded("omp") end,
         mode = { "n", "v" },
-        desc = "Toggle CodeCompanion Chat",
+        desc = "Toggle omp",
       },
-      -- was <leader>an (New Agentic Session)
       {
         "<leader>an",
-        function() require("codecompanion").chat() end,
-        mode = { "n", "v" },
-        desc = "New CodeCompanion Chat",
+        function() require("sidekick.cli").select() end,
+        desc = "Pick or start an agent session",
       },
       {
         "<leader>ar",
-        "<cmd>CodeCompanionChat adapter=copilot_acp /resume<cr>",
-        mode = { "n", "v" },
-        desc = "Resume Copilot Session",
+        function() toggle_embedded("omp_resume") end,
+        desc = "Resume an omp session",
       },
-      -- was <leader>aC (Add File or Selection to Agentic Context)
+      {
+        "<leader>ao",
+        open_agent_window,
+        desc = "Show this tmux session's agent window in a split",
+      },
       {
         "<leader>aC",
-        "<cmd>CodeCompanionChat Add<cr>",
-        mode = "v",
-        desc = "Add Selection to CodeCompanion Chat",
+        function() require("sidekick.cli").send({ msg = "{selection}" }) end,
+        mode = "x",
+        desc = "Send selection to agent",
       },
-      -- was <leader>ad / <leader>aD (Add Diagnostics to Agentic); capitalized
-      -- to avoid the existing buffer-local <leader>ad Anki mapping in telescope.lua
+      {
+        "<leader>aC",
+        function() require("sidekick.cli").send({ msg = "{file}" }) end,
+        mode = "n",
+        desc = "Send file to agent",
+      },
+      -- capitalized to avoid the buffer-local <leader>ad Anki mapping in telescope.lua
       {
         "<leader>aD",
-        function() vim.cmd([[CodeCompanionChat #{diagnostics} Can you help me fix these?]]) end,
+        function() require("sidekick.cli").send({ prompt = "diagnostics" }) end,
         mode = "n",
-        desc = "Send Buffer Diagnostics to CodeCompanion Chat",
+        desc = "Send buffer diagnostics to agent",
       },
-      -- Upstream's suggested workflow keymap for browsing all actions/prompts
       {
         "<C-a>",
-        "<cmd>CodeCompanionActions<cr>",
-        mode = { "n", "v" },
-        desc = "CodeCompanion Action Palette",
+        function() require("sidekick.cli").prompt() end,
+        mode = { "n", "x" },
+        desc = "Sidekick prompt palette",
       },
     },
   },
