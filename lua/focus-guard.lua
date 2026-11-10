@@ -31,7 +31,7 @@ end
 local function ask(buf, path, task)
   local lines = {
     "Esto es configuración, no tu tarea.",
-    "En foco: " .. task,
+    task, -- "En foco: <task>" or "Modo <mode>, sin tarea en foco"
     "¿De verdad lo necesitas ahora, o es sobreoptimización?",
   }
   -- A float, not :echo: a multi-line echo raises "Press ENTER", which would
